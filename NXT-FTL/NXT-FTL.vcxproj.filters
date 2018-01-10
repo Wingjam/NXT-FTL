@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{b035fa1a-f4d5-406f-85c3-f4fc0ee9c81a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\NxtLibrary\adc_8591.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\bluetooth.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\brick.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\color.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\compass.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\connection.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\error.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\filesystem.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\gyro.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\i2c.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\io_8574.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\light.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\motor.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\network.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\nxt.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\rcx_light.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\rotation.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\sensor.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\sonar.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\sound.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\temperature.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\tilt.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\NxtLibrary\touch.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\NxtLibrary\network.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\error.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\i2c.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\filesystem.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\motor.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\bluetooth.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\brick.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\sensor.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\color.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\compass.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\adc_8591.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\tilt.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\sonar.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\io_8574.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
