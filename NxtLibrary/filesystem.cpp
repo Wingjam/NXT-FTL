@@ -6,6 +6,7 @@
 #include <windows.h>
 #include "error.h"
 #include "brick.h"
+#include <locale>
 
 //#define MAX_WRITE_BYTES 0x00ff
 //#define MAX_READ_BYTES 0xffff
@@ -36,6 +37,7 @@ void Filesystem::download_file(string pc_name, string nxt_name){
   unsigned int i,file_size;
   unsigned char *data;
   Nxt_file from;
+  #define _CRT_SECURE_NO_WARNINGS
   if((to =fopen(pc_name.c_str(),"wb"))==NULL){
     throw Nxt_exception("download_file","Filesystem", PC_FILE_ERROR);
   }
@@ -107,7 +109,7 @@ void Filesystem::upload_file(string pc_name, string nxt_name){
   file_ext = nxt_name.substr( nxt_name.find_last_of(".")+1);
   i=0;
   while(i<file_ext.length()){
-    file_ext[i] = std::tolower(file_ext[i]);
+    file_ext[i] = std::tolower(file_ext[i], locale{});
     i++;
   }
   if(file_ext == "ric" || file_ext == "rxe"){

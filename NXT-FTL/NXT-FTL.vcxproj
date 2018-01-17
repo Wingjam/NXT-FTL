@@ -75,6 +75,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -124,7 +126,6 @@
     <ClInclude Include="..\NxtLibrary\io_8574.h" />
     <ClInclude Include="..\NxtLibrary\light.h" />
     <ClInclude Include="..\NxtLibrary\motor.h" />
-    <ClInclude Include="..\NxtLibrary\network.h" />
     <ClInclude Include="..\NxtLibrary\nxt.h" />
     <ClInclude Include="..\NxtLibrary\rcx_light.h" />
     <ClInclude Include="..\NxtLibrary\rotation.h" />
@@ -146,7 +147,6 @@
     <ClCompile Include="..\NxtLibrary\i2c.cpp" />
     <ClCompile Include="..\NxtLibrary\io_8574.cpp" />
     <ClCompile Include="..\NxtLibrary\motor.cpp" />
-    <ClCompile Include="..\NxtLibrary\network.cpp" />
     <ClCompile Include="..\NxtLibrary\sensor.cpp" />
     <ClCompile Include="..\NxtLibrary\sonar.cpp" />
     <ClCompile Include="..\NxtLibrary\tilt.cpp" />

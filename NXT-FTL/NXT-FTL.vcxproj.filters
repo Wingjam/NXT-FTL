@@ -18,6 +18,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\NxtLibrary\touch.h">
+      <Filter>Library</Filter>
+    </ClInclude>
     <ClInclude Include="..\NxtLibrary\adc_8591.h">
       <Filter>Library</Filter>
     </ClInclude>
@@ -57,9 +60,6 @@
     <ClInclude Include="..\NxtLibrary\motor.h">
       <Filter>Library</Filter>
     </ClInclude>
-    <ClInclude Include="..\NxtLibrary\network.h">
-      <Filter>Library</Filter>
-    </ClInclude>
     <ClInclude Include="..\NxtLibrary\nxt.h">
       <Filter>Library</Filter>
     </ClInclude>
@@ -84,45 +84,18 @@
     <ClInclude Include="..\NxtLibrary\tilt.h">
       <Filter>Library</Filter>
     </ClInclude>
-    <ClInclude Include="..\NxtLibrary\touch.h">
-      <Filter>Library</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\NxtLibrary\network.cpp">
-      <Filter>Library</Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\NxtLibrary\error.cpp">
-      <Filter>Library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\NxtLibrary\i2c.cpp">
-      <Filter>Library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\NxtLibrary\filesystem.cpp">
+    <ClCompile Include="..\NxtLibrary\tilt.cpp">
       <Filter>Library</Filter>
     </ClCompile>
     <ClCompile Include="..\NxtLibrary\motor.cpp">
       <Filter>Library</Filter>
     </ClCompile>
-    <ClCompile Include="..\NxtLibrary\bluetooth.cpp">
-      <Filter>Library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\NxtLibrary\brick.cpp">
-      <Filter>Library</Filter>
-    </ClCompile>
     <ClCompile Include="..\NxtLibrary\sensor.cpp">
-      <Filter>Library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\NxtLibrary\color.cpp">
-      <Filter>Library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\NxtLibrary\compass.cpp">
-      <Filter>Library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\NxtLibrary\adc_8591.cpp">
-      <Filter>Library</Filter>
-    </ClCompile>
-    <ClCompile Include="..\NxtLibrary\tilt.cpp">
       <Filter>Library</Filter>
     </ClCompile>
     <ClCompile Include="..\NxtLibrary\sonar.cpp">
@@ -131,8 +104,29 @@
     <ClCompile Include="..\NxtLibrary\io_8574.cpp">
       <Filter>Library</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="..\NxtLibrary\adc_8591.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\bluetooth.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\brick.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\color.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\compass.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\error.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\filesystem.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\NxtLibrary\i2c.cpp">
+      <Filter>Library</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
