@@ -131,5 +131,8 @@
     <ClCompile Include="..\NxtLibrary\io_8574.cpp">
       <Filter>Library</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
