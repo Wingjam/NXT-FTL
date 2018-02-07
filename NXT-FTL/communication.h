@@ -3,16 +3,24 @@
 #include <string>
 #include <array>
 #include <memory>
+#include <map>
 #include "MotorDto.h"
 #include "SensorDto.h"
 #include "ColorSensorDto.h"
 #include "TouchSensorDto.h"
 #include "DistanceSensorDto.h"
-#include "../NxtLibrary/connection.h"
+#include "../NxtLibrary/nxt.h"
 
 class communication
 {
+private:
 	Connection *connection;
+	map<int, Touch*> touchSensors;
+	map<int, Sonar*> distanceSensors;
+	map<int, Color_sensor*> colorSensors;
+	map<int, Motor*> motors;
+
+	void printError(Nxt_exception& e);
 public:
 	communication();
 	~communication();

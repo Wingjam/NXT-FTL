@@ -12,25 +12,45 @@ communication::~communication()
 
 bool communication::connect(Connection_type type, unsigned int comport)
 {
-	bool success = false;
 	switch (type)
 	{
 		case communication::BLUETOOF:
-			connection = new Bluetooth();
-			connection->connect(comport);
-			success = true;
+			try
+			{
+				connection = new Bluetooth();
+				connection->connect(comport);
+				return true;
+			}
+			catch (Nxt_exception& e) {
+				printError(e);
+				connection->disconnect();
+			}
 			break;
 		case communication::USB:
-			break;
+			return false;
 	}
-	return success;
 }
 
 bool communication::disconnect()
 {
 	bool success = false;
-	connection->disconnect();
+	try
+	{
+		connection->disconnect();
+	}
+	catch (Nxt_exception& e) {
+		printError(e);
+		connection->disconnect();
+	}
 	return success;
+}
+
+void communication::printError(Nxt_exception& e)
+{
+	cout << e.what() << endl;
+	cout << "error code: " << e.error_code() << endl;
+	cout << "error type: " << e.error_type() << endl;
+	cout << e.who() << endl;
 }
 
 void communication::initializeSensor(TouchSensorDto & touchSensorDto, Sensor_port port)
