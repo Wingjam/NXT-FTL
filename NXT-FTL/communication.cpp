@@ -10,24 +10,27 @@ communication::~communication()
 {
 }
 
-bool communication::connect(Connection_type type)
+bool communication::connect(Connection_type type, unsigned int comport)
 {
+	bool success = false;
 	switch (type)
 	{
 		case communication::BLUETOOF:
 			connection = new Bluetooth();
+			connection->connect(comport);
+			success = true;
 			break;
 		case communication::USB:
 			break;
-		default:
-			break;
 	}
-	return true;
+	return success;
 }
 
 bool communication::disconnect()
 {
-	return false;
+	bool success = false;
+	connection->disconnect();
+	return success;
 }
 
 SensorDto communication::initializeSensor(Sensor_port port, Sensor_type type)
