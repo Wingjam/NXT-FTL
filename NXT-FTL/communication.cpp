@@ -45,15 +45,15 @@ void communication::initializeSensor(DistanceSensorDto& distanceSensorDto, Senso
 {
 }
 
-void communication::getSensorValue(TouchSensorDto& touchSensorDto)
+void communication::updateSensorValue(TouchSensorDto& touchSensorDto)
 {
 }
 
-void communication::getSensorValue(ColorSensorDto& colorSensorDto)
+void communication::updateSensorValue(ColorSensorDto& colorSensorDto)
 {
 }
 
-void communication::getSensorValue(DistanceSensorDto& distanceSensorDto)
+void communication::updateSensorValue(DistanceSensorDto& distanceSensorDto)
 {
 }
 
