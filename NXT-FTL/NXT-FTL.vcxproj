@@ -136,6 +136,11 @@
     <ClInclude Include="..\NxtLibrary\temperature.h" />
     <ClInclude Include="..\NxtLibrary\tilt.h" />
     <ClInclude Include="..\NxtLibrary\touch.h" />
+    <ClInclude Include="Brain.h" />
+    <ClInclude Include="FTLColorSensor.h" />
+    <ClInclude Include="FTLDistanceSensor.h" />
+    <ClInclude Include="FTLSensor.h" />
+    <ClInclude Include="FTLTouchSensor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\NxtLibrary\adc_8591.cpp" />
@@ -151,6 +156,11 @@
     <ClCompile Include="..\NxtLibrary\sensor.cpp" />
     <ClCompile Include="..\NxtLibrary\sonar.cpp" />
     <ClCompile Include="..\NxtLibrary\tilt.cpp" />
+    <ClCompile Include="Brain.cpp" />
+    <ClCompile Include="FTLColorSensor.cpp" />
+    <ClCompile Include="FTLDistanceSensor.cpp" />
+    <ClCompile Include="FTLSensor.cpp" />
+    <ClCompile Include="FTLTouchSensor.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
