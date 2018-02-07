@@ -8,7 +8,7 @@ Brain::~Brain()
 {
 }
 
-std::tuple<int, bool> Brain::ComputeDirection(TouchSensorDto touchSensor, DistanceSensorDto distanceSensor, ColorSensorDto leftColorSensor, ColorSensorDto rightColorSensor)
+std::tuple<int, bool> Brain::ComputeDirection(TouchSensorDto touchSensor, DistanceSensorDto distanceSensor, ColorSensorDto leftColorSensor, ColorSensorDto rightColorSensor) const
 {
 	bool stopping = false;
 	// The touch sensor stop the robot
