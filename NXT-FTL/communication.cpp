@@ -57,11 +57,6 @@ void communication::getSensorValue(DistanceSensorDto& distanceSensorDto)
 {
 }
 
-std::array<int, 3> communication::getSensorRGB(ColorSensorDto colorSensorDto)
-{
-	return std::array<int, 3>();
-}
-
 MotorDto communication::initializeMotor(Motor_port port)
 {
 	return MotorDto{};

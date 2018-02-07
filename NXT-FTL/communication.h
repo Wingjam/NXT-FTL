@@ -41,7 +41,6 @@ public:
 	void getSensorValue(TouchSensorDto& touchSensorDto);
 	void getSensorValue(ColorSensorDto& colorSensorDto);
 	void getSensorValue(DistanceSensorDto& distanceSensorDto);
-	std::array<int, 3> getSensorRGB(ColorSensorDto colorSensorDto);
 	MotorDto initializeMotor(Motor_port port);
 	bool isMotorRunning(MotorDto motorDto);
 	void startMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
