@@ -14,9 +14,9 @@ communication::~communication()
 
 bool communication::connect(Connection_type type)
 {
-	switch (Connection_type)
+	switch (type)
 	{
-		case communication::BLUETOOTH:
+		case communication::BLUETOOF:
 			break;
 		case communication::USB:
 			break;
@@ -30,9 +30,9 @@ bool communication::disconnect()
 	return false;
 }
 
-bool communication::initializeSensor(Sensor_port port, Sensor_type type)
+SensorDto communication::initializeSensor(Sensor_port port, Sensor_type type)
 {
-	return false;
+	return SensorDto{};
 }
 
 int communication::getSensorValue(SensorDto sensorDto)
@@ -40,39 +40,39 @@ int communication::getSensorValue(SensorDto sensorDto)
 	return 0;
 }
 
-std::array<int, 3> communication::getSensorRGB(Sensor_port port)
+std::array<int, 3> communication::getSensorRGB(SensorDto sensorDto)
 {
 	return std::array<int, 3>();
 }
 
-std::string communication::printSensorValue(Sensor_port port)
+std::string communication::printSensorValue(SensorDto sensorDto)
 {
 	return std::string();
 }
 
-bool communication::initializeMotor(Motor_port port)
+MotorDto communication::initializeMotor(MotorDto motorDto)
 {
-	return false;
+	return MotorDto{};
 }
 
-long int communication::getMotorRotation(Motor_port port)
+long int communication::getMotorRotation(MotorDto motorDto)
 {
 	return 0;
 }
 
-bool communication::isMotorRunning(Motor_port port)
+bool communication::isMotorRunning(MotorDto motorDto)
 {
 	return false;
 }
 
-void communication::startMotor(Motor_port port, char speed, unsigned int degrees, bool reply)
+void communication::startMotor(MotorDto motorDto, char speed, unsigned int degrees, bool reply)
 {
 }
 
-void communication::coastMotor(Motor_port port, char speed, unsigned int degrees, bool reply)
+void communication::coastMotor(MotorDto motorDto, char speed, unsigned int degrees, bool reply)
 {
 }
 
-void communication::stopMotor(Motor_port port, bool reply)
+void communication::stopMotor(MotorDto motorDto, bool reply)
 {
 }

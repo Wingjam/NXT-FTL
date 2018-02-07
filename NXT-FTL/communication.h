@@ -1,5 +1,4 @@
-#ifndef COMMUNICATION
-#define COMMUNICATION
+#pragma once
 
 #include <string>
 #include <array>
@@ -32,22 +31,20 @@ public:
 		OUT_C = 2
 	};
 	enum Connection_type {
-		BLUETOOTH = 0,
+		DENTBLEUE = 0,
 		USB = 1
 	};
 
 	bool connect(Connection_type type);
 	bool disconnect();
-	bool initializeSensor(Sensor_port port, Sensor_type type);
+	SensorDto initializeSensor(Sensor_port port, Sensor_type type);
 	int getSensorValue(SensorDto sensorDto);
 	std::array<int, 3> getSensorRGB(SensorDto sensorDto);
 	std::string printSensorValue(SensorDto sensorDto);
-	bool initializeMotor(MotorDto motorDto);
+	MotorDto initializeMotor(MotorDto motorDto);
 	long int getMotorRotation(MotorDto motorDto);
 	bool isMotorRunning(MotorDto motorDto);
 	void startMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
 	void coastMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
 	void stopMotor(MotorDto motorDto, bool reply = false);
 };
-
-#endif
