@@ -38,10 +38,9 @@ public:
 	void initializeSensor(TouchSensorDto& touchSensorDto, Sensor_port port);
 	void initializeSensor(ColorSensorDto& colorSensorDto, Sensor_port port);
 	void initializeSensor(DistanceSensorDto& distanceSensorDto, Sensor_port port);
-	void getSensorValue(TouchSensorDto& touchSensorDto);
-	void getSensorValue(ColorSensorDto& colorSensorDto);
-	void getSensorValue(DistanceSensorDto& distanceSensorDto);
-	std::array<int, 3> getSensorRGB(ColorSensorDto colorSensorDto);
+	void updateSensorValue(TouchSensorDto& touchSensorDto);
+	void updateSensorValue(ColorSensorDto& colorSensorDto);
+	void updateSensorValue(DistanceSensorDto& distanceSensorDto);
 	MotorDto initializeMotor(Motor_port port);
 	bool isMotorRunning(MotorDto motorDto);
 	void startMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);

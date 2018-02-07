@@ -45,21 +45,16 @@ void communication::initializeSensor(DistanceSensorDto& distanceSensorDto, Senso
 {
 }
 
-void communication::getSensorValue(TouchSensorDto& touchSensorDto)
+void communication::updateSensorValue(TouchSensorDto& touchSensorDto)
 {
 }
 
-void communication::getSensorValue(ColorSensorDto& colorSensorDto)
+void communication::updateSensorValue(ColorSensorDto& colorSensorDto)
 {
 }
 
-void communication::getSensorValue(DistanceSensorDto& distanceSensorDto)
+void communication::updateSensorValue(DistanceSensorDto& distanceSensorDto)
 {
-}
-
-std::array<int, 3> communication::getSensorRGB(ColorSensorDto colorSensorDto)
-{
-	return std::array<int, 3>();
 }
 
 MotorDto communication::initializeMotor(Motor_port port)
