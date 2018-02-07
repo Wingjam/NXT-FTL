@@ -2,11 +2,12 @@
 
 #include <string>
 #include <array>
+#include <memory>
+#include "MotorDto.h"
+#include "SensorDto.h"
 #include "ColorSensorDto.h"
 #include "TouchSensorDto.h"
-#include "SensorDto.h"
 #include "DistanceSensorDto.h"
-#include "MotorDto.h"
 #include "../NxtLibrary/connection.h"
 
 class communication
@@ -16,11 +17,6 @@ public:
 	communication();
 	~communication();
 
-	enum Sensor_type {
-		TOUCH = 0,
-		COLOR = 1,
-		DISTANCE = 2
-	};
 	enum Sensor_port {
 		IN_1 = 0,
 		IN_2 = 1,
@@ -39,12 +35,14 @@ public:
 
 	bool connect(Connection_type type, unsigned int comport);
 	bool disconnect();
-	SensorDto initializeSensor(Sensor_port port, Sensor_type type);
-	int getSensorValue(SensorDto sensorDto);
-	std::array<int, 3> getSensorRGB(SensorDto sensorDto);
-	std::string printSensorValue(SensorDto sensorDto);
+	void initializeSensor(TouchSensorDto& touchSensorDto, Sensor_port port);
+	void initializeSensor(ColorSensorDto& colorSensorDto, Sensor_port port);
+	void initializeSensor(DistanceSensorDto& distanceSensorDto, Sensor_port port);
+	void getSensorValue(TouchSensorDto& touchSensorDto);
+	void getSensorValue(ColorSensorDto& colorSensorDto);
+	void getSensorValue(DistanceSensorDto& distanceSensorDto);
+	std::array<int, 3> getSensorRGB(ColorSensorDto colorSensorDto);
 	MotorDto initializeMotor(Motor_port port);
-	long int getMotorRotation(MotorDto motorDto);
 	bool isMotorRunning(MotorDto motorDto);
 	void startMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
 	void coastMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);

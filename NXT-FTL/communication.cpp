@@ -33,34 +33,38 @@ bool communication::disconnect()
 	return success;
 }
 
-SensorDto communication::initializeSensor(Sensor_port port, Sensor_type type)
+void communication::initializeSensor(TouchSensorDto & touchSensorDto, Sensor_port port)
 {
-	return SensorDto{};
 }
 
-int communication::getSensorValue(SensorDto sensorDto)
+void communication::initializeSensor(ColorSensorDto& colorSensorDto, Sensor_port port)
 {
-	return 0;
 }
 
-std::array<int, 3> communication::getSensorRGB(SensorDto sensorDto)
+void communication::initializeSensor(DistanceSensorDto& distanceSensorDto, Sensor_port port)
+{
+}
+
+void communication::getSensorValue(TouchSensorDto& touchSensorDto)
+{
+}
+
+void communication::getSensorValue(ColorSensorDto& colorSensorDto)
+{
+}
+
+void communication::getSensorValue(DistanceSensorDto& distanceSensorDto)
+{
+}
+
+std::array<int, 3> communication::getSensorRGB(ColorSensorDto colorSensorDto)
 {
 	return std::array<int, 3>();
-}
-
-std::string communication::printSensorValue(SensorDto sensorDto)
-{
-	return std::string();
 }
 
 MotorDto communication::initializeMotor(Motor_port port)
 {
 	return MotorDto{};
-}
-
-long int communication::getMotorRotation(MotorDto motorDto)
-{
-	return 0;
 }
 
 bool communication::isMotorRunning(MotorDto motorDto)
