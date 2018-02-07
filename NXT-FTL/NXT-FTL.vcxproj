@@ -141,6 +141,7 @@
     <ClInclude Include="FTLDistanceSensor.h" />
     <ClInclude Include="FTLSensor.h" />
     <ClInclude Include="FTLTouchSensor.h" />
+    <ClInclude Include="communication.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\NxtLibrary\adc_8591.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="FTLDistanceSensor.cpp" />
     <ClCompile Include="FTLSensor.cpp" />
     <ClCompile Include="FTLTouchSensor.cpp" />
+    <ClCompile Include="communication.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

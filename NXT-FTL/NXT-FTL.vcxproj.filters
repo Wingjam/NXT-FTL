@@ -99,6 +99,9 @@
     <ClInclude Include="FTLColorSensor.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="communication.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -156,6 +159,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="FTLColorSensor.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="communication.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
