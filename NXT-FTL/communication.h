@@ -31,7 +31,7 @@ public:
 		USB = 1
 	};
 
-	bool connect();
+	bool connect(Connection_type type);
 	bool disconnect();
 	bool initializeSensor(Sensor_port port, Sensor_type type);
 	int getSensorValue(Sensor_port port);
