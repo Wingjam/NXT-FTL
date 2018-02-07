@@ -27,11 +27,7 @@ std::tuple<int, bool> Brain::ComputeDirection(TouchSensorDto touchSensor, Distan
 
 	int direction{ 0 };
 	// Calculate the direction of the robot
-	if (!stopping)
-	{
-		auto totalLight = leftColorSensor.BlueValue + leftColorSensor.GreenValue + leftColorSensor.RedValue;
-	}
-
+	direction = leftColorSensor.TotalValue() - rightColorSensor.TotalValue();
 
 	return std::tuple<int, bool>{direction, !stopping};
 }
