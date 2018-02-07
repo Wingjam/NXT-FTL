@@ -2,7 +2,6 @@
 class SensorDto
 {
 public:
-	SensorDto();
-	~SensorDto();
+	SensorDto() = default;
 };
 

@@ -5,7 +5,6 @@ class DistanceSensorDto :
 	public SensorDto
 {
 public:
-	DistanceSensorDto();
-	~DistanceSensorDto();
+	DistanceSensorDto() = default;
 };
 

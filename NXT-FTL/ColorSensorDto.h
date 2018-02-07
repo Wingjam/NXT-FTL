@@ -4,7 +4,6 @@ class ColorSensorDto :
 	public SensorDto
 {
 public:
-	ColorSensorDto();
-	~ColorSensorDto();
+	ColorSensorDto() = default;
 };
 

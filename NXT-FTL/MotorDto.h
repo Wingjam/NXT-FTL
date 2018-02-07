@@ -2,7 +2,6 @@
 class MotorDto
 {
 public:
-	MotorDto();
-	~MotorDto();
+	MotorDto() = default;
 };
 

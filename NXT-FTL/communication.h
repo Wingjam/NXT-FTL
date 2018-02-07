@@ -7,9 +7,11 @@
 #include "SensorDto.h"
 #include "DistanceSensorDto.h"
 #include "MotorDto.h"
+#include "../NxtLibrary/connection.h"
 
 class communication
 {
+	Connection *connection;
 public:
 	communication();
 	~communication();

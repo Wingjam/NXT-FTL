@@ -1,8 +1,6 @@
 #include "communication.h"
 #include "../NxtLibrary/nxt.h"
 
-Connection *connection;
-
 communication::communication()
 {
 }

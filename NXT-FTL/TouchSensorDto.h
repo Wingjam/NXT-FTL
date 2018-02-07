@@ -5,7 +5,6 @@ class TouchSensorDto :
 	public SensorDto
 {
 public:
-	TouchSensorDto();
-	~TouchSensorDto();
+	TouchSensorDto() = default;
 };
 
