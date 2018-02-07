@@ -6,12 +6,12 @@
 
 class Brain
 {
-	int stopDistance;
+	unsigned int stopDistance;
 public:
-	Brain(int stopDistance);
+	Brain(unsigned int stopDistance);
 	~Brain();
 
 	//Compute de direction that the robot need to take to follow the line. Negative represent left and positive reprensent right. True to move, false to stop
-	std::tuple<int, bool> ComputeDirection(TouchSensorDto touchSensor, DistanceSensorDto distanceSensor, ColorSensorDto leftColorSensor, ColorSensorDto rightColorSensor);
+	std::tuple<int, bool> ComputeDirection(TouchSensorDto touchSensor, DistanceSensorDto distanceSensor, ColorSensorDto leftColorSensor, ColorSensorDto rightColorSensor) const;
 };
 
