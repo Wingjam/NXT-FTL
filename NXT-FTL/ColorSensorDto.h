@@ -1,10 +1,10 @@
 #pragma once
-#include "FTLSensor.h"
-class FTLColorSensor :
-	public FTLSensor
+#include "SensorDto.h"
+class ColorSensorDto :
+	public SensorDto
 {
 public:
-	FTLColorSensor();
-	~FTLColorSensor();
+	ColorSensorDto();
+	~ColorSensorDto();
 };
 

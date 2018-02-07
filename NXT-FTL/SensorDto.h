@@ -1,8 +1,8 @@
 #pragma once
-class FTLSensor
+class SensorDto
 {
 public:
-	FTLSensor();
-	~FTLSensor();
+	SensorDto();
+	~SensorDto();
 };
 

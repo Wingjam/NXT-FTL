@@ -35,7 +35,7 @@ bool communication::initializeSensor(Sensor_port port, Sensor_type type)
 	return false;
 }
 
-int communication::getSensorValue(Sensor_port port)
+int communication::getSensorValue(SensorDto sensorDto)
 {
 	return 0;
 }

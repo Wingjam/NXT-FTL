@@ -1,11 +1,11 @@
 #pragma once
-#include "FTLSensor.h"
+#include "SensorDto.h"
 
-class FTLDistanceSensor :
-	public FTLSensor
+class DistanceSensorDto :
+	public SensorDto
 {
 public:
-	FTLDistanceSensor();
-	~FTLDistanceSensor();
+	DistanceSensorDto();
+	~DistanceSensorDto();
 };
 

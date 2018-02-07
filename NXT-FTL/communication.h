@@ -3,6 +3,11 @@
 
 #include <string>
 #include <array>
+#include "ColorSensorDto.h"
+#include "TouchSensorDto.h"
+#include "SensorDto.h"
+#include "DistanceSensorDto.h"
+#include "MotorDto.h"
 
 class communication
 {
@@ -34,15 +39,15 @@ public:
 	bool connect(Connection_type type);
 	bool disconnect();
 	bool initializeSensor(Sensor_port port, Sensor_type type);
-	int getSensorValue(Sensor_port port);
-	std::array<int, 3> getSensorRGB(Sensor_port port);
-	std::string printSensorValue(Sensor_port port);
-	bool initializeMotor(Motor_port port);
-	long int getMotorRotation(Motor_port port);
-	bool isMotorRunning(Motor_port port);
-	void startMotor(Motor_port port, char speed, unsigned int degrees = 0, bool reply = false);
-	void coastMotor(Motor_port port, char speed, unsigned int degrees = 0, bool reply = false);
-	void stopMotor(Motor_port port, bool reply = false);
+	int getSensorValue(SensorDto sensorDto);
+	std::array<int, 3> getSensorRGB(SensorDto sensorDto);
+	std::string printSensorValue(SensorDto sensorDto);
+	bool initializeMotor(MotorDto motorDto);
+	long int getMotorRotation(MotorDto motorDto);
+	bool isMotorRunning(MotorDto motorDto);
+	void startMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
+	void coastMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
+	void stopMotor(MotorDto motorDto, bool reply = false);
 };
 
 #endif

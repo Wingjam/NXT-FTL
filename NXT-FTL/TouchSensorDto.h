@@ -1,11 +1,11 @@
 #pragma once
-#include "FTLSensor.h"
+#include "SensorDto.h"
 
-class FTLTouchSensor :
-	public FTLSensor
+class TouchSensorDto :
+	public SensorDto
 {
 public:
-	FTLTouchSensor();
-	~FTLTouchSensor();
+	TouchSensorDto();
+	~TouchSensorDto();
 };
 
