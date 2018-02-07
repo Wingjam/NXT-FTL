@@ -17,12 +17,14 @@ bool communication::connect(Connection_type type)
 	switch (type)
 	{
 		case communication::BLUETOOF:
+			connection = new Bluetooth();
 			break;
 		case communication::USB:
 			break;
 		default:
 			break;
 	}
+	return true;
 }
 
 bool communication::disconnect()
@@ -50,7 +52,7 @@ std::string communication::printSensorValue(SensorDto sensorDto)
 	return std::string();
 }
 
-MotorDto communication::initializeMotor(MotorDto motorDto)
+MotorDto communication::initializeMotor(Motor_port port)
 {
 	return MotorDto{};
 }

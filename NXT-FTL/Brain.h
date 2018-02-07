@@ -1,7 +1,7 @@
 #pragma once
-#include "FTLTouchSensor.h"
-#include "FTLDistanceSensor.h"
-#include "FTLColorSensor.h"
+#include "TouchSensorDto.h"
+#include "DistanceSensorDto.h"
+#include "ColorSensorDto.h"
 #include <tuple>
 
 class Brain
@@ -12,6 +12,6 @@ public:
 	~Brain();
 
 	//Compute de direction that the robot need to take to follow the line. Negative represent left and positive reprensent right.
-	std::tuple<int, bool> ComputeDirection(FTLTouchSensor touchSensor, FTLDistanceSensor distanceSensor, FTLColorSensor leftColorSensor, FTLColorSensor rightColorSensor);
+	std::tuple<int, bool> ComputeDirection(TouchSensorDto touchSensor, DistanceSensorDto distanceSensor, ColorSensorDto leftColorSensor, ColorSensorDto rightColorSensor);
 };
 

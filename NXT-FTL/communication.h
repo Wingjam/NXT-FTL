@@ -31,7 +31,7 @@ public:
 		OUT_C = 2
 	};
 	enum Connection_type {
-		DENTBLEUE = 0,
+		BLUETOOF = 0,
 		USB = 1
 	};
 
@@ -41,7 +41,7 @@ public:
 	int getSensorValue(SensorDto sensorDto);
 	std::array<int, 3> getSensorRGB(SensorDto sensorDto);
 	std::string printSensorValue(SensorDto sensorDto);
-	MotorDto initializeMotor(MotorDto motorDto);
+	MotorDto initializeMotor(Motor_port port);
 	long int getMotorRotation(MotorDto motorDto);
 	bool isMotorRunning(MotorDto motorDto);
 	void startMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);

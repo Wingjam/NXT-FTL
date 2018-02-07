@@ -137,11 +137,12 @@
     <ClInclude Include="..\NxtLibrary\tilt.h" />
     <ClInclude Include="..\NxtLibrary\touch.h" />
     <ClInclude Include="Brain.h" />
-    <ClInclude Include="FTLColorSensor.h" />
-    <ClInclude Include="FTLDistanceSensor.h" />
-    <ClInclude Include="FTLSensor.h" />
-    <ClInclude Include="FTLTouchSensor.h" />
+    <ClInclude Include="ColorSensorDto.h" />
+    <ClInclude Include="DistanceSensorDto.h" />
+    <ClInclude Include="SensorDto.h" />
+    <ClInclude Include="TouchSensorDto.h" />
     <ClInclude Include="communication.h" />
+    <ClInclude Include="MotorDto.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\NxtLibrary\adc_8591.cpp" />
@@ -158,10 +159,6 @@
     <ClCompile Include="..\NxtLibrary\sonar.cpp" />
     <ClCompile Include="..\NxtLibrary\tilt.cpp" />
     <ClCompile Include="Brain.cpp" />
-    <ClCompile Include="FTLColorSensor.cpp" />
-    <ClCompile Include="FTLDistanceSensor.cpp" />
-    <ClCompile Include="FTLSensor.cpp" />
-    <ClCompile Include="FTLTouchSensor.cpp" />
     <ClCompile Include="communication.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
