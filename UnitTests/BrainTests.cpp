@@ -60,6 +60,7 @@ int my_int_var {};
 };
 
 Usage :
+// IMPORTANT : Use TEST_F(fixture, caseName) instead of TEST(test, caseName)
 // Name of test must be name of fixture (ex: MyTestFixture)
 TEST_F(MyTestFixture, AnyCustomTestCaseName) {
 	// Members of the fixtures are available directly as if they were declared locally.
@@ -69,89 +70,62 @@ TEST_F(MyTestFixture, AnyCustomTestCaseName) {
 */
 
 static unsigned int STOP_DISTANCE = 10;
+static unsigned int COLOR_VALUE = 10;
 
-TEST(BrainTest, BrainInitialization) {
-	Brain brain = Brain{ STOP_DISTANCE };
-}
+class BrainTestFixture : public ::testing::Test {
+protected:
+	virtual void SetUp() {
+		touch.isPressed = false;
+		distance.Distance = 15;
+		left.BlueValue = COLOR_VALUE;
+		left.RedValue = COLOR_VALUE;
+		left.GreenValue = COLOR_VALUE;
+		right.BlueValue = COLOR_VALUE;
+		right.RedValue = COLOR_VALUE;
+		right.GreenValue = COLOR_VALUE;
+	}
 
-TEST(BrainTest, BrainStopOnDistance) {
-	const unsigned int colorValue = 10;
 	Brain brain{ STOP_DISTANCE };
 	TouchSensorDto touch{};
-	touch.isPressed = false;
 	DistanceSensorDto distance{};
+	ColorSensorDto left{};
+	ColorSensorDto right{};
+};
+
+TEST_F(BrainTestFixture, BrainStopOnDistance) {
 	distance.Distance = 5;
-	ColorSensorDto left{};
-	left.BlueValue = colorValue;
-	left.RedValue = colorValue;
-	left.GreenValue = colorValue;
-	ColorSensorDto right{};
-	right.BlueValue = colorValue;
-	right.RedValue = colorValue;
-	right.GreenValue = colorValue;
+
 	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
 
 	EXPECT_FALSE(std::get<1>(directionResult));
 	EXPECT_EQ(0, std::get<0>(directionResult));
 }
 
-TEST(BrainTest, BrainStopOnTouch) {
-	const unsigned int colorValue = 10;
-	Brain brain{ STOP_DISTANCE };
-	TouchSensorDto touch{};
+TEST_F(BrainTestFixture, BrainStopOnTouch) {
 	touch.isPressed = true;
-	DistanceSensorDto distance{};
-	distance.Distance = 15;
-	ColorSensorDto left{};
-	left.BlueValue = colorValue;
-	left.RedValue = colorValue;
-	left.GreenValue = colorValue;
-	ColorSensorDto right{};
-	right.BlueValue = colorValue;
-	right.RedValue = colorValue;
-	right.GreenValue = colorValue;
+
 	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
 
 	EXPECT_FALSE(std::get<1>(directionResult));
 	EXPECT_EQ(0, std::get<0>(directionResult));
 }
 
-TEST(BrainTest, BrainGoLeft) {
-	const unsigned int colorValue = 10;
-	Brain brain{ STOP_DISTANCE };
-	TouchSensorDto touch{};
-	touch.isPressed = false;
-	DistanceSensorDto distance{};
-	distance.Distance = 15;
-	ColorSensorDto left{};
-	left.BlueValue = colorValue;
-	left.RedValue = colorValue;
-	left.GreenValue = colorValue;
-	ColorSensorDto right{};
-	right.BlueValue = colorValue * 2;
-	right.RedValue = colorValue * 2;
-	right.GreenValue = colorValue * 2;
+TEST_F(BrainTestFixture, BrainGoLeft) {
+	right.BlueValue = COLOR_VALUE * 2;
+	right.RedValue = COLOR_VALUE * 2;
+	right.GreenValue = COLOR_VALUE * 2;
+
 	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
 
 	EXPECT_TRUE(std::get<1>(directionResult));
 	EXPECT_GT(0, std::get<0>(directionResult));
 }
 
-TEST(BrainTest, BrainGoRight) {
-	const unsigned int colorValue = 10;
-	Brain brain{ STOP_DISTANCE };
-	TouchSensorDto touch{};
-	touch.isPressed = false;
-	DistanceSensorDto distance{};
-	distance.Distance = 15;
-	ColorSensorDto left{};
-	left.BlueValue = colorValue * 2;
-	left.RedValue = colorValue * 2;
-	left.GreenValue = colorValue * 2;
-	ColorSensorDto right{};
-	right.BlueValue = colorValue;
-	right.RedValue = colorValue;
-	right.GreenValue = colorValue;
+TEST_F(BrainTestFixture, BrainGoRight) {
+	left.BlueValue = COLOR_VALUE * 2;
+	left.RedValue = COLOR_VALUE * 2;
+	left.GreenValue = COLOR_VALUE * 2;
+
 	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
 
 	EXPECT_TRUE(std::get<1>(directionResult));
