@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "../NXT-FTL/Brain.h"
-#include "../NXT-FTL/Brain.cpp"
+#include "../NXT-FTL/brain.h"
+using namespace nxtftl;
 
 /*
 
@@ -75,58 +75,58 @@ static unsigned int COLOR_VALUE = 10;
 class BrainTestFixture : public ::testing::Test {
 protected:
 	virtual void SetUp() {
-		touch.isPressed = false;
-		distance.Distance = 15;
-		left.BlueValue = COLOR_VALUE;
-		left.RedValue = COLOR_VALUE;
-		left.GreenValue = COLOR_VALUE;
-		right.BlueValue = COLOR_VALUE;
-		right.RedValue = COLOR_VALUE;
-		right.GreenValue = COLOR_VALUE;
+		touch.is_pressed = false;
+		distance.distance = 15;
+		left.blue_value = COLOR_VALUE;
+		left.red_value = COLOR_VALUE;
+		left.green_value = COLOR_VALUE;
+		right.blue_value = COLOR_VALUE;
+		right.red_value = COLOR_VALUE;
+		right.green_value = COLOR_VALUE;
 	}
 
-	Brain brain{ STOP_DISTANCE };
-	TouchSensorDto touch{};
-	DistanceSensorDto distance{};
-	ColorSensorDto left{};
-	ColorSensorDto right{};
+	brain brain{ STOP_DISTANCE };
+	touch_sensor_dto touch{};
+	distance_sensor_dto distance{};
+	color_sensor_dto left{};
+	color_sensor_dto right{};
 };
 
 TEST_F(BrainTestFixture, BrainStopOnDistance) {
-	distance.Distance = 5;
+	distance.distance = 5;
 
-	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
+	auto directionResult = brain.compute_direction(touch, distance, left, right);
 
 	EXPECT_FALSE(std::get<1>(directionResult));
 	EXPECT_EQ(0, std::get<0>(directionResult));
 }
 
 TEST_F(BrainTestFixture, BrainStopOnTouch) {
-	touch.isPressed = true;
+	touch.is_pressed = true;
 
-	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
+	auto directionResult = brain.compute_direction(touch, distance, left, right);
 
 	EXPECT_FALSE(std::get<1>(directionResult));
 	EXPECT_EQ(0, std::get<0>(directionResult));
 }
 
 TEST_F(BrainTestFixture, BrainGoLeft) {
-	right.BlueValue = COLOR_VALUE * 2;
-	right.RedValue = COLOR_VALUE * 2;
-	right.GreenValue = COLOR_VALUE * 2;
+	right.blue_value = COLOR_VALUE * 2;
+	right.red_value = COLOR_VALUE * 2;
+	right.green_value = COLOR_VALUE * 2;
 
-	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
+	auto directionResult = brain.compute_direction(touch, distance, left, right);
 
 	EXPECT_TRUE(std::get<1>(directionResult));
 	EXPECT_GT(0, std::get<0>(directionResult));
 }
 
 TEST_F(BrainTestFixture, BrainGoRight) {
-	left.BlueValue = COLOR_VALUE * 2;
-	left.RedValue = COLOR_VALUE * 2;
-	left.GreenValue = COLOR_VALUE * 2;
+	left.blue_value = COLOR_VALUE * 2;
+	left.red_value = COLOR_VALUE * 2;
+	left.green_value = COLOR_VALUE * 2;
 
-	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
+	auto directionResult = brain.compute_direction(touch, distance, left, right);
 
 	EXPECT_TRUE(std::get<1>(directionResult));
 	EXPECT_LT(0, std::get<0>(directionResult));

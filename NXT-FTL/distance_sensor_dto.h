@@ -7,7 +7,7 @@ namespace nxtftl
 		public sensor_dto
 	{
 	public:
-		unsigned int Distance;
+		unsigned int distance;
 		distance_sensor_dto() = default;
 	};
 }

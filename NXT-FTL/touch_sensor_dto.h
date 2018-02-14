@@ -7,7 +7,7 @@ namespace nxtftl
 		public sensor_dto
 	{
 	public:
-		bool isPressed;
+		bool is_pressed;
 
 		touch_sensor_dto() = default;
 	};
