@@ -1,12 +1,15 @@
 #pragma once
 #include "SensorDto.h"
 
-class TouchSensorDto :
-	public SensorDto
+namespace NXTFTL
 {
-public:
-	bool isPressed;
+	class TouchSensorDto :
+		public SensorDto
+	{
+	public:
+		bool isPressed;
 
-	TouchSensorDto() = default;
-};
+		TouchSensorDto() = default;
+	};
+}
 

@@ -1,4 +1,6 @@
 #include "Brain.h"
+using namespace NXTFTL;
+
 
 Brain::Brain(unsigned int stopDistance) : stopDistance(stopDistance)
 {

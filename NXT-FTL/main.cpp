@@ -2,6 +2,7 @@
 #include "communication.h"
 
 using namespace std;
+using namespace NXTFTL;
 
 int main()
 {

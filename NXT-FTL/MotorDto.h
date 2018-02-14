@@ -1,7 +1,11 @@
 #pragma once
-class MotorDto
+
+namespace NXTFTL
 {
-public:
-	MotorDto() = default;
-};
+	class MotorDto
+	{
+	public:
+		MotorDto() = default;
+	};
+}
 

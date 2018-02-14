@@ -1,11 +1,14 @@
 #pragma once
 #include "SensorDto.h"
 
-class DistanceSensorDto :
-	public SensorDto
+namespace NXTFTL
 {
-public:
-	unsigned int Distance;
-	DistanceSensorDto() = default;
-};
+	class DistanceSensorDto :
+		public SensorDto
+	{
+	public:
+		unsigned int Distance;
+		DistanceSensorDto() = default;
+	};
+}
 
