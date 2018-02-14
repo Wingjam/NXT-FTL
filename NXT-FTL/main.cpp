@@ -1,4 +1,4 @@
-#include "Brain.h"
+#include "brain.h"
 #include "communication.h"
 
 using namespace std;

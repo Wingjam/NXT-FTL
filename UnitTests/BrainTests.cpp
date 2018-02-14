@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "../NXT-FTL/brain.h"
+#include "../NXT-FTL/brain.cpp"
+
 using namespace nxtftl;
 
 /*
