@@ -4,15 +4,15 @@
 #include <array>
 #include <memory>
 #include <map>
-#include "MotorDto.h"
-#include "SensorDto.h"
-#include "ColorSensorDto.h"
-#include "TouchSensorDto.h"
-#include "DistanceSensorDto.h"
+#include "motor_dto.h"
+#include "sensor_dto.h"
+#include "color_sensor_dto.h"
+#include "touch_sensor_dto.h"
+#include "distance_sensor_dto.h"
 #include "../NxtLibrary/nxt.h"
 
 
-namespace NXTFTL
+namespace nxtftl
 {
 	class communication
 	{
@@ -46,16 +46,16 @@ namespace NXTFTL
 
 		bool connect(Connection_type type, unsigned int comport);
 		bool disconnect();
-		void initializeSensor(TouchSensorDto& touchSensorDto, Sensor_port port);
-		void initializeSensor(ColorSensorDto& colorSensorDto, Sensor_port port);
-		void initializeSensor(DistanceSensorDto& distanceSensorDto, Sensor_port port);
-		void updateSensorValue(TouchSensorDto& touchSensorDto);
-		void updateSensorValue(ColorSensorDto& colorSensorDto);
-		void updateSensorValue(DistanceSensorDto& distanceSensorDto);
-		MotorDto initializeMotor(Motor_port port);
-		bool isMotorRunning(MotorDto motorDto);
-		void startMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
-		void coastMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
-		void stopMotor(MotorDto motorDto, bool reply = false);
+		void initializeSensor(touch_sensor_dto& touchSensorDto, Sensor_port port);
+		void initializeSensor(color_sensor_dto& colorSensorDto, Sensor_port port);
+		void initializeSensor(distance_sensor_dto& distanceSensorDto, Sensor_port port);
+		void updateSensorValue(touch_sensor_dto& touchSensorDto);
+		void updateSensorValue(color_sensor_dto& colorSensorDto);
+		void updateSensorValue(distance_sensor_dto& distanceSensorDto);
+		motor_dto initializeMotor(Motor_port port);
+		bool isMotorRunning(motor_dto motorDto);
+		void startMotor(motor_dto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
+		void coastMotor(motor_dto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
+		void stopMotor(motor_dto motorDto, bool reply = false);
 	};
 }

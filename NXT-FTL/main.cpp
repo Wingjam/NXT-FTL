@@ -2,23 +2,23 @@
 #include "communication.h"
 
 using namespace std;
-using namespace NXTFTL;
+using namespace nxtftl;
 
 int main()
 {
     // Init
     communication communication{};
-    Brain brain { 10 };
+    brain brain { 10 };
 
     communication.connect(communication::BLUETOOF, 40);
 
     auto leftMotor = communication.initializeMotor(communication::OUT_A);
     auto rightMotor = communication.initializeMotor(communication::OUT_C);
 
-    auto touchSensor = TouchSensorDto{};
-    auto leftColorSensor = ColorSensorDto{};
-    auto rightColorSensor = ColorSensorDto{};
-    auto distanceSensor = DistanceSensorDto{};
+    auto touchSensor = touch_sensor_dto{};
+    auto leftColorSensor = color_sensor_dto{};
+    auto rightColorSensor = color_sensor_dto{};
+    auto distanceSensor = distance_sensor_dto{};
 
     communication.initializeSensor(touchSensor, communication::IN_1);
     communication.initializeSensor(leftColorSensor, communication::IN_2);
@@ -35,7 +35,7 @@ int main()
         communication.updateSensorValue(distanceSensor);
 
         // Process
-        tuple<int, bool> direction = brain.ComputeDirection(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
+        tuple<int, bool> direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
 
         // Send
 

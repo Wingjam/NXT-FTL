@@ -90,19 +90,19 @@
     <ClInclude Include="communication.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="MotorDto.h">
+    <ClInclude Include="color_sensor_dto.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="TouchSensorDto.h">
+    <ClInclude Include="distance_sensor_dto.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="SensorDto.h">
+    <ClInclude Include="motor_dto.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="DistanceSensorDto.h">
+    <ClInclude Include="sensor_dto.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="ColorSensorDto.h">
+    <ClInclude Include="touch_sensor_dto.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
@@ -149,10 +149,10 @@
     <ClCompile Include="..\NxtLibrary\i2c.cpp">
       <Filter>Library</Filter>
     </ClCompile>
-    <ClCompile Include="Brain.cpp">
+    <ClCompile Include="communication.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="communication.cpp">
+    <ClCompile Include="brain.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

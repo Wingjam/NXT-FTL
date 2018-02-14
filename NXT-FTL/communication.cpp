@@ -1,6 +1,6 @@
 #include "communication.h"
 #include "../NxtLibrary/nxt.h"
-using namespace NXTFTL;
+using namespace nxtftl;
 
 communication::communication()
 {
@@ -54,48 +54,48 @@ void communication::printError(Nxt_exception& e)
 	cout << e.who() << endl;
 }
 
-void communication::initializeSensor(TouchSensorDto & touchSensorDto, Sensor_port port)
+void communication::initializeSensor(touch_sensor_dto & touchSensorDto, Sensor_port port)
 {
 }
 
-void communication::initializeSensor(ColorSensorDto& colorSensorDto, Sensor_port port)
+void communication::initializeSensor(color_sensor_dto& colorSensorDto, Sensor_port port)
 {
 }
 
-void communication::initializeSensor(DistanceSensorDto& distanceSensorDto, Sensor_port port)
+void communication::initializeSensor(distance_sensor_dto& distanceSensorDto, Sensor_port port)
 {
 }
 
-void communication::updateSensorValue(TouchSensorDto& touchSensorDto)
+void communication::updateSensorValue(touch_sensor_dto& touchSensorDto)
 {
 }
 
-void communication::updateSensorValue(ColorSensorDto& colorSensorDto)
+void communication::updateSensorValue(color_sensor_dto& colorSensorDto)
 {
 }
 
-void communication::updateSensorValue(DistanceSensorDto& distanceSensorDto)
+void communication::updateSensorValue(distance_sensor_dto& distanceSensorDto)
 {
 }
 
-MotorDto communication::initializeMotor(Motor_port port)
+motor_dto communication::initializeMotor(Motor_port port)
 {
-	return MotorDto{};
+	return motor_dto{};
 }
 
-bool communication::isMotorRunning(MotorDto motorDto)
+bool communication::isMotorRunning(motor_dto motorDto)
 {
 	return false;
 }
 
-void communication::startMotor(MotorDto motorDto, char speed, unsigned int degrees, bool reply)
+void communication::startMotor(motor_dto motorDto, char speed, unsigned int degrees, bool reply)
 {
 }
 
-void communication::coastMotor(MotorDto motorDto, char speed, unsigned int degrees, bool reply)
+void communication::coastMotor(motor_dto motorDto, char speed, unsigned int degrees, bool reply)
 {
 }
 
-void communication::stopMotor(MotorDto motorDto, bool reply)
+void communication::stopMotor(motor_dto motorDto, bool reply)
 {
 }

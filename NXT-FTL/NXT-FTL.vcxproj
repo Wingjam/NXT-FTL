@@ -136,13 +136,13 @@
     <ClInclude Include="..\NxtLibrary\temperature.h" />
     <ClInclude Include="..\NxtLibrary\tilt.h" />
     <ClInclude Include="..\NxtLibrary\touch.h" />
-    <ClInclude Include="Brain.h" />
-    <ClInclude Include="ColorSensorDto.h" />
-    <ClInclude Include="DistanceSensorDto.h" />
-    <ClInclude Include="SensorDto.h" />
-    <ClInclude Include="TouchSensorDto.h" />
+    <ClInclude Include="brain.h" />
+    <ClInclude Include="color_sensor_dto.h" />
+    <ClInclude Include="distance_sensor_dto.h" />
+    <ClInclude Include="sensor_dto.h" />
+    <ClInclude Include="touch_sensor_dto.h" />
     <ClInclude Include="communication.h" />
-    <ClInclude Include="MotorDto.h" />
+    <ClInclude Include="motor_dto.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\NxtLibrary\adc_8591.cpp" />
@@ -158,7 +158,7 @@
     <ClCompile Include="..\NxtLibrary\sensor.cpp" />
     <ClCompile Include="..\NxtLibrary\sonar.cpp" />
     <ClCompile Include="..\NxtLibrary\tilt.cpp" />
-    <ClCompile Include="Brain.cpp" />
+    <ClCompile Include="brain.cpp" />
     <ClCompile Include="communication.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

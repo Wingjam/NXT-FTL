@@ -1,6 +1,10 @@
 #include "pch.h"
-#include "../NXT-FTL/Brain.h"
-#include "../NXT-FTL/Brain.cpp"
+#include "../NXT-FTL/brain.h"
+#include "../NXT-FTL/color_sensor_dto.h"
+#include "../NXT-FTL/distance_sensor_dto.h"
+#include "../NXT-FTL/touch_sensor_dto.h"
+
+using namespace nxtftl;
 
 /*
 
@@ -42,25 +46,25 @@ EXPECT_STRCASENE(str1, str2) : ignores case
 static unsigned int STOP_DISTANCE = 10;
 
 TEST(BrainTest, BrainInitialization) {
-	Brain brain = Brain{ STOP_DISTANCE };
+	brain brain{ STOP_DISTANCE };
 }
 
 TEST(BrainTest, BrainStopOnDistance) {
 	const unsigned int colorValue = 10;
-	Brain brain{ STOP_DISTANCE };
-	TouchSensorDto touch{};
+	brain brain{ STOP_DISTANCE };
+	touch_sensor_dto touch{};
 	touch.isPressed = false;
-	DistanceSensorDto distance{};
+	distance_sensor_dto distance{};
 	distance.Distance = 5;
-	ColorSensorDto left{};
-	left.BlueValue = colorValue;
-	left.RedValue = colorValue;
-	left.GreenValue = colorValue;
-	ColorSensorDto right{};
-	right.BlueValue = colorValue;
-	right.RedValue = colorValue;
-	right.GreenValue = colorValue;
-	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
+	color_sensor_dto left{};
+	left.blue_value = colorValue;
+	left.red_value = colorValue;
+	left.green_value = colorValue;
+	color_sensor_dto right{};
+	right.blue_value = colorValue;
+	right.red_value = colorValue;
+	right.green_value = colorValue;
+	auto directionResult = brain.compute_direction(touch, distance, left, right);
 
 	EXPECT_FALSE(std::get<1>(directionResult));
 	EXPECT_EQ(0, std::get<0>(directionResult));
@@ -68,20 +72,20 @@ TEST(BrainTest, BrainStopOnDistance) {
 
 TEST(BrainTest, BrainStopOnTouch) {
 	const unsigned int colorValue = 10;
-	Brain brain{ STOP_DISTANCE };
-	TouchSensorDto touch{};
+	brain brain{ STOP_DISTANCE };
+	touch_sensor_dto touch{};
 	touch.isPressed = true;
-	DistanceSensorDto distance{};
+	distance_sensor_dto distance{};
 	distance.Distance = 15;
-	ColorSensorDto left{};
-	left.BlueValue = colorValue;
-	left.RedValue = colorValue;
-	left.GreenValue = colorValue;
-	ColorSensorDto right{};
-	right.BlueValue = colorValue;
-	right.RedValue = colorValue;
-	right.GreenValue = colorValue;
-	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
+	color_sensor_dto left{};
+	left.blue_value = colorValue;
+	left.red_value = colorValue;
+	left.green_value = colorValue;
+	color_sensor_dto right{};
+	right.blue_value = colorValue;
+	right.red_value = colorValue;
+	right.green_value = colorValue;
+	auto directionResult = brain.compute_direction(touch, distance, left, right);
 
 	EXPECT_FALSE(std::get<1>(directionResult));
 	EXPECT_EQ(0, std::get<0>(directionResult));
@@ -89,20 +93,20 @@ TEST(BrainTest, BrainStopOnTouch) {
 
 TEST(BrainTest, BrainGoLeft) {
 	const unsigned int colorValue = 10;
-	Brain brain{ STOP_DISTANCE };
-	TouchSensorDto touch{};
+	brain brain{ STOP_DISTANCE };
+	touch_sensor_dto touch{};
 	touch.isPressed = false;
-	DistanceSensorDto distance{};
+	distance_sensor_dto distance{};
 	distance.Distance = 15;
-	ColorSensorDto left{};
-	left.BlueValue = colorValue;
-	left.RedValue = colorValue;
-	left.GreenValue = colorValue;
-	ColorSensorDto right{};
-	right.BlueValue = colorValue * 2;
-	right.RedValue = colorValue * 2;
-	right.GreenValue = colorValue * 2;
-	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
+	color_sensor_dto left{};
+	left.blue_value = colorValue;
+	left.red_value = colorValue;
+	left.green_value = colorValue;
+	color_sensor_dto right{};
+	right.blue_value = colorValue * 2;
+	right.red_value = colorValue * 2;
+	right.green_value = colorValue * 2;
+	auto directionResult = brain.compute_direction(touch, distance, left, right);
 
 	EXPECT_TRUE(std::get<1>(directionResult));
 	EXPECT_GT(0, std::get<0>(directionResult));
@@ -110,20 +114,20 @@ TEST(BrainTest, BrainGoLeft) {
 
 TEST(BrainTest, BrainGoRight) {
 	const unsigned int colorValue = 10;
-	Brain brain{ STOP_DISTANCE };
-	TouchSensorDto touch{};
+	brain brain{ STOP_DISTANCE };
+	touch_sensor_dto touch{};
 	touch.isPressed = false;
-	DistanceSensorDto distance{};
+	distance_sensor_dto distance{};
 	distance.Distance = 15;
-	ColorSensorDto left{};
-	left.BlueValue = colorValue * 2;
-	left.RedValue = colorValue * 2;
-	left.GreenValue = colorValue * 2;
-	ColorSensorDto right{};
-	right.BlueValue = colorValue;
-	right.RedValue = colorValue;
-	right.GreenValue = colorValue;
-	auto directionResult = brain.ComputeDirection(touch, distance, left, right);
+	color_sensor_dto left{};
+	left.blue_value = colorValue * 2;
+	left.red_value = colorValue * 2;
+	left.green_value = colorValue * 2;
+	color_sensor_dto right{};
+	right.blue_value = colorValue;
+	right.red_value = colorValue;
+	right.green_value = colorValue;
+	auto directionResult = brain.compute_direction(touch, distance, left, right);
 
 	EXPECT_TRUE(std::get<1>(directionResult));
 	EXPECT_LT(0, std::get<0>(directionResult));
