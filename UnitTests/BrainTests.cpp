@@ -7,7 +7,10 @@
 ASSERT_* yields a fatal failure and returns from the current function
 EXPECT_* yields a nonfatal failure, allowing the function to continue running
 
-Basic operators :
+							Error messages
+ASSERT_TRUE(i == 1) << "This text is displayed if the assertion fails" << i;
+
+							Basic operators
 ASSERT_TRUE(condition)
 ASSERT_FALSE(condition)
 ASSERT_EQ(val1, val2)
@@ -36,6 +39,32 @@ EXPECT_STREQ(str1, str2)
 EXPECT_STRNE(str1, str2)
 EXPECT_STRCASEEQ(str1, str2) : ignores case
 EXPECT_STRCASENE(str1, str2) : ignores case
+
+					Fixtures
+Declaration :
+
+class MyTestFixture : public ::testing::Test {
+protected:
+virtual void SetUp() {
+// Code here will be called immediately after the constructor (right
+// before each test).
+}
+
+virtual void TearDown() {
+// Code here will be called immediately after each test (right
+// before the destructor).
+}
+
+// Objects declared here can be used by all tests in the test case for Foo.
+int my_int_var {};
+};
+
+Usage :
+// Name of test must be name of fixture (ex: MyTestFixture)
+TEST_F(MyTestFixture, AnyCustomTestCaseName) {
+	// Members of the fixtures are available directly as if they were declared locally.
+	EXPECT_EQ(my_int_var, 0);
+}
 
 */
 
