@@ -17,45 +17,49 @@ namespace nxtftl
 	class communication
 	{
 	private:
-		Connection * connection;
+		Connection* connection;
 		map<int, Touch*> touchSensors;
 		map<int, Sonar*> distanceSensors;
-		map<int, Color_sensor*> colorSensors;
+		map<int, Light*> colorSensors;
 		map<int, Motor*> motors;
 
 		void printError(Nxt_exception& e);
+		void stopAllMotors();
 	public:
 		communication();
 		~communication();
 
-		enum Sensor_port {
+		enum SensorPort {
 			IN_1 = 0,
 			IN_2 = 1,
 			IN_3 = 2,
 			IN_4 = 3
 		};
-		enum Motor_port {
+		enum MotorPort {
 			OUT_A = 0,
 			OUT_B = 1,
 			OUT_C = 2
 		};
-		enum Connection_type {
+		enum ConnectionType {
 			BLUETOOF = 0,
 			USB = 1
 		};
 
-		bool connect(Connection_type type, unsigned int comport);
+		bool connect(ConnectionType type, unsigned int comport);
 		bool disconnect();
-		void initializeSensor(touch_sensor_dto& touchSensorDto, Sensor_port port);
-		void initializeSensor(color_sensor_dto& colorSensorDto, Sensor_port port);
-		void initializeSensor(distance_sensor_dto& distanceSensorDto, Sensor_port port);
-		void updateSensorValue(touch_sensor_dto& touchSensorDto);
-		void updateSensorValue(color_sensor_dto& colorSensorDto);
-		void updateSensorValue(distance_sensor_dto& distanceSensorDto);
-		motor_dto initializeMotor(Motor_port port);
-		bool isMotorRunning(motor_dto motorDto);
-		void startMotor(motor_dto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
-		void coastMotor(motor_dto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
-		void stopMotor(motor_dto motorDto, bool reply = false);
+		void initializeSensor(TouchSensorDto& touchSensorDto, SensorPort port);
+		void initializeSensor(ColorSensorDto& colorSensorDto, SensorPort port);
+		void initializeSensor(DistanceSensorDto& distanceSensorDto, SensorPort port);
+		void updateSensorValue(TouchSensorDto& touchSensorDto);
+		void updateSensorValue(ColorSensorDto& colorSensorDto);
+		void updateSensorValue(DistanceSensorDto& distanceSensorDto);
+		MotorDto initializeMotor(MotorPort port);
+		bool isMotorRunning(MotorDto motorDto);
+		void startMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
+		void coastMotor(MotorDto motorDto, bool reply = false);
+		void stopMotor(MotorDto motorDto, bool reply = false);
+	private:
+		Sensor_port mapSensorPort(SensorPort port);
+		Motor_port mapMotorPort(MotorPort port);
 	};
 }
