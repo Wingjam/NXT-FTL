@@ -79,6 +79,8 @@ protected:
 	virtual void SetUp() {
 		touch.is_pressed = false;
 		distance.distance = 15;
+		left.intensity = COLOR_VALUE;
+		right.intensity = COLOR_VALUE;
 	}
 
 	brain brain{ STOP_DISTANCE };
@@ -107,6 +109,7 @@ TEST_F(BrainTestFixture, BrainStopOnTouch) {
 }
 
 TEST_F(BrainTestFixture, BrainGoLeft) {
+	right.intensity *= 2;
 
 	auto directionResult = brain.compute_direction(touch, distance, left, right);
 
@@ -115,6 +118,7 @@ TEST_F(BrainTestFixture, BrainGoLeft) {
 }
 
 TEST_F(BrainTestFixture, BrainGoRight) {
+	left.intensity *= 2;
 
 	auto directionResult = brain.compute_direction(touch, distance, left, right);
 
