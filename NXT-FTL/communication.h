@@ -10,6 +10,7 @@
 #include "touch_sensor_dto.h"
 #include "distance_sensor_dto.h"
 #include "../NxtLibrary/nxt.h"
+#include "color2.h"
 
 
 namespace nxtftl
@@ -20,7 +21,7 @@ namespace nxtftl
 		Connection* connection;
 		map<int, Touch*> touchSensors;
 		map<int, Sonar*> distanceSensors;
-		map<int, Light*> colorSensors;
+		map<int, color2*> colorSensors;
 		map<int, Motor*> motors;
 
 		void printError(Nxt_exception& e);

@@ -66,7 +66,7 @@ void communication::initializeSensor(touch_sensor_dto & touchSensorDto, SensorPo
 
 void communication::initializeSensor(color_sensor_dto& colorSensorDto, SensorPort port)
 {
-	Light* colorSensor = new Light(mapSensorPort(port), connection);
+	color2* colorSensor = new color2(mapSensorPort(port), connection);
 	colorSensorDto.port = port;
 	colorSensors.emplace(port, colorSensor);
 }
@@ -132,12 +132,8 @@ void communication::updateSensorValue(touch_sensor_dto& touchSensorDto)
 
 void communication::updateSensorValue(color_sensor_dto& colorSensorDto)
 {
-	Light* colorSensor = colorSensors[colorSensorDto.port];
-	Rgb_color result{};
-	string value = colorSensor->print();
-	colorSensorDto.blue_value = result.blue;
-	colorSensorDto.green_value = result.green;
-	colorSensorDto.red_value = result.red;
+	color2* colorSensor = colorSensors[colorSensorDto.port];
+	colorSensorDto.intensity = colorSensor->getValue();
 }
 
 void communication::updateSensorValue(distance_sensor_dto& distanceSensorDto)
