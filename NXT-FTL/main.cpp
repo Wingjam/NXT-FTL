@@ -22,9 +22,10 @@ int main()
     auto rightColorSensor = color_sensor_dto{};
     auto distanceSensor = distance_sensor_dto{};
 
-    //communication.initializeSensor(touchSensor, communication::IN_1);
+    
     communication.initializeSensor(leftColorSensor, communication::IN_1);
-    communication.initializeSensor(rightColorSensor, communication::IN_3);
+    communication.initializeSensor(rightColorSensor, communication::IN_2);
+    //communication.initializeSensor(touchSensor, communication::IN_3);
     communication.initializeSensor(distanceSensor, communication::IN_4);
 
 
@@ -47,9 +48,9 @@ int main()
             communication.stopMotor(rightMotor);
             break;
         }
-
-		int turn_factor = get<0>(direction);
-		if (0 > turn_factor)
+        
+        int turn_factor = get<0>(direction);
+        if (0 > turn_factor)
 		{
 			communication.startMotor(leftMotor, 50);
 			communication.startMotor(rightMotor, 75);
@@ -65,5 +66,4 @@ int main()
 			communication.startMotor(rightMotor, 50);
 		}
     }
-
 }
