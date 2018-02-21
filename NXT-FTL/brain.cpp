@@ -10,7 +10,7 @@ std::tuple<int, bool> brain::compute_direction(const touch_sensor_dto touch_sens
 {
 	bool needToStop = false;
 	// The touch sensor stop the robot
-	// If touchsenso is touch => stop
+	// If touchsensor is touch => stop
 	needToStop |= touch_sensor.is_pressed;
 
 	// The distance before the robot stop
