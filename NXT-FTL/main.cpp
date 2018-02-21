@@ -48,8 +48,22 @@ int main()
             break;
         }
 
-        communication.startMotor(leftMotor, 75);
-        communication.startMotor(rightMotor, 75);
+		int turn_factor = get<0>(direction);
+		if (0 > turn_factor)
+		{
+			communication.startMotor(leftMotor, 50);
+			communication.startMotor(rightMotor, 75);
+		}
+		else if (0 < turn_factor)
+		{
+			communication.startMotor(leftMotor, 75);
+			communication.startMotor(rightMotor, 50);
+		}
+		else // turn_factor == 0
+		{
+			communication.startMotor(leftMotor, 50);
+			communication.startMotor(rightMotor, 50);
+		}
     }
 
 }
