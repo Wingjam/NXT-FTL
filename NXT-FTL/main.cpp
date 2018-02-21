@@ -23,14 +23,25 @@ int main()
     
     communication.initializeSensor(leftColorSensor, communication::IN_1);
     communication.initializeSensor(rightColorSensor, communication::IN_2);
-    //communication.initializeSensor(touchSensor, communication::IN_3);
+    communication.initializeSensor(touchSensor, communication::IN_3);
     communication.initializeSensor(distanceSensor, communication::IN_4);
 
+	cout << "Press touch sensor to begin..." << endl;
+	while (!touchSensor.is_pressed)
+	{
+		communication.updateSensorValue(touchSensor);
+	}
+	// Because code executes too fast, brain thinks sensor is pressed otherwise
+	while (touchSensor.is_pressed)
+	{
+		communication.updateSensorValue(touchSensor);
+	}
+	cout << "Starting line follow..." << endl;
 
     while (true)
     {
         // Read
-        // communication.updateSensorValue(touchSensor);
+        communication.updateSensorValue(touchSensor);
         communication.updateSensorValue(leftColorSensor);
         communication.updateSensorValue(rightColorSensor);
         communication.updateSensorValue(distanceSensor);
@@ -39,6 +50,7 @@ int main()
         tuple<int, bool> direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
 
         // Send
+		// TODO: Implement distance sensor pauses only. Resumes on clear path
         bool can_move = get<1>(direction);
         if (!can_move)
         {
