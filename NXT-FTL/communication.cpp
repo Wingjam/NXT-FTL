@@ -10,27 +10,50 @@ communication::communication()
 
 communication::~communication()
 {
-	// Clean up memory (deletes)
 }
 
-bool communication::connect(ConnectionType type, unsigned int comport)
+bool communication::connect(ConnectionType type)
 {
+	bool connected = false;
+	unsigned int comport = 0;
+
 	switch (type)
 	{
 		case communication::BLUETOOF:
-			try
+			while (comport <= 40 && !connected)
 			{
-				connection = new Bluetooth();
-				connection->connect(comport);
-				return true;
+				try
+				{
+					connection = new Bluetooth();
+					connection->connect(comport);
+					connected = true;
+				}
+				catch (Nxt_exception& e) {
+					cout << "Could not connect to NXT on comport " << comport << endl;
+					connection->disconnect();
+					++comport;
+				}
 			}
-			catch (Nxt_exception& e) {
-				printError(e);
-				connection->disconnect();
-			}
+			cout << "NXT connected on comport " << comport << endl;
 			break;
 		case communication::USB:
-			return false;
+			connected = false;
+			throw "Not implemented yet.";
+	}
+}
+
+bool communication::connectWithBluetooth(unsigned int comport) 
+{
+	try
+	{
+		connection = new Bluetooth();
+		connection->connect(comport);
+		return true;
+	}
+	catch (Nxt_exception& e) {
+		cout << "Could not connect to NXT on comport " << comport << endl;
+		connection->disconnect();
+		return false;
 	}
 }
 
@@ -145,6 +168,10 @@ void communication::updateSensorValue(distance_sensor_dto& distanceSensorDto)
 
 void communication::stopAllMotors() {
 	for_each(motors.begin(), motors.end(), [](pair<int, Motor*> pair) { pair.second->stop(); });
+}
+
+void communication::resetSensors() {
+	//for_each(colorSensors.begin(), colorSensors.end(), [](pair<int, Sensor*> pair) { pair.second->reset(); });
 }
 
 bool communication::isMotorRunning(motor_dto motorDto)

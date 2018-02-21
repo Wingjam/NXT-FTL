@@ -10,9 +10,7 @@ int main()
     communication communication{};
     brain brain { 10 };
 
-	int port = 0;
-	while (!communication.connect(communication::BLUETOOF, port) && ++port < 30)
-		;
+	communication.connect(communication::BLUETOOF);
 
     auto leftMotor = communication.initializeMotor(communication::OUT_A);
     auto rightMotor = communication.initializeMotor(communication::OUT_C);
@@ -52,18 +50,21 @@ int main()
         int turn_factor = get<0>(direction);
         if (0 > turn_factor)
 		{
-			communication.startMotor(leftMotor, 50);
-			communication.startMotor(rightMotor, 75);
+			communication.startMotor(leftMotor, 10);
+			communication.startMotor(rightMotor, 20);
 		}
 		else if (0 < turn_factor)
 		{
-			communication.startMotor(leftMotor, 75);
-			communication.startMotor(rightMotor, 50);
+			communication.startMotor(leftMotor, 30);
+			communication.startMotor(rightMotor, 10);
 		}
 		else // turn_factor == 0
 		{
-			communication.startMotor(leftMotor, 50);
-			communication.startMotor(rightMotor, 50);
+			communication.startMotor(leftMotor, 10);
+			communication.startMotor(rightMotor, 10);
 		}
     }
+
+	communication.stopAllMotors();
+	communication.disconnect();
 }

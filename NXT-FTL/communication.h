@@ -25,7 +25,6 @@ namespace nxtftl
 		map<int, Motor*> motors;
 
 		void printError(Nxt_exception& e);
-		void stopAllMotors();
 	public:
 		communication();
 		~communication();
@@ -46,7 +45,8 @@ namespace nxtftl
 			USB = 1
 		};
 
-		bool connect(ConnectionType type, unsigned int comport);
+		bool connect(ConnectionType type);
+		bool connectWithBluetooth(unsigned int comport);
 		bool disconnect();
 		void initializeSensor(touch_sensor_dto& touchSensorDto, SensorPort port);
 		void initializeSensor(color_sensor_dto& colorSensorDto, SensorPort port);
@@ -59,6 +59,8 @@ namespace nxtftl
 		void startMotor(motor_dto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
 		void coastMotor(motor_dto motorDto, bool reply = false);
 		void stopMotor(motor_dto motorDto, bool reply = false);
+		void stopAllMotors();
+		void resetSensors();
 	private:
 		Sensor_port mapSensorPort(SensorPort port);
 		Motor_port mapMotorPort(MotorPort port);
