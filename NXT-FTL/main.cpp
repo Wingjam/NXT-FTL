@@ -10,7 +10,9 @@ int main()
     communication communication{};
     brain brain { 10 };
 
-    communication.connect(communication::BLUETOOF, 5);
+	int port = 0;
+	while (!communication.connect(communication::BLUETOOF, port) && ++port < 30)
+		;
 
     auto leftMotor = communication.initializeMotor(communication::OUT_A);
     auto rightMotor = communication.initializeMotor(communication::OUT_C);
