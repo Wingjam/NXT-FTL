@@ -65,6 +65,5 @@ int main()
 		}
     }
 
-	communication.stopAllMotors();
 	communication.disconnect();
 }
