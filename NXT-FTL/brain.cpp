@@ -19,7 +19,7 @@ std::tuple<int, bool> brain::compute_direction(const touch_sensor_dto touch_sens
 
 	int direction{ 0 };
 	// Calculate the direction of the robot
-	direction = left_color_sensor.total_value() - right_color_sensor.total_value();
+	direction = left_color_sensor.value() - right_color_sensor.value();
 
 	return std::tuple<int, bool>{direction, !stopping};
 }

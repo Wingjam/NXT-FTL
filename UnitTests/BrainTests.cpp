@@ -79,12 +79,6 @@ protected:
 	virtual void SetUp() {
 		touch.is_pressed = false;
 		distance.distance = 15;
-		left.blue_value = COLOR_VALUE;
-		left.red_value = COLOR_VALUE;
-		left.green_value = COLOR_VALUE;
-		right.blue_value = COLOR_VALUE;
-		right.red_value = COLOR_VALUE;
-		right.green_value = COLOR_VALUE;
 	}
 
 	brain brain{ STOP_DISTANCE };
@@ -113,9 +107,6 @@ TEST_F(BrainTestFixture, BrainStopOnTouch) {
 }
 
 TEST_F(BrainTestFixture, BrainGoLeft) {
-	right.blue_value = COLOR_VALUE * 2;
-	right.red_value = COLOR_VALUE * 2;
-	right.green_value = COLOR_VALUE * 2;
 
 	auto directionResult = brain.compute_direction(touch, distance, left, right);
 
@@ -124,9 +115,6 @@ TEST_F(BrainTestFixture, BrainGoLeft) {
 }
 
 TEST_F(BrainTestFixture, BrainGoRight) {
-	left.blue_value = COLOR_VALUE * 2;
-	left.red_value = COLOR_VALUE * 2;
-	left.green_value = COLOR_VALUE * 2;
 
 	auto directionResult = brain.compute_direction(touch, distance, left, right);
 

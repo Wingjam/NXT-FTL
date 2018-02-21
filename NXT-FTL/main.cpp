@@ -10,7 +10,9 @@ int main()
     communication communication{};
     brain brain { 10 };
 
-    communication.connect(communication::BLUETOOF, 40);
+	int port = 0;
+	while (!communication.connect(communication::BLUETOOF, port) && ++port < 30)
+		;
 
     auto leftMotor = communication.initializeMotor(communication::OUT_A);
     auto rightMotor = communication.initializeMotor(communication::OUT_C);
@@ -20,8 +22,8 @@ int main()
     auto rightColorSensor = color_sensor_dto{};
     auto distanceSensor = distance_sensor_dto{};
 
-    communication.initializeSensor(touchSensor, communication::IN_1);
-    communication.initializeSensor(leftColorSensor, communication::IN_2);
+    //communication.initializeSensor(touchSensor, communication::IN_1);
+    communication.initializeSensor(leftColorSensor, communication::IN_1);
     communication.initializeSensor(rightColorSensor, communication::IN_3);
     communication.initializeSensor(distanceSensor, communication::IN_4);
 
@@ -29,7 +31,7 @@ int main()
     while (true)
     {
         // Read
-        communication.updateSensorValue(touchSensor);
+        // communication.updateSensorValue(touchSensor);
         communication.updateSensorValue(leftColorSensor);
         communication.updateSensorValue(rightColorSensor);
         communication.updateSensorValue(distanceSensor);

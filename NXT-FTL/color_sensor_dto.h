@@ -7,12 +7,10 @@ namespace nxtftl
 		public sensor_dto
 	{
 	public:
-		unsigned int blue_value;
-		unsigned int green_value;
-		unsigned int red_value;
+		int intensity;
 		color_sensor_dto() = default;
 
-		unsigned int total_value() const { return blue_value + green_value + red_value; }
+		int value() const { return intensity; }
 	};
 }
 
