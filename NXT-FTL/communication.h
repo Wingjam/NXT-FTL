@@ -47,17 +47,17 @@ namespace nxtftl
 
 		bool connect(ConnectionType type, unsigned int comport);
 		bool disconnect();
-		void initializeSensor(TouchSensorDto& touchSensorDto, SensorPort port);
-		void initializeSensor(ColorSensorDto& colorSensorDto, SensorPort port);
-		void initializeSensor(DistanceSensorDto& distanceSensorDto, SensorPort port);
-		void updateSensorValue(TouchSensorDto& touchSensorDto);
-		void updateSensorValue(ColorSensorDto& colorSensorDto);
-		void updateSensorValue(DistanceSensorDto& distanceSensorDto);
-		MotorDto initializeMotor(MotorPort port);
-		bool isMotorRunning(MotorDto motorDto);
-		void startMotor(MotorDto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
-		void coastMotor(MotorDto motorDto, bool reply = false);
-		void stopMotor(MotorDto motorDto, bool reply = false);
+		void initializeSensor(touch_sensor_dto& touchSensorDto, SensorPort port);
+		void initializeSensor(color_sensor_dto& colorSensorDto, SensorPort port);
+		void initializeSensor(distance_sensor_dto& distanceSensorDto, SensorPort port);
+		void updateSensorValue(touch_sensor_dto& touchSensorDto);
+		void updateSensorValue(color_sensor_dto& colorSensorDto);
+		void updateSensorValue(distance_sensor_dto& distanceSensorDto);
+		motor_dto initializeMotor(MotorPort port);
+		bool isMotorRunning(motor_dto motorDto);
+		void startMotor(motor_dto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
+		void coastMotor(motor_dto motorDto, bool reply = false);
+		void stopMotor(motor_dto motorDto, bool reply = false);
 	private:
 		Sensor_port mapSensorPort(SensorPort port);
 		Motor_port mapMotorPort(MotorPort port);

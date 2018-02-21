@@ -1,7 +1,7 @@
 #include "communication.h"
 #include <algorithm>
 
-using namespace NXTFTL;
+using namespace nxtftl;
 
 communication::communication()
 {
@@ -57,32 +57,32 @@ void communication::printError(Nxt_exception& e)
 	cout << e.who() << endl;
 }
 
-void communication::initializeSensor(TouchSensorDto & touchSensorDto, SensorPort port)
+void communication::initializeSensor(touch_sensor_dto & touchSensorDto, SensorPort port)
 {
 	Touch* touchSensor = new Touch(mapSensorPort(port), connection);
 	touchSensorDto.port = port;
 	touchSensors.emplace(port, touchSensor);
 }
 
-void communication::initializeSensor(ColorSensorDto& colorSensorDto, SensorPort port)
+void communication::initializeSensor(color_sensor_dto& colorSensorDto, SensorPort port)
 {
 	Light* colorSensor = new Light(mapSensorPort(port), connection);
 	colorSensorDto.port = port;
 	colorSensors.emplace(port, colorSensor);
 }
 
-void communication::initializeSensor(DistanceSensorDto& distanceSensorDto, SensorPort port)
+void communication::initializeSensor(distance_sensor_dto& distanceSensorDto, SensorPort port)
 {
 	Sonar* distanceSensor = new Sonar(mapSensorPort(port), connection);
 	distanceSensorDto.port = port;
 	distanceSensors.emplace(port, distanceSensor);
 }
 
-MotorDto communication::initializeMotor(MotorPort port)
+motor_dto communication::initializeMotor(MotorPort port)
 {
 	Motor* motor = new Motor(mapMotorPort(port), connection);
 	motors.emplace(port, motor);
-	return MotorDto{ static_cast<unsigned int>(port) };
+	return motor_dto{ static_cast<unsigned int>(port) };
 }
 
 Sensor_port communication::mapSensorPort(SensorPort port) 
@@ -124,10 +124,10 @@ Motor_port communication::mapMotorPort(MotorPort port)
 	return mappedPort;
 }
 
-void communication::updateSensorValue(TouchSensorDto& touchSensorDto)
+void communication::updateSensorValue(touch_sensor_dto& touchSensorDto)
 {
 	Touch* touchSensor = touchSensors[touchSensorDto.port];
-	touchSensorDto.isPressed = touchSensor->read();
+	touchSensorDto.is_pressed = touchSensor->read();
 }
 
 void communication::updateSensorValue(color_sensor_dto& colorSensorDto)
@@ -135,16 +135,16 @@ void communication::updateSensorValue(color_sensor_dto& colorSensorDto)
 	Light* colorSensor = colorSensors[colorSensorDto.port];
 	Rgb_color result{};
 	string value = colorSensor->print();
-	colorSensorDto.BlueValue = result.blue;
-	colorSensorDto.GreenValue = result.green;
-	colorSensorDto.RedValue = result.red;
+	colorSensorDto.blue_value = result.blue;
+	colorSensorDto.green_value = result.green;
+	colorSensorDto.red_value = result.red;
 }
 
 void communication::updateSensorValue(distance_sensor_dto& distanceSensorDto)
 {
 	Sonar* distanceSensor = distanceSensors[distanceSensorDto.port];
 	int value = distanceSensor->read();
-	distanceSensorDto.Distance = value;
+	distanceSensorDto.distance = value;
 }
 
 void communication::stopAllMotors() {
@@ -157,19 +157,19 @@ bool communication::isMotorRunning(motor_dto motorDto)
 	return motor->is_running();
 }
 
-void communication::startMotor(MotorDto motorDto, char speed, unsigned int degrees /* = 0 */, bool reply /* = false */)
+void communication::startMotor(motor_dto motorDto, char speed, unsigned int degrees /* = 0 */, bool reply /* = false */)
 {
 	Motor* motor = motors[motorDto.port];
 	motor->on(speed, degrees, reply);
 }
 
-void communication::coastMotor(MotorDto motorDto, bool reply /* = false */)
+void communication::coastMotor(motor_dto motorDto, bool reply /* = false */)
 {
 	Motor* motor = motors[motorDto.port];
 	motor->off(reply);
 }
 
-void communication::stopMotor(MotorDto motorDto, bool reply /* = false */)
+void communication::stopMotor(motor_dto motorDto, bool reply /* = false */)
 {
 	Motor* motor = motors[motorDto.port];
 	motor->stop(reply);

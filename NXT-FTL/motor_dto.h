@@ -6,6 +6,7 @@ namespace nxtftl
 	{
 	public:
 		motor_dto() = default;
+		unsigned int port;
 	};
 }
 
