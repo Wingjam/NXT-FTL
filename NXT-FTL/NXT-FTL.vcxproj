@@ -137,6 +137,7 @@
     <ClInclude Include="..\NxtLibrary\tilt.h" />
     <ClInclude Include="..\NxtLibrary\touch.h" />
     <ClInclude Include="brain.h" />
+    <ClInclude Include="color2.h" />
     <ClInclude Include="color_sensor_dto.h" />
     <ClInclude Include="distance_sensor_dto.h" />
     <ClInclude Include="sensor_dto.h" />
