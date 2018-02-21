@@ -41,8 +41,8 @@ int main()
         tuple<int, bool> direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
 
         // Send
-
-        if (!get<1>(direction))
+        bool can_move = get<1>(direction);
+        if (!can_move)
         {
             communication.stopMotor(leftMotor);
             communication.stopMotor(rightMotor);
