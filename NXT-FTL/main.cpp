@@ -46,6 +46,8 @@ int main()
         communication.updateSensorValue(rightColorSensor);
         communication.updateSensorValue(distanceSensor);
 
+		cout << "tacho : " << communication.get_tacho_count(leftMotor);
+
         // Process
         tuple<int, bool> direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
 
