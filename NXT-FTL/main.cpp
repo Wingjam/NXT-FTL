@@ -31,11 +31,6 @@ int main()
 	{
 		communication.updateSensorValue(touchSensor);
 	}
-	// Because code executes too fast, brain thinks sensor is pressed otherwise
-	while (touchSensor.is_pressed)
-	{
-		communication.updateSensorValue(touchSensor);
-	}
 	cout << "Starting line follow..." << endl;
 
     while (true)
