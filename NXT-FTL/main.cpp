@@ -1,3 +1,4 @@
+#include <future>;
 #include "brain.h"
 #include "communication.h"
 
@@ -35,14 +36,26 @@ int main()
 
     while (true)
     {
-        // Read
-        communication.updateSensorValue(touchSensor);
-        communication.updateSensorValue(leftColorSensor);
-        communication.updateSensorValue(rightColorSensor);
-        communication.updateSensorValue(distanceSensor);
-
-        // Process
-        tuple<int, bool> direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
+		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::milliseconds(30);
+		std::future<void> updates = std::async(std::launch::async, [&]
+		{
+			// Read
+			communication.updateSensorValue(touchSensor);
+			communication.updateSensorValue(leftColorSensor);
+			communication.updateSensorValue(rightColorSensor);
+			communication.updateSensorValue(distanceSensor);
+		});
+		tuple<int, bool> direction;
+		bool succeeded = std::future_status::ready == updates.wait_until(max_wait_time);
+		if (succeeded)
+		{
+			// Process
+			direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
+		}
+		else
+		{
+			direction = tuple<int, bool>{ 0, false };
+		}
 
         // Send
         bool can_move = get<1>(direction);
@@ -50,6 +63,11 @@ int main()
         {
             communication.stopMotor(leftMotor);
             communication.stopMotor(rightMotor);
+			if (!succeeded)
+			{
+				// Now that the robot is stop, we can wait for the robot to give us an answer.
+				updates.wait();
+			}
             continue;
         }
         
