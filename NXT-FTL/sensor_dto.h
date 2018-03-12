@@ -1,12 +1,12 @@
 #pragma once
 
-namespace NXTFTL
+namespace nxtftl
 {
-	class SensorDto
+	class sensor_dto
 	{
 	public:
 		unsigned int port;
-		SensorDto() = default;
+		sensor_dto() = default;
 	};
 }
 

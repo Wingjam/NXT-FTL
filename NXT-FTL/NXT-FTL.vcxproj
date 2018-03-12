@@ -146,16 +146,17 @@ xcopy /y /d "..\NXTLibrary.lib" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Brain.h" />
-    <ClInclude Include="ColorSensorDto.h" />
-    <ClInclude Include="DistanceSensorDto.h" />
-    <ClInclude Include="SensorDto.h" />
-    <ClInclude Include="TouchSensorDto.h" />
+    <ClInclude Include="brain.h" />
+    <ClInclude Include="color2.h" />
+    <ClInclude Include="color_sensor_dto.h" />
+    <ClInclude Include="distance_sensor_dto.h" />
+    <ClInclude Include="sensor_dto.h" />
+    <ClInclude Include="touch_sensor_dto.h" />
     <ClInclude Include="communication.h" />
-    <ClInclude Include="MotorDto.h" />
+    <ClInclude Include="motor_dto.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Brain.cpp" />
+    <ClCompile Include="brain.cpp" />
     <ClCompile Include="communication.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
