@@ -36,6 +36,7 @@ bool communication::connect(ConnectionType type)
 					connection = new Bluetooth();
 					connection->connect(comport);
 					connected = true;
+					cout << "NXT connected on comport " << comport << endl;
 				}
 				catch (Nxt_exception& e) {
 					cout << "Could not connect to NXT on comport " << comport << endl;
@@ -43,7 +44,6 @@ bool communication::connect(ConnectionType type)
 					++comport;
 				}
 			}
-			cout << "NXT connected on comport " << comport << endl;
 			break;
 		case communication::USB:
 			connected = false;

@@ -69,7 +69,7 @@ int main()
 		}
 		else if (0 < turn_factor)
 		{
-			communication.startMotor(leftMotor, 30);
+			communication.startMotor(leftMotor, 20);
 			communication.startMotor(rightMotor, 10);
 		}
 		else // turn_factor == 0
