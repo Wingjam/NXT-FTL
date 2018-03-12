@@ -1,5 +1,6 @@
 #include "brain.h"
 #include "communication.h"
+#include "movement_history.h"
 
 using namespace std;
 using namespace nxtftl;
@@ -7,6 +8,7 @@ using namespace nxtftl;
 int main()
 {
     // Init
+	movement_history movement_history{};
     communication communication{};
     brain brain { 10 };
 
@@ -46,7 +48,9 @@ int main()
         communication.updateSensorValue(rightColorSensor);
         communication.updateSensorValue(distanceSensor);
 
-		cout << "tacho : " << communication.get_tacho_count(leftMotor);
+		long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
+		long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
+		movement_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
 
         // Process
         tuple<int, bool> direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);

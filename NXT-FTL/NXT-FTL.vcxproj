@@ -107,6 +107,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -140,6 +141,7 @@
     <ClInclude Include="color2.h" />
     <ClInclude Include="color_sensor_dto.h" />
     <ClInclude Include="distance_sensor_dto.h" />
+    <ClInclude Include="movement_history.h" />
     <ClInclude Include="sensor_dto.h" />
     <ClInclude Include="touch_sensor_dto.h" />
     <ClInclude Include="communication.h" />
@@ -162,6 +164,7 @@
     <ClCompile Include="brain.cpp" />
     <ClCompile Include="communication.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="movement_history.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
