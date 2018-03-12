@@ -13,18 +13,18 @@ using namespace std;
 /**
 * Class for RCX light sensor
 */
-NXTLIBRARY_API class Light_rcx : public Sensor{
+class NXTLIBRARY_API Light_rcx : public Sensor{
   public:
     /**
      * Constructor for the RCX light sensor (percent mode is default)
      * @param port [which sensor port to use]
      * @param *connection [attach a connection]
     */
-    NXTLIBRARY_API Light_rcx(Sensor_port port, Connection* connection) : 
+    Light_rcx(Sensor_port port, Connection* connection) : 
         Sensor(port, connection, REFLECTION, PERCENT_MODE){}
 
     //deconstructor
-    NXTLIBRARY_API ~Light_rcx(){}
+    ~Light_rcx(){}
 };
 #endif
 

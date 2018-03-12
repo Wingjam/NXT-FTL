@@ -41,7 +41,7 @@
 * Enumeration for different sonar sensor modes
 * @see Sonar
 */
-NXTLIBRARY_API enum Sonar_mode {
+enum NXTLIBRARY_API Sonar_mode {
   /**
   * Sensor reading is returned in centimeters
   */
@@ -58,7 +58,7 @@ using namespace std;
 /**
 * Class for the NXT sonar (ultrasonic) sensor
 */
-NXTLIBRARY_API class Sonar: public I2c{
+class NXTLIBRARY_API Sonar: public I2c{
   public:
     /**
      * Constructor for the sonar sensor (percent mode and LED on is default)
@@ -66,41 +66,41 @@ NXTLIBRARY_API class Sonar: public I2c{
      * @param *connection [attach a connection]
      * @param mode [set the sonar mode to either METRIC or INCH (default is METRIC)]
     */
-    NXTLIBRARY_API Sonar(Sensor_port port, Connection* connection, Sonar_mode mode=METRIC);
-    NXTLIBRARY_API ~Sonar();
+    Sonar(Sensor_port port, Connection* connection, Sonar_mode mode=METRIC);
+    ~Sonar();
 
     /**
      * Initiate the sensor
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    NXTLIBRARY_API void init(bool reply=false);
+    void init(bool reply=false);
 
     /**
     * Read the sensor value
     * (init method will be called if the sensor has not been initialized)
     * @return the sensor reading in either inches or centimeters
     */
-    NXTLIBRARY_API int read();
+    int read();
 
     /**
      * Set the return value to be either inch or centimeter
      * @param value [use either METRIC or INCH to indicate the return value of read()]
      * @see Sonar_mode
     */
-    NXTLIBRARY_API void set(unsigned int value);
+    void set(unsigned int value);
 
     /**
      * Get the sensor reading as a string
      * (init method will be called if the sensor has not been initialized)
      * @return sensor reading as a string + either " CM" or " inch(s)"
     */
-    NXTLIBRARY_API string print();
+    string print();
 
     /**
      * Get the sensor type
      * @return either SONAR_METRIC or SONAR_INCH
     */
-    NXTLIBRARY_API Sensor_type get_type();
+    Sensor_type get_type();
 
   protected:
     Sonar_mode sonar_mode;

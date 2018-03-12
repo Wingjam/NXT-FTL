@@ -24,7 +24,7 @@ using namespace std;
 /**
 * Class for HiTechnic compass sensor
 */
-NXTLIBRARY_API class Compass : public I2c{
+class NXTLIBRARY_API Compass : public I2c{
   public:
 
     /**
@@ -35,34 +35,34 @@ NXTLIBRARY_API class Compass : public I2c{
      *(use default wait time otherwise COMMUNICATION_BUS_ERROR will frequently be thrown if sensor is pulled continuously)
      * @param i2c_address [set the I2C address of the sensor (just use the default address unless you have done a hack)]
     */
-    NXTLIBRARY_API Compass(Sensor_port port, Connection* connection, unsigned int wait_time=40, unsigned char i2c_address = COMPASS_ADDRESS);
-    NXTLIBRARY_API ~Compass();
+    Compass(Sensor_port port, Connection* connection, unsigned int wait_time=40, unsigned char i2c_address = COMPASS_ADDRESS);
+    ~Compass();
 
     /**
      * Initiate the sensor
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    NXTLIBRARY_API void init(bool reply=false);
+    void init(bool reply=false);
 
     /**
     * Read the sensor value
     * (init method will be called if the sensor has not been initialized)
     * @return degree (0-360) 0= North
     */
-    NXTLIBRARY_API int read();
+    int read();
 
     /**
      * Get the sensor reading as a string
      * (init method will be called if the sensor has not been initialized)
      * @return sensor reading as a string + " degrees"
     */
-    NXTLIBRARY_API string print();
+    string print();
 
     /**
      * Get the sensor type
      * @return COMPASS
     */
-    NXTLIBRARY_API Sensor_type get_type();
+    Sensor_type get_type();
   private:
 };
 #endif

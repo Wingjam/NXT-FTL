@@ -71,7 +71,7 @@ void Bluetooth::connect(unsigned int comport) {
         this->send(&command[0], 4);
         this->receive(&answer[0], 9);
     }
-    catch (Nxt_exception& e) {
+    catch (Nxt_exception&) {
         this->disconnect();
         throw Nxt_exception("connect", "Bluetooth", BT_UNABLE_TO_CONNECT);
     }

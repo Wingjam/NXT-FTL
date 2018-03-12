@@ -26,9 +26,9 @@ using namespace std;
 * Class to retrieve XYZ coordinates from the HiTechnic Tilt/Accekeration sensor
 * @see Tilt#read
 */
-NXTLIBRARY_API class Xyz_position : public Result{
+class NXTLIBRARY_API Xyz_position : public Result{
   public:
-    NXTLIBRARY_API Xyz_position(){}
+    Xyz_position(){}
     /**
     * Holds the x-coordinate
     */
@@ -47,13 +47,13 @@ NXTLIBRARY_API class Xyz_position : public Result{
     /**
     * @return XYZ_RESULT
     */
-    NXTLIBRARY_API Result_type get_type(){return XYZ_RESULT;}
+    Result_type get_type(){return XYZ_RESULT;}
 };
 
 /**
 * Class for HiTechnic tilt/accekeration sensor
 */
-NXTLIBRARY_API class Tilt: public I2c{
+class NXTLIBRARY_API Tilt: public I2c{
   public:
     /**
      * Constructor for the Tilt sensor
@@ -61,14 +61,14 @@ NXTLIBRARY_API class Tilt: public I2c{
      * @param *connection [attach a connection]
      * @param i2c_address [set the I2C address of the sensor (just use the default address unless you have done a hack)]
     */
-    NXTLIBRARY_API Tilt(Sensor_port port, Connection *connection, unsigned char i2c_address = TILT_ADDRESS);
-    NXTLIBRARY_API ~Tilt();
+    Tilt(Sensor_port port, Connection *connection, unsigned char i2c_address = TILT_ADDRESS);
+    ~Tilt();
 
     /**
      * Initiate the sensor
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    NXTLIBRARY_API void init(bool reply=false);
+    void init(bool reply=false);
 
     /**
     * Get the X-Y-Z coordinates
@@ -76,19 +76,19 @@ NXTLIBRARY_API class Tilt: public I2c{
     * @param &result [must be of type Xyz_position - coordinates are "stored" in result]
     * @see Xyz_position
     */
-    NXTLIBRARY_API int read(Result &result);
+    int read(Result &result);
 
     /**
      * Get the sensor type
      * @return TILT
     */
-    NXTLIBRARY_API Sensor_type get_type();
+    Sensor_type get_type();
 
     /**
      * Get the sensor reading as a string
      * (init method will be called if the sensor has not been initialized)
      * @return sensor reading as a string - "x='some value' y='some value' z='some value'"
     */
-    NXTLIBRARY_API string print();
+    string print();
 };
 #endif

@@ -15,7 +15,7 @@ using namespace std;
   * Connection type enumeration
   @see Connection#get_type
 */
-NXTLIBRARY_API enum Connection_type {
+enum NXTLIBRARY_API Connection_type {
   /**
   * Bluetooth connection
   */
@@ -32,7 +32,7 @@ NXTLIBRARY_API enum Connection_type {
   * @see Server_settings_t
   * @see Nxt_network#Connect
 */
-NXTLIBRARY_API enum Server_mode{
+enum NXTLIBRARY_API Server_mode{
   /**
   * The server will close down when BT communication with the NXT is lost
   */
@@ -49,7 +49,7 @@ NXTLIBRARY_API enum Server_mode{
   * @see Nxt_network#Connect
   * @see Server_mode
  */
-NXTLIBRARY_API struct Server_settings_t{
+struct NXTLIBRARY_API Server_settings_t{
   /**
   * The mode of the server
   */
@@ -67,14 +67,14 @@ NXTLIBRARY_API struct Server_settings_t{
   * @see Server_settings_t
   * @see Nxt_network#Connect
  */
-NXTLIBRARY_API typedef Server_settings_t Server_settings;
+typedef NXTLIBRARY_API Server_settings_t Server_settings;
 
 /**
   * Abstract class for connections
 */
-NXTLIBRARY_API class Connection {
+class NXTLIBRARY_API Connection {
   public:
-    NXTLIBRARY_API virtual ~Connection(){};
+    virtual ~Connection(){};
 
     /**
     * Send a byte string
@@ -82,14 +82,14 @@ NXTLIBRARY_API class Connection {
     * @param *buffer [a pointer to a buffer that can hold the bytes to send]
     * @param num_bytes [the number of bytes to send]
     */
-    NXTLIBRARY_API virtual void send(unsigned char *buffer,unsigned int num_bytes)=0;
+    virtual void send(unsigned char *buffer,unsigned int num_bytes)=0;
 
     /**
     * Connect to the NXT using BT
     * (Dummy method does nothing - is implemented in sub class)
     * @param comport [specify the comport that is to used for the BT connection between the NXT and PC]
     */
-    NXTLIBRARY_API virtual void connect(unsigned int comport){return;}
+    virtual void connect(unsigned int comport){return;}
 
     /**
     * Connect to the NXT using a network connection
@@ -100,13 +100,13 @@ NXTLIBRARY_API class Connection {
     * @param password [set the password]
     * @see Server_settings_t
     */
-    NXTLIBRARY_API virtual void connect(unsigned int port, string ip_add){return;}
+    virtual void connect(unsigned int port, string ip_add){return;}
 
     /**
     * Disconnect from the NXT
     * (must be implemented in sub class)
     */
-    NXTLIBRARY_API virtual void disconnect()=0;
+    virtual void disconnect()=0;
 
     /**
     * Receive a byte string
@@ -114,20 +114,20 @@ NXTLIBRARY_API class Connection {
     * @param *buffer [a pointer to a buffer that can hold the received bytes]
     * @param length [the number of bytes to receive]
     */
-    NXTLIBRARY_API virtual void receive(unsigned char *buffer, unsigned int length)=0;
+    virtual void receive(unsigned char *buffer, unsigned int length)=0;
 
     /**
     * Flush the input and output buffer
     * (must be implemented in sub class)
     */
-    NXTLIBRARY_API virtual void flush()=0;
+    virtual void flush()=0;
 
     /**
     * Get the connection type
     * (must be implemented in sub class)
     * @return the connection type
     */
-    NXTLIBRARY_API virtual Connection_type get_type()=0;
+    virtual Connection_type get_type()=0;
   protected:
 };
 #endif

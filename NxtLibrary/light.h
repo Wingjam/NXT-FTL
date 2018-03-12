@@ -22,7 +22,7 @@ using namespace std;
 /**
 * Class for NXT light sensor
 */
-NXTLIBRARY_API class Light : public Sensor{
+class NXTLIBRARY_API Light : public Sensor{
   public:
     /**
      * Constructor for the light sensor (percent mode and LED on is default)
@@ -31,19 +31,19 @@ NXTLIBRARY_API class Light : public Sensor{
      * @param mode [set the sensor mode (default is percent mode)]
      * @param led [set the LED mode to either LED_ON or LED_OFF (default is LED_ON)]
     */
-    NXTLIBRARY_API Light(Sensor_port port, Connection* connection, Led_mode led=LED_ON):Sensor(port, connection, LIGHT_ACTIVE, PERCENT_MODE){
+    Light(Sensor_port port, Connection* connection, Led_mode led=LED_ON):Sensor(port, connection, LIGHT_ACTIVE, PERCENT_MODE){
       if(led == LED_OFF){
         sensor_type = LIGHT_INACTIVE;
       }
     }
 
-    NXTLIBRARY_API ~Light(){}
+    ~Light(){}
 
     /**
      * Turn the LED on or off
      * @param value [use LED_ON or LED_OFF to determine the state of the LED]
     */
-    NXTLIBRARY_API void set(unsigned int value){
+    void set(unsigned int value){
        if(value == LED_ON){
          sensor_type = LIGHT_ACTIVE;
        }

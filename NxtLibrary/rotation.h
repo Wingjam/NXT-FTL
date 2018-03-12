@@ -14,22 +14,22 @@ using namespace std;
 /**
 * Class for RCX rotation sensor
 */
-NXTLIBRARY_API class Rotation : public Sensor{
+class NXTLIBRARY_API Rotation : public Sensor{
   public:
     /**
      * Constructor for the rotation sensor
      * @param port [which sensor port to use]
      * @param *connection [attach a connection]
     */
-    NXTLIBRARY_API Rotation(Sensor_port port, Connection* connection):Sensor(port, connection, ANGLE, ANGLE_MODE){}
-    NXTLIBRARY_API ~Rotation(){};
+    Rotation(Sensor_port port, Connection* connection):Sensor(port, connection, ANGLE, ANGLE_MODE){}
+    ~Rotation(){};
 
    /**
      * Get the sensor reading as a string
      * (init method will be called if the sensor has not been initialized)
      * @return ticks + " ticks"
     */
-    NXTLIBRARY_API string print(){
+    string print(){
       return Sensor::print() + " ticks";
     }
 
@@ -37,7 +37,7 @@ NXTLIBRARY_API class Rotation : public Sensor{
      * Reset the tick count
      * @param value [use RESET_TICKS to reset the tick count]
     */
-    NXTLIBRARY_API void set(unsigned int value){
+    void set(unsigned int value){
       if(value == RESET_TICKS){
         this->reset();
       }

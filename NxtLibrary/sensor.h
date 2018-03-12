@@ -14,7 +14,7 @@ using namespace std;
   * Enumeration used to determine the result type (which sub-class of Result)
   * @see Result#get_type
  */
-NXTLIBRARY_API enum Result_type{
+enum NXTLIBRARY_API Result_type{
   /**
   * Means that the sub class is Rgb_color (used with the color sensor)
   * @see Rgb_color
@@ -41,18 +41,18 @@ NXTLIBRARY_API enum Result_type{
   * Class used to return sensor readings when there is more than one return value
   * @see Sensor#read
  */
-NXTLIBRARY_API class Result{
+class NXTLIBRARY_API Result{
   public:
   /**
   * @return the result type (see the RESULT_TYPE enumeration)
   */
-  NXTLIBRARY_API virtual Result_type get_type()=0;
+  virtual Result_type get_type()=0;
 };
 
 /**
   * Sensor port enumeration
  */
-NXTLIBRARY_API enum Sensor_port {
+enum NXTLIBRARY_API Sensor_port {
   /**
    * Port 1
    */
@@ -77,7 +77,7 @@ NXTLIBRARY_API enum Sensor_port {
 /**
 * Sensor type enumeration
 */
-NXTLIBRARY_API enum Sensor_type {
+enum NXTLIBRARY_API Sensor_type {
   /**
    * No sensor configured
    */
@@ -182,7 +182,7 @@ NXTLIBRARY_API enum Sensor_type {
 /**
 * Sensor mode enumeration
 */
-NXTLIBRARY_API enum Sensor_mode {
+enum NXTLIBRARY_API Sensor_mode {
   /**
    * Raw value from 0 to 1023
    */
@@ -227,7 +227,7 @@ NXTLIBRARY_API enum Sensor_mode {
 /**
 * Class for analog sensors - also works as the base class for all other sensors
 */
-NXTLIBRARY_API class Sensor{
+class NXTLIBRARY_API Sensor{
   public:
     /**
      * Sensor constructor
@@ -236,22 +236,22 @@ NXTLIBRARY_API class Sensor{
      * @param sensor_type [set the sensor type]
      * @param sensor mode [set the sensor mode]
     */
-    NXTLIBRARY_API Sensor(Sensor_port port, Connection* connection, Sensor_type sensor_type, Sensor_mode sensor_mode);
+    Sensor(Sensor_port port, Connection* connection, Sensor_type sensor_type, Sensor_mode sensor_mode);
 
-    NXTLIBRARY_API virtual ~Sensor();
+    virtual ~Sensor();
 
     /**
      * Initiate the sensor (sets its type and mode)
      * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    NXTLIBRARY_API virtual void init(bool reply=false);
+    virtual void init(bool reply=false);
 
     /**
     * Get the sensor reading (mode dependent)
     * (init method will be called if the sensor has not been initialized)
     * @return the mode dependent sensor reading
     */
-    NXTLIBRARY_API virtual int read();
+    virtual int read();
 
     /**
     * Get multiple sensor readings
@@ -259,45 +259,45 @@ NXTLIBRARY_API class Sensor{
     * @param &result [reference where the sensor readings are placed]
     * @return 1 if sensor readings are placed in &result otherwise 0
     */
-    NXTLIBRARY_API virtual int read(Result &result);
+    virtual int read(Result &result);
 
     /**
     * Set a parameter on the sensor
     * (Dummy method does nothing - is implemented in some sub classes)
     */
-    NXTLIBRARY_API virtual void set(unsigned int value);
+    virtual void set(unsigned int value);
 
     /**
     * Get the sensor reading as a string
     * (init method will be called if the sensor has not been initialized)
     * @return the sensor reading as a string
     */
-    NXTLIBRARY_API virtual string print();
+    virtual string print();
 
     /**
      * Get the sensor type
      * @return the sensor type
     */
-    NXTLIBRARY_API virtual Sensor_type get_type();
+    virtual Sensor_type get_type();
 
     /**
      * Get the sensor port
      * @return the sensor port
     */
-    NXTLIBRARY_API virtual Sensor_port get_port();
+    virtual Sensor_port get_port();
 
     /**
      * Get the sensor mode
      * @return the sensor mode
     */
-    NXTLIBRARY_API virtual Sensor_mode get_mode();
+    virtual Sensor_mode get_mode();
 
     /**
      * Get the I2C address
      * (Dummy method does nothing - is implemented in some sub class )
      * @return the I2C address
     */
-    NXTLIBRARY_API virtual unsigned char get_i2c_address();
+    virtual unsigned char get_i2c_address();
 
 
   protected:

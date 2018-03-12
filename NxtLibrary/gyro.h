@@ -14,7 +14,7 @@ using namespace std;
 /**
 * Class for HiTechnic Gyro sensor
 */
-NXTLIBRARY_API class Gyro : public Sensor{
+class NXTLIBRARY_API Gyro : public Sensor{
   public:
     /**
      * Constructor for the Gyro sensor (default offset is set to zero)
@@ -22,17 +22,17 @@ NXTLIBRARY_API class Gyro : public Sensor{
      * @param *connection [attach a connection]
      * @param offset [set the offset]
     */
-    NXTLIBRARY_API Gyro(Sensor_port port, Connection* connection, int offset=0): Sensor(port, connection, CUSTOM, RAW_MODE){
+    Gyro(Sensor_port port, Connection* connection, int offset=0): Sensor(port, connection, CUSTOM, RAW_MODE){
       this->offset=offset;
     }
-    NXTLIBRARY_API ~Gyro(){};
+    ~Gyro(){};
 
     /**
      * Read the sensor value ()
      * (init method will be called if the sensor has not been initialized)
      * @return change in angle pr second (deg/sec)
     */
-    NXTLIBRARY_API int read(){
+    int read(){
        return Sensor::read_raw()-offset;
     }
 
@@ -41,7 +41,7 @@ NXTLIBRARY_API class Gyro : public Sensor{
      * (init method will be called if the sensor has not been initialized)
      * @return sensor reading as a string + " deg/sec"
     */
-    NXTLIBRARY_API string print(){
+    string print(){
        return Sensor::print() + " deg/sec";
     }
 
@@ -49,7 +49,7 @@ NXTLIBRARY_API class Gyro : public Sensor{
      * Get the sensor type
      * @return GYRO
     */
-    NXTLIBRARY_API Sensor_type get_type(){
+    Sensor_type get_type(){
       return GYRO;
     }
   protected:

@@ -32,9 +32,9 @@
 * Class to retrieve red green and blue colors from the HiTechnic color sensor
 * @see Color_sensor#read
 */
-NXTLIBRARY_API class Rgb_color: public  Result{
+class NXTLIBRARY_API Rgb_color: public  Result{
   public:
-    NXTLIBRARY_API Rgb_color(){};
+    Rgb_color(){};
     /**
     * Holds the raw 10-bit red color
     */
@@ -53,7 +53,7 @@ NXTLIBRARY_API class Rgb_color: public  Result{
     /**
     * @return RGB_RESULT
     */
-    NXTLIBRARY_API Result_type get_type(){return RGB_RESULT;}
+    Result_type get_type(){return RGB_RESULT;}
 };
 
 using namespace std;
@@ -61,7 +61,7 @@ using namespace std;
 /**
 * Class for HiTechnic color sensor
 */
-NXTLIBRARY_API class Color_sensor: public I2c{
+class NXTLIBRARY_API Color_sensor: public I2c{
   public:
     /**
      * Constructor for the compass sensor
@@ -72,14 +72,14 @@ NXTLIBRARY_API class Color_sensor: public I2c{
      * @param i2c_address [set the I2C address of the sensor (just use the default address unless you have done a hack)]
     */
 
-    NXTLIBRARY_API Color_sensor(Sensor_port port, Connection *connection, unsigned int wait_time = 40, unsigned char i2c_address = COLOR_ADDRESS);
-    NXTLIBRARY_API ~Color_sensor();
+    Color_sensor(Sensor_port port, Connection *connection, unsigned int wait_time = 40, unsigned char i2c_address = COLOR_ADDRESS);
+    ~Color_sensor();
 
     /**
      * Initiate the sensor
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    NXTLIBRARY_API void init(bool reply=false);
+    void init(bool reply=false);
 
     /**
     * Get the color number (0-17)
@@ -87,7 +87,7 @@ NXTLIBRARY_API class Color_sensor: public I2c{
     * @return the color number (0-17)
     * @see <a href="http://www.hitechnic.com/" TARGET="_blank">color number chart can be found on the HiTechnic website</a>
     */
-    NXTLIBRARY_API int read();
+    int read();
 
     /**
     * Get the RGB color
@@ -95,20 +95,20 @@ NXTLIBRARY_API class Color_sensor: public I2c{
     * @param &result [must be of type Rgb_color - RGB colors are "stored" in result]
     * @see Rgb_color
     */
-    NXTLIBRARY_API int read(Result &result);
+    int read(Result &result);
 
     /**
      * Get the sensor type
      * @return COLOR
     */
-    NXTLIBRARY_API Sensor_type get_type();
+    Sensor_type get_type();
 
     /**
      * Get the sensor reading as a string
      * (init method will be called if the sensor has not been initialized)
      * @return sensor reading as a string - "red='some value' green='some value' blue='some value'"
     */
-    NXTLIBRARY_API string print();
+    string print();
 };
 #endif
 
