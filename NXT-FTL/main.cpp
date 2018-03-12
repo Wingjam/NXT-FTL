@@ -50,13 +50,12 @@ int main()
         tuple<int, bool> direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
 
         // Send
-		// TODO: Implement distance sensor pauses only. Resumes on clear path
         bool can_move = get<1>(direction);
         if (!can_move)
         {
             communication.stopMotor(leftMotor);
             communication.stopMotor(rightMotor);
-            break;
+            continue;
         }
         
         int turn_factor = get<0>(direction);
