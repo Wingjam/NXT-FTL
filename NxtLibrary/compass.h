@@ -1,6 +1,12 @@
 #ifndef COMPASS_CLASS
 #define COMPASS_CLASS
 
+#ifdef NXTLIBRARY_EXPORTS
+#define NXTLIBRARY_API __declspec(dllexport)
+#else
+#define NXTLIBRARY_API __declspec(dllimport)
+#endif
+
 //couldn't find any documentation for the HiTechnic NXT Compass Sensor so I used
 // http://nxtasy.org/2006/09/02/a-hitechnic-compass-robotc-and-100-lines-of-code
 
@@ -18,7 +24,7 @@ using namespace std;
 /**
 * Class for HiTechnic compass sensor
 */
-class Compass : public I2c{
+NXTLIBRARY_API class Compass : public I2c{
   public:
 
     /**
@@ -29,34 +35,34 @@ class Compass : public I2c{
      *(use default wait time otherwise COMMUNICATION_BUS_ERROR will frequently be thrown if sensor is pulled continuously)
      * @param i2c_address [set the I2C address of the sensor (just use the default address unless you have done a hack)]
     */
-    Compass(Sensor_port port, Connection* connection, unsigned int wait_time=40, unsigned char i2c_address = COMPASS_ADDRESS);
-    ~Compass();
+    NXTLIBRARY_API Compass(Sensor_port port, Connection* connection, unsigned int wait_time=40, unsigned char i2c_address = COMPASS_ADDRESS);
+    NXTLIBRARY_API ~Compass();
 
     /**
      * Initiate the sensor
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    void init(bool reply=false);
+    NXTLIBRARY_API void init(bool reply=false);
 
     /**
     * Read the sensor value
     * (init method will be called if the sensor has not been initialized)
     * @return degree (0-360) 0= North
     */
-    int read();
+    NXTLIBRARY_API int read();
 
     /**
      * Get the sensor reading as a string
      * (init method will be called if the sensor has not been initialized)
      * @return sensor reading as a string + " degrees"
     */
-    string print();
+    NXTLIBRARY_API string print();
 
     /**
      * Get the sensor type
      * @return COMPASS
     */
-    Sensor_type get_type();
+    NXTLIBRARY_API Sensor_type get_type();
   private:
 };
 #endif

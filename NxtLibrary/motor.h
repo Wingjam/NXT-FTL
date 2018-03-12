@@ -4,11 +4,17 @@
 #include <string>
 #include "connection.h"
 
+#ifdef NXTLIBRARY_EXPORTS
+#define NXTLIBRARY_API __declspec(dllexport)
+#else
+#define NXTLIBRARY_API __declspec(dllimport)
+#endif
+
 /**
 * Motor port enumeration
 * @see Motor
 */
-enum Motor_port {
+NXTLIBRARY_API enum Motor_port {
 
   /**
   * OUT A
@@ -71,13 +77,13 @@ using namespace std;
 /**
   * Class for the NXT motors
  */
-class Motor{
+NXTLIBRARY_API class Motor{
   public:
     /**
      * @param port [which motor port to use]
      * @param *connection [attach a connection]
      */
-    Motor(Motor_port port, Connection *connection);
+     NXTLIBRARY_API Motor(Motor_port port, Connection *connection);
 
     /**
     * Make the motor turn
@@ -85,37 +91,37 @@ class Motor{
     * @param degree [makes the motor turn x degrees (if set to zero the motor will turn forever)]
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    void on(char speed, unsigned int degrees=0, bool reply=false);
+    NXTLIBRARY_API void on(char speed, unsigned int degrees=0, bool reply=false);
 
     /**
     * Is the motor running
     * @return true if the motor is running otherwise false
     */
-    bool is_running();
+    NXTLIBRARY_API bool is_running();
 
     /**
     * Brings the motor to a full stop
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    void stop(bool reply=false);
+    NXTLIBRARY_API void stop(bool reply=false);
 
     /**
     * Make the motor coast
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    void off(bool reply=false);
+    NXTLIBRARY_API void off(bool reply=false);
 
     /**
     * Reset the position of the motor
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    void reset_rotation(bool reply=false);
+    NXTLIBRARY_API void reset_rotation(bool reply=false);
 
     /**
     * Get the position of the motor
     * @return the position of the motor
     */
-    long int get_rotation();
+    NXTLIBRARY_API long int get_rotation();
 
     /**
     * Move to a target degree  - function will return when the motor is done moving (this is experimental)
@@ -123,13 +129,13 @@ class Motor{
     * @param target [set the target degree]
     * @param tolerance [allow some torance to avoid hanging the function (don't set this below 4)]
     */
-    void move_to(char speed, long int target, int tolerance);
+    NXTLIBRARY_API void move_to(char speed, long int target, int tolerance);
 
     /**
      * Get the motor port
      * @return the motor port
     */
-    Motor_port get_port();
+    NXTLIBRARY_API Motor_port get_port();
   private:
     Motor_port port;
     Connection *connection;

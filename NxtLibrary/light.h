@@ -3,6 +3,11 @@
 #include "Sensor.h"
 #include "connection.h"
 
+#ifdef NXTLIBRARY_EXPORTS
+#define NXTLIBRARY_API __declspec(dllexport)
+#else
+#define NXTLIBRARY_API __declspec(dllimport)
+#endif
 
 /**
 * Enumeration for different NXT light sensor LED modes
@@ -17,7 +22,7 @@ using namespace std;
 /**
 * Class for NXT light sensor
 */
-class Light : public Sensor{
+NXTLIBRARY_API class Light : public Sensor{
   public:
     /**
      * Constructor for the light sensor (percent mode and LED on is default)
@@ -26,19 +31,19 @@ class Light : public Sensor{
      * @param mode [set the sensor mode (default is percent mode)]
      * @param led [set the LED mode to either LED_ON or LED_OFF (default is LED_ON)]
     */
-    Light(Sensor_port port, Connection* connection, Led_mode led=LED_ON):Sensor(port, connection, LIGHT_ACTIVE, PERCENT_MODE){
+    NXTLIBRARY_API Light(Sensor_port port, Connection* connection, Led_mode led=LED_ON):Sensor(port, connection, LIGHT_ACTIVE, PERCENT_MODE){
       if(led == LED_OFF){
         sensor_type = LIGHT_INACTIVE;
       }
     }
 
-    ~Light(){}
+    NXTLIBRARY_API ~Light(){}
 
     /**
      * Turn the LED on or off
      * @param value [use LED_ON or LED_OFF to determine the state of the LED]
     */
-    void set(unsigned int value){
+    NXTLIBRARY_API void set(unsigned int value){
        if(value == LED_ON){
          sensor_type = LIGHT_ACTIVE;
        }

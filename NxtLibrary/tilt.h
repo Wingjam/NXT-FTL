@@ -5,6 +5,12 @@
 #include "connection.h"
 #include "I2C.h"
 
+#ifdef NXTLIBRARY_EXPORTS
+#define NXTLIBRARY_API __declspec(dllexport)
+#else
+#define NXTLIBRARY_API __declspec(dllimport)
+#endif
+
 //registers
 #define TILT_ADDRESS 0x02
 #define X_UPPER 0x42
@@ -20,9 +26,9 @@ using namespace std;
 * Class to retrieve XYZ coordinates from the HiTechnic Tilt/Accekeration sensor
 * @see Tilt#read
 */
-class Xyz_position : public Result{
+NXTLIBRARY_API class Xyz_position : public Result{
   public:
-    Xyz_position(){}
+    NXTLIBRARY_API Xyz_position(){}
     /**
     * Holds the x-coordinate
     */
@@ -41,13 +47,13 @@ class Xyz_position : public Result{
     /**
     * @return XYZ_RESULT
     */
-    Result_type get_type(){return XYZ_RESULT;}
+    NXTLIBRARY_API Result_type get_type(){return XYZ_RESULT;}
 };
 
 /**
 * Class for HiTechnic tilt/accekeration sensor
 */
-class Tilt: public I2c{
+NXTLIBRARY_API class Tilt: public I2c{
   public:
     /**
      * Constructor for the Tilt sensor
@@ -55,14 +61,14 @@ class Tilt: public I2c{
      * @param *connection [attach a connection]
      * @param i2c_address [set the I2C address of the sensor (just use the default address unless you have done a hack)]
     */
-    Tilt(Sensor_port port, Connection *connection, unsigned char i2c_address = TILT_ADDRESS);
-    ~Tilt();
+    NXTLIBRARY_API Tilt(Sensor_port port, Connection *connection, unsigned char i2c_address = TILT_ADDRESS);
+    NXTLIBRARY_API ~Tilt();
 
     /**
      * Initiate the sensor
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    void init(bool reply=false);
+    NXTLIBRARY_API void init(bool reply=false);
 
     /**
     * Get the X-Y-Z coordinates
@@ -70,19 +76,19 @@ class Tilt: public I2c{
     * @param &result [must be of type Xyz_position - coordinates are "stored" in result]
     * @see Xyz_position
     */
-    int read(Result &result);
+    NXTLIBRARY_API int read(Result &result);
 
     /**
      * Get the sensor type
      * @return TILT
     */
-    Sensor_type get_type();
+    NXTLIBRARY_API Sensor_type get_type();
 
     /**
      * Get the sensor reading as a string
      * (init method will be called if the sensor has not been initialized)
      * @return sensor reading as a string - "x='some value' y='some value' z='some value'"
     */
-    string print();
+    NXTLIBRARY_API string print();
 };
 #endif

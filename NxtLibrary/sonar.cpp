@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "sonar.h"
 #include "error.h"
 Sonar::Sonar(Sensor_port port, Connection* connection, Sonar_mode mode):I2c(port, connection, LOWSPEED_9V, SONAR_ADDRESS){

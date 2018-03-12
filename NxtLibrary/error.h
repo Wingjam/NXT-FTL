@@ -5,12 +5,18 @@
 #include <string>
 #include <sstream>
 
+#ifdef NXTLIBRARY_EXPORTS
+#define NXTLIBRARY_API __declspec(dllexport)
+#else
+#define NXTLIBRARY_API __declspec(dllimport)
+#endif
+
 using namespace std;
 /**
 * Error type enumeration
 * @see Nxt_exception#error_type
 */
-enum Error_type{
+NXTLIBRARY_API enum Error_type{
 
   /**
   * Unknow error
@@ -47,7 +53,7 @@ enum Error_type{
 * Class used to throw exceptions when communication fails or the NXT reports an error
 * @see Nxt_errors
 */
-class Nxt_exception: public exception
+NXTLIBRARY_API class Nxt_exception: public exception
 {
   public:
     /**
@@ -56,35 +62,35 @@ class Nxt_exception: public exception
      * @param error_code [the error code that is thrown]
      * @param description [a description of the error - if not speficied default description is used]
      */
-    Nxt_exception(string function_name,string class_name, unsigned int error_code, string description="");
-    ~Nxt_exception() throw();
+    NXTLIBRARY_API Nxt_exception(string function_name,string class_name, unsigned int error_code, string description="");
+    NXTLIBRARY_API ~Nxt_exception() throw();
 
     /**
      * What is the error
      * @return a string that describes the error
      */
-    const char* what() const throw();
+    NXTLIBRARY_API const char* what() const throw();
 
     /**
      * Get the error code that was thrown
      * @return the error code
      * @see Nxt_errors
      */
-    unsigned int error_code();
+    NXTLIBRARY_API unsigned int error_code();
 
     /**
      * Get the error type that was thrown
      * @return the error type
      * @see Error_type
      */
-    Error_type error_type();
+    NXTLIBRARY_API Error_type error_type();
 
 
     /**
      * Who threw the exception
      * @return a string that tells the class and the function that threw the exception (used for debug)
      */
-    const string who();
+    NXTLIBRARY_API const string who();
   protected:
     string function_name;
     string class_name;
@@ -119,7 +125,7 @@ class Nxt_exception: public exception
 * <LI>0x0160 to 0x016F are reservede for network errors
 * </UL>
 */
-enum Nxt_errors{
+NXTLIBRARY_API enum Nxt_errors{
   //Network erros
 
   /**

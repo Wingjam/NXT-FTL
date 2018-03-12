@@ -9,7 +9,7 @@
 #include "ColorSensorDto.h"
 #include "TouchSensorDto.h"
 #include "DistanceSensorDto.h"
-#include "../NxtLibrary/nxt.h"
+#include "nxt.h"
 
 
 namespace NXTFTL

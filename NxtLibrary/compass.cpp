@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "compass.h"
 #include "error.h"
 #include <windows.h>

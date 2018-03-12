@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "io_8574.h"
 #include <sstream>
 #include <string>

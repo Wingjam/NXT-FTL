@@ -77,7 +77,17 @@
       <SDLCheck>true</SDLCheck>
       <CompileAs>CompileAsCpp</CompileAs>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../NXTLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "..\NXTLibrary.dll" "$(OutDir)"
+xcopy /y /d "..\NXTLibrary.lib" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>NXTLibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -85,7 +95,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../NXTLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\NXTLibrary\$(IntDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>NXTLibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "..\NXTLibrary\$(IntDir)NXTLibrary.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -94,11 +112,19 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../NXTLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>NXTLibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "..\NXTLibrary.dll" "$(OutDir)"
+xcopy /y /d "..\NXTLibrary.lib" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -107,35 +133,19 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../NXTLibrary;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\NXTLibrary\$(IntDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>NXTLibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "..\NXTLibrary\$(IntDir)NXTLibrary.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\NxtLibrary\adc_8591.h" />
-    <ClInclude Include="..\NxtLibrary\bluetooth.h" />
-    <ClInclude Include="..\NxtLibrary\brick.h" />
-    <ClInclude Include="..\NxtLibrary\color.h" />
-    <ClInclude Include="..\NxtLibrary\compass.h" />
-    <ClInclude Include="..\NxtLibrary\connection.h" />
-    <ClInclude Include="..\NxtLibrary\error.h" />
-    <ClInclude Include="..\NxtLibrary\filesystem.h" />
-    <ClInclude Include="..\NxtLibrary\gyro.h" />
-    <ClInclude Include="..\NxtLibrary\i2c.h" />
-    <ClInclude Include="..\NxtLibrary\io_8574.h" />
-    <ClInclude Include="..\NxtLibrary\light.h" />
-    <ClInclude Include="..\NxtLibrary\motor.h" />
-    <ClInclude Include="..\NxtLibrary\nxt.h" />
-    <ClInclude Include="..\NxtLibrary\rcx_light.h" />
-    <ClInclude Include="..\NxtLibrary\rotation.h" />
-    <ClInclude Include="..\NxtLibrary\sensor.h" />
-    <ClInclude Include="..\NxtLibrary\sonar.h" />
-    <ClInclude Include="..\NxtLibrary\sound.h" />
-    <ClInclude Include="..\NxtLibrary\temperature.h" />
-    <ClInclude Include="..\NxtLibrary\tilt.h" />
-    <ClInclude Include="..\NxtLibrary\touch.h" />
     <ClInclude Include="Brain.h" />
     <ClInclude Include="ColorSensorDto.h" />
     <ClInclude Include="DistanceSensorDto.h" />
@@ -145,19 +155,6 @@
     <ClInclude Include="MotorDto.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\NxtLibrary\adc_8591.cpp" />
-    <ClCompile Include="..\NxtLibrary\bluetooth.cpp" />
-    <ClCompile Include="..\NxtLibrary\brick.cpp" />
-    <ClCompile Include="..\NxtLibrary\color.cpp" />
-    <ClCompile Include="..\NxtLibrary\compass.cpp" />
-    <ClCompile Include="..\NxtLibrary\error.cpp" />
-    <ClCompile Include="..\NxtLibrary\filesystem.cpp" />
-    <ClCompile Include="..\NxtLibrary\i2c.cpp" />
-    <ClCompile Include="..\NxtLibrary\io_8574.cpp" />
-    <ClCompile Include="..\NxtLibrary\motor.cpp" />
-    <ClCompile Include="..\NxtLibrary\sensor.cpp" />
-    <ClCompile Include="..\NxtLibrary\sonar.cpp" />
-    <ClCompile Include="..\NxtLibrary\tilt.cpp" />
     <ClCompile Include="Brain.cpp" />
     <ClCompile Include="communication.cpp" />
     <ClCompile Include="main.cpp" />

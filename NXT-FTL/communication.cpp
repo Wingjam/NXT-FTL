@@ -1,5 +1,4 @@
 #include "communication.h"
-#include "../NxtLibrary/nxt.h"
 using namespace NXTFTL;
 
 communication::communication()

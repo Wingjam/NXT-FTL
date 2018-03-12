@@ -5,12 +5,18 @@
 #include "I2C.h"
 #include "connection.h"
 
+#ifdef NXTLIBRARY_EXPORTS
+#define NXTLIBRARY_API __declspec(dllexport)
+#else
+#define NXTLIBRARY_API __declspec(dllimport)
+#endif
+
 using namespace std;
 
 /**
 * Class for the PCF8574 8-bit I/O I2C chip
 */
-class Io_8574 : public I2c{
+NXTLIBRARY_API class Io_8574 : public I2c{
   public:
     /**
      * Constructor for the PCF8574 I/O chip
@@ -18,14 +24,14 @@ class Io_8574 : public I2c{
      * @param *connection [attach a connection]
      * @param i2c_address [set the I2C address of the chip]
     */
-    Io_8574(Sensor_port port, Connection *connection, unsigned char i2c_address);
-    ~Io_8574();
+    NXTLIBRARY_API Io_8574(Sensor_port port, Connection *connection, unsigned char i2c_address);
+    NXTLIBRARY_API ~Io_8574();
 
     /**
      * Initiate the sensor
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    void init(bool reply = false);
+    NXTLIBRARY_API void init(bool reply = false);
 
     /**
     * Read the sensor value
@@ -33,19 +39,19 @@ class Io_8574 : public I2c{
     * @return a value between 0 and 255 that describes the state of the pins
     * (remember to set input pins to high before reading)
     */
-    int read();
+    NXTLIBRARY_API int read();
 
     /**
      * Sets the pins high (write to the sensor)
      * @param value [sets the specified pins high (0xff all pins are set to input)]
     */
-    void set(unsigned int value);
+    NXTLIBRARY_API void set(unsigned int value);
 
     /**
      * Get the sensor type
      * @return IO_8574_SENSOR
     */
-    Sensor_type get_type();
+    NXTLIBRARY_API Sensor_type get_type();
 
 
     /**
@@ -53,7 +59,7 @@ class Io_8574 : public I2c{
      * (init method will be called if the sensor has not been initialized)
      * @return sensor reading as a string
     */
-    string print();
+    NXTLIBRARY_API string print();
 };
 #endif
 

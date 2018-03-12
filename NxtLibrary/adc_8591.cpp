@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "adc_8591.h"
 #include <sstream>
 #include <string>

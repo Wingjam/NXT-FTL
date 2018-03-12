@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include <iostream>
 #include "motor.h"
 #include <stdio.h>

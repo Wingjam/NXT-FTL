@@ -2,12 +2,18 @@
 #define SYSTEMFILEH
 #include "connection.h"
 
+#ifdef NXTLIBRARY_EXPORTS
+#define NXTLIBRARY_API __declspec(dllexport)
+#else
+#define NXTLIBRARY_API __declspec(dllimport)
+#endif
+
 #define MAX_NAME_LENGTH 20
 /**
 * Enumeration for file modes when opening a file
 * @see Filesystem#open
 */
-enum File_mode{
+NXTLIBRARY_API enum File_mode{
   /**
   * Open the file for reading
   */
@@ -39,7 +45,7 @@ enum File_mode{
 * Struct that holds information on a nxt file
 * @see Filesystem
 */
-struct Nxt_file_t{
+NXTLIBRARY_API struct Nxt_file_t{
   /**
   * The name of the file (maximum 19 characters + termination)
   */
@@ -61,7 +67,7 @@ struct Nxt_file_t{
 * @see Nxt_file_t
 * @see Filesystem
 */
-typedef struct Nxt_file_t Nxt_file;
+NXTLIBRARY_API typedef struct Nxt_file_t Nxt_file;
 
 
 using namespace std;
@@ -69,52 +75,52 @@ using namespace std;
 /**
   * Class to interact with the filesystem on the NXT
 */
-class Filesystem{
+NXTLIBRARY_API class Filesystem{
   public:
     /**
      * @param *connection [attach a connection]
      */
-    Filesystem(Connection *connection);
-    ~Filesystem();
+    NXTLIBRARY_API Filesystem(Connection *connection);
+    NXTLIBRARY_API ~Filesystem();
 
     /**
      * Get remaining flash memory
      * @return the remaining flash memory in bytes
     */
-    unsigned int get_free_flash();
+    NXTLIBRARY_API unsigned int get_free_flash();
 
     /**
      * Delete the flash memory - all user programs and data
     */
-    void delete_flash();
+    NXTLIBRARY_API void delete_flash();
 
     /**
      * Delete a file on the NXT
      * @param file_name [the name of the file to delete]
      * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    void delete_file(string file_name, bool reply=false);
+    NXTLIBRARY_API void delete_file(string file_name, bool reply=false);
 
     /**
      * Delete a file on the NXT
      * @param file [a Nxt_file struct of the file to close]
      * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    void delete_file(Nxt_file &file, bool reply=false);
+    NXTLIBRARY_API void delete_file(Nxt_file &file, bool reply=false);
 
     /**
      * Download a file from the NXT to the PC
      * @param pc_name [path to the download destination (example: c:\\download.txt)]
      * @param nxt_name [name of the file on the NXT (example: "program.rxe")]
     */
-    void download_file(string pc_name, string nxt_name);
+    NXTLIBRARY_API void download_file(string pc_name, string nxt_name);
 
     /**
      * Upload a file from the PC to the NXT
      * @param pc_name [path to the PC file to upload (example: c:\\upload.txt)]
      * @param nxt_name [name of the file on the NXT (example: "data.txt")]
     */
-    void upload_file(string pc_file, string nxt_file);
+    NXTLIBRARY_API void upload_file(string pc_file, string nxt_file);
 
     /**
      * Create a file list
@@ -127,13 +133,13 @@ class Filesystem{
      * </UL>
      * @return number of files in the file list
     */
-    unsigned int create_file_list(string wild_card);
+    NXTLIBRARY_API unsigned int create_file_list(string wild_card);
 
     /**
      * Get the number of files in the file list
      * @return number of files in the file list
     */
-    unsigned int get_file_list_size();
+    NXTLIBRARY_API unsigned int get_file_list_size();
 
     /**
      * Get a element from the file list
@@ -141,7 +147,7 @@ class Filesystem{
      * @return a nxt file struct (if idx is out of range all attributes in the struct will be zero
      * - use the file list size to make sure you are not out of range)
      */
-    Nxt_file get_file_list_element(unsigned int idx);
+    NXTLIBRARY_API Nxt_file get_file_list_element(unsigned int idx);
 
 
     /**
@@ -151,7 +157,7 @@ class Filesystem{
      * @param file_size [the size of the file in bytes (will be ignored in append and read mode)]
      * @return a nxt file struct containing the data of the openend file
      */
-    Nxt_file open_file(string file_name, File_mode mode, unsigned int file_size=0);
+    NXTLIBRARY_API Nxt_file open_file(string file_name, File_mode mode, unsigned int file_size=0);
 
     /**
      * read a byte string from a file
@@ -160,7 +166,7 @@ class Filesystem{
      * @param no_bytes [bytes to read]
      * @return number of bytes that was read
     */
-    unsigned int read_file(Nxt_file &file, unsigned char *buffer, unsigned int num_bytes);
+    NXTLIBRARY_API unsigned int read_file(Nxt_file &file, unsigned char *buffer, unsigned int num_bytes);
 
     /**
      * write a byte string to a file
@@ -169,13 +175,13 @@ class Filesystem{
      * @param no_bytes [bytes to write]
      * @return number of bytes that was written
     */
-    unsigned int write_file(Nxt_file &file, unsigned char *buffer, unsigned int num_bytes);
+    NXTLIBRARY_API unsigned int write_file(Nxt_file &file, unsigned char *buffer, unsigned int num_bytes);
 
     /**
      * close a file on the nxt
      * @param &file [Nxt_file struct of the file to close]
     */
-    void close_file(Nxt_file &file);
+    NXTLIBRARY_API void close_file(Nxt_file &file);
 
   private:
     Connection *connection;

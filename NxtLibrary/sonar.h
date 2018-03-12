@@ -4,6 +4,12 @@
 #include "windows.h"
 #include "connection.h"
 
+#ifdef NXTLIBRARY_EXPORTS
+#define NXTLIBRARY_API __declspec(dllexport)
+#else
+#define NXTLIBRARY_API __declspec(dllimport)
+#endif
+
 //Modes
 #define OFF 0x00
 #define SINGLE_SHOT 0x01
@@ -35,7 +41,7 @@
 * Enumeration for different sonar sensor modes
 * @see Sonar
 */
-enum Sonar_mode {
+NXTLIBRARY_API enum Sonar_mode {
   /**
   * Sensor reading is returned in centimeters
   */
@@ -52,7 +58,7 @@ using namespace std;
 /**
 * Class for the NXT sonar (ultrasonic) sensor
 */
-class Sonar: public I2c{
+NXTLIBRARY_API class Sonar: public I2c{
   public:
     /**
      * Constructor for the sonar sensor (percent mode and LED on is default)
@@ -60,41 +66,41 @@ class Sonar: public I2c{
      * @param *connection [attach a connection]
      * @param mode [set the sonar mode to either METRIC or INCH (default is METRIC)]
     */
-    Sonar(Sensor_port port, Connection* connection, Sonar_mode mode=METRIC);
-    ~Sonar();
+    NXTLIBRARY_API Sonar(Sensor_port port, Connection* connection, Sonar_mode mode=METRIC);
+    NXTLIBRARY_API ~Sonar();
 
     /**
      * Initiate the sensor
     * @param reply [true = require reply from NXT; false = no reply from NXT]
     */
-    void init(bool reply=false);
+    NXTLIBRARY_API void init(bool reply=false);
 
     /**
     * Read the sensor value
     * (init method will be called if the sensor has not been initialized)
     * @return the sensor reading in either inches or centimeters
     */
-    int read();
+    NXTLIBRARY_API int read();
 
     /**
      * Set the return value to be either inch or centimeter
      * @param value [use either METRIC or INCH to indicate the return value of read()]
      * @see Sonar_mode
     */
-    void set(unsigned int value);
+    NXTLIBRARY_API void set(unsigned int value);
 
     /**
      * Get the sensor reading as a string
      * (init method will be called if the sensor has not been initialized)
      * @return sensor reading as a string + either " CM" or " inch(s)"
     */
-    string print();
+    NXTLIBRARY_API string print();
 
     /**
      * Get the sensor type
      * @return either SONAR_METRIC or SONAR_INCH
     */
-    Sensor_type get_type();
+    NXTLIBRARY_API Sensor_type get_type();
 
   protected:
     Sonar_mode sonar_mode;

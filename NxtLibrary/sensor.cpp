@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "sensor.h"
 #include "error.h"
 #include <iostream>

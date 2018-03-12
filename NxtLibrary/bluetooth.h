@@ -5,52 +5,58 @@
 #include <string>
 #include "connection.h"
 
+#ifdef NXTLIBRARY_EXPORTS
+#define NXTLIBRARY_API __declspec(dllexport)
+#else
+#define NXTLIBRARY_API __declspec(dllimport)
+#endif
+
 using namespace std;
 /**
   * Class for Bluetooth communication
 */
-class Bluetooth : public Connection{
+NXTLIBRARY_API class Bluetooth : public Connection{
   public:
     /**
      * Constructor for Bluetooth connection
      */
-    Bluetooth();
-    ~Bluetooth();
+    NXTLIBRARY_API Bluetooth();
+    NXTLIBRARY_API ~Bluetooth();
     /**
     * Send a byte string
     * @param *buffer [a pointer to a buffer that can hold the bytes to send]
     * @param num_bytes [the number of bytes to send]
     */
-    void send(unsigned char *buffer, unsigned int num_bytes);
+    NXTLIBRARY_API void send(unsigned char *buffer, unsigned int num_bytes);
 
     /**
     * Connect to the NXT
     * @param comport [specify the comport that is to used for the connection between the NXT and PC]
     */
-    void connect(unsigned int comport);
+    NXTLIBRARY_API void connect(unsigned int comport);
 
     /**
     * Disconnect from the NXT
     */
-    void disconnect();
+    NXTLIBRARY_API void disconnect();
 
     /**
     * Receive a byte string
     * @param *buffer [a pointer to a buffer that can hold the received bytes]
     * @param length [the number of bytes to receive]
     */
-    void receive(unsigned char *buffer, unsigned int length);
+    NXTLIBRARY_API void receive(unsigned char *buffer, unsigned int length);
 
     /**
     * Flush the input and output buffer
     */
-    void flush();
+    NXTLIBRARY_API void flush();
 
     /**
     * Get the connection type
     * @return BT = bluetooth (see the CONNECTION_TYPE enumeration)
     */
-    Connection_type get_type();
+    NXTLIBRARY_API Connection_type get_type();
     //unsigned int get_port();
   protected:
     /**

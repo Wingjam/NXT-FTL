@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "filesystem.h"
 #include <stdio.h>
 #include <stdlib.h>

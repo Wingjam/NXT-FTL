@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "i2c.h"
 #include "error.h"
 #include <iostream>
