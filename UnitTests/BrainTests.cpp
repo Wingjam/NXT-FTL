@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "../NXT-FTL/brain.h"
 #include "../NXT-FTL/brain.cpp"
+#include "../NXT-FTL/movement_history.h"
+#include "../NXT-FTL/movement_history.cpp"
 
 using namespace nxtftl;
 
@@ -124,4 +126,17 @@ TEST_F(BrainTestFixture, BrainGoRight) {
 
 	EXPECT_TRUE(std::get<1>(directionResult));
 	EXPECT_LT(0, std::get<0>(directionResult));
+}
+
+TEST(MovementHistoryTest, NewPosition) {
+	movement_history mov_history{};
+	mov_history.log_rotation(10, 20);
+	movement_history::position position_1 = mov_history.get_current_position();
+	EXPECT_NE(position_1.direction_in_rad, 0.f);
+
+	mov_history.log_rotation(30, 30);
+	movement_history::position position = mov_history.get_current_position();
+	EXPECT_FLOAT_EQ(position.direction_in_rad, 0.f);
+
+	std::cerr << "***********" << position.x << " " << position.y << " " << position.direction_in_rad << std::endl;
 }
