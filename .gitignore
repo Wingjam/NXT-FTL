@@ -353,3 +353,4 @@ ASALocalRun/
 
 # MSBuild Binary and Structured Log
 *.binlog
+NXT-FTL/output\.txt

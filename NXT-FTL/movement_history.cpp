@@ -1,4 +1,5 @@
 #include "movement_history.h"
+#include <iostream>
 
 movement_history::movement_history(long int initial_left_motor_tacho_count, long int initial_right_motor_tacho_count)
 {
@@ -50,6 +51,7 @@ void movement_history::log_rotation(long int left_motor_tacho_count, long int ri
 
 	snapshots.push_back({ now, left_motor_tacho_count, right_motor_tacho_count });
 	position new_position = calculate_new_position(positions[positions.size() - 1], snapshots[snapshots.size() - 2], snapshots[snapshots.size() - 1]);
+	std::cout << new_position.x << ',' << new_position.y << std::endl;
 	positions.push_back(new_position);
 }
 
