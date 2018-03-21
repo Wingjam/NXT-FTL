@@ -41,33 +41,35 @@ int main()
 
     while (true)
     {
-		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::milliseconds(3000);
-		std::future<void> updates = std::async(std::launch::async, [&]
-		{
-			// Read
-			communication.updateSensorValue(touchSensor);
-			communication.updateSensorValue(leftColorSensor);
-			communication.updateSensorValue(rightColorSensor);
-			communication.updateSensorValue(distanceSensor);
-		});
+		// Read
+		communication.updateSensorValue(touchSensor);
+		communication.updateSensorValue(leftColorSensor);
+		communication.updateSensorValue(rightColorSensor);
+		communication.updateSensorValue(distanceSensor);
+
 		tuple<int, bool, bool> direction;
-		bool succeeded = std::future_status::ready == updates.wait_until(max_wait_time);
-		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(max_wait_time - std::chrono::system_clock::now()).count() << endl;
-		if (succeeded)
+		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::microseconds(300);
+		std::future<void> updates = std::async(std::launch::async, [&]
 		{
 			// Process
 			direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
-		}
-		else
+
+			long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
+			long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
+			movement_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
+		});
+
+		bool succeeded = std::future_status::ready == updates.wait_until(max_wait_time);
+
+		std::cout << "Remaning time until timeout:" <<
+			std::chrono::duration_cast<std::chrono::microseconds>(max_wait_time - std::chrono::system_clock::now()).count() <<
+			"µs." << endl;
+		if (!succeeded)
 		{
-			direction = tuple<int, bool, bool>{ 0, true, true };
+			direction = tuple<int, bool, bool>{ 0, true, false };
 		}
 
-		long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
-		long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
-		movement_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
-
-        // Send
+		// Send
 		bool needsToStop = get<2>(direction);
 		if (needsToStop) 
 		{
@@ -91,18 +93,18 @@ int main()
         int turn_factor = get<0>(direction);
         if (0 > turn_factor)
 		{
-			communication.startMotor(leftMotor, 10);
-			communication.startMotor(rightMotor, 20);
+			communication.startMotor(leftMotor, 10, 80);
+			communication.startMotor(rightMotor, 20, 120);
 		}
 		else if (0 < turn_factor)
 		{
-			communication.startMotor(leftMotor, 20);
-			communication.startMotor(rightMotor, 10);
+			communication.startMotor(leftMotor, 20, 120);
+			communication.startMotor(rightMotor, 10, 80);
 		}
 		else // turn_factor == 0
 		{
-			communication.startMotor(leftMotor, 10);
-			communication.startMotor(rightMotor, 10);
+			communication.startMotor(leftMotor, 20, 120);
+			communication.startMotor(rightMotor, 20, 120);
 		}
     }
 
