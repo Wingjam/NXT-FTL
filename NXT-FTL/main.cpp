@@ -50,7 +50,7 @@ int main()
 			communication.updateSensorValue(rightColorSensor);
 			communication.updateSensorValue(distanceSensor);
 		});
-		tuple<int, bool> direction;
+		tuple<int, bool, bool> direction;
 		bool succeeded = std::future_status::ready == updates.wait_until(max_wait_time);
 		if (succeeded)
 		{
