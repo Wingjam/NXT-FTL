@@ -16,7 +16,6 @@ void follower::Run()
 {
 	const int max_process_time = 300;
 	// Init
-	movement_history movement_history{};
 
 	communication.connect(communication::BLUETOOF);
 
@@ -43,6 +42,10 @@ void follower::Run()
 	{
 		communication.updateSensorValue(touchSensor);
 	}
+
+	long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
+	long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
+	movement_history movement_history{ left_motor_tacho_count, right_motor_tacho_count };
 
 	while (true)
 	{

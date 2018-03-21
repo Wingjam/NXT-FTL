@@ -1,6 +1,6 @@
 #include "movement_history.h"
 
-movement_history::movement_history()
+movement_history::movement_history(long int initial_left_motor_tacho_count, long int initial_right_motor_tacho_count)
 {
 	snapshots = std::vector<snapshot>();
 	positions = std::vector<position>();
@@ -10,7 +10,7 @@ movement_history::movement_history()
 		system_clock::now().time_since_epoch()
 	);
 
-	snapshots.push_back({ now, 0, 0 });
+	snapshots.push_back({ now, initial_left_motor_tacho_count, initial_right_motor_tacho_count });
 	positions.push_back({ 0, 0, 0 });
 }
 

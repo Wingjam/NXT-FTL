@@ -144,4 +144,5 @@ TEST(MovementHistoryTest, Rotation) {
 TEST(MovementHistoryTest, NewPosition) {
 	movement_history mov_history{};
 	mov_history.log_rotation(1700, 2000);
+	movement_history::position position_1 = mov_history.get_current_position();
 }

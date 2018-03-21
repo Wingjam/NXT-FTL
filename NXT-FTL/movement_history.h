@@ -31,7 +31,7 @@ private:
 	position movement_history::calculate_new_position(position initial_position, snapshot initial_snapshot, snapshot destination_snapshot);
 
 public:
-	movement_history();
+	movement_history(long int initial_left_motor_tacho_count, long int initial_right_motor_tacho_count);
 	~movement_history() = default;
 	void log_rotation(long int left_motor_tacho_count, long int right_motor_tacho_count);
 	position get_current_position();
