@@ -1,6 +1,7 @@
 #include <future>;
 #include "brain.h"
 #include "communication.h"
+#include "movement_history.h"
 
 using namespace std;
 using namespace nxtftl;
@@ -8,6 +9,7 @@ using namespace nxtftl;
 int main()
 {
     // Init
+	movement_history movement_history{};
     communication communication{};
     brain brain { 10 };
 
@@ -59,6 +61,10 @@ int main()
 		{
 			direction = tuple<int, bool, bool>{ 0, true, true };
 		}
+
+		long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
+		long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
+		movement_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
 
         // Send
 		bool needsToStop = get<2>(direction);

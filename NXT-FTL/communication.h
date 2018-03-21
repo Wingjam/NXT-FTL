@@ -155,6 +155,12 @@ namespace nxtftl
 		/// Resets all color sensors connected to the brick
 		/// </summary>
 		void resetSensors();
+
+		/// <summary>
+		/// Returns the tacho count, which is essentially the motor angle in degree
+		/// </summary>
+		/// <param name="motorDto">Motor to monitor</param>
+		long int get_tacho_count(motor_dto motorDto);
 	private:
 
 		/// <summary>

@@ -207,3 +207,10 @@ void communication::stopMotor(motor_dto motorDto, bool reply /* = false */)
 	Motor* motor = motors[motorDto.port];
 	motor->stop(reply);
 }
+
+long int communication::get_tacho_count(motor_dto motorDto)
+{
+	Motor* motor = motors[motorDto.port];
+	motor->get_output_state();
+	return motor->tacho_count;
+}

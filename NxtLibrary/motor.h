@@ -130,6 +130,8 @@ class Motor{
      * @return the motor port
     */
     Motor_port get_port();
+	void get_output_state();
+	long int tacho_count;
   private:
     Motor_port port;
     Connection *connection;
@@ -139,11 +141,9 @@ class Motor{
     unsigned char run_state;
     int turnratio;
     long unsigned int tacho_limit;
-    long int tacho_count;
     long int block_count;
     long int rotation_count;
     void reset(bool relative, bool reply=false);
-    void get_output_state();
     void set_output_state(char set_speed, unsigned char set_mode,unsigned char set_regulation,
                           char set_turn_ratio, unsigned char set_run_state,
                           unsigned int set_tacho_limit, bool reply=false);
