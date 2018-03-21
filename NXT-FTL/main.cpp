@@ -1,3 +1,4 @@
+#include <future>;
 #include "brain.h"
 #include "communication.h"
 #include "movement_history.h"
@@ -33,20 +34,45 @@ int main()
 	{
 		communication.updateSensorValue(touchSensor);
 	}
-	// Because code executes too fast, brain thinks sensor is pressed otherwise
-	while (touchSensor.is_pressed)
-	{
-		communication.updateSensorValue(touchSensor);
-	}
 	cout << "Starting line follow..." << endl;
 
     while (true)
     {
-        // Read
-        communication.updateSensorValue(touchSensor);
-        communication.updateSensorValue(leftColorSensor);
-        communication.updateSensorValue(rightColorSensor);
-        communication.updateSensorValue(distanceSensor);
+		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::milliseconds(30);
+		std::future<void> update_touch = std::async(std::launch::async, [&]
+		{
+			// Read
+			communication.updateSensorValue(touchSensor);
+		});
+		std::future<void> update_left = std::async(std::launch::async, [&]
+		{
+			// Read
+			communication.updateSensorValue(leftColorSensor);
+		});
+		std::future<void> update_right = std::async(std::launch::async, [&]
+		{
+			// Read
+			communication.updateSensorValue(rightColorSensor);
+		});
+		std::future<void> update_distance = std::async(std::launch::async, [&]
+		{
+			// Read
+			communication.updateSensorValue(distanceSensor);
+		});
+		tuple<int, bool> direction;
+		bool succeeded = std::future_status::ready == update_touch.wait_until(max_wait_time);
+		succeeded &= std::future_status::ready == update_left.wait_until(max_wait_time);
+		succeeded &= std::future_status::ready == update_right.wait_until(max_wait_time);
+		succeeded &= std::future_status::ready == update_distance.wait_until(max_wait_time);
+		if (succeeded)
+		{
+			// Process
+			direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
+		}
+		else
+		{
+			direction = tuple<int, bool>{ 0, false };
+		}
 
 		long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
 		long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
@@ -56,13 +82,20 @@ int main()
         tuple<int, bool> direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
 
         // Send
-		// TODO: Implement distance sensor pauses only. Resumes on clear path
         bool can_move = get<1>(direction);
         if (!can_move)
         {
             communication.stopMotor(leftMotor);
             communication.stopMotor(rightMotor);
-            break;
+			if (!succeeded)
+			{
+				// Now that the robot is stop, we can wait for the robot to give us an answer.
+				update_touch.wait();
+				update_left.wait();
+				update_right.wait();
+				update_distance.wait();
+			}
+            continue;
         }
         
         int turn_factor = get<0>(direction);
