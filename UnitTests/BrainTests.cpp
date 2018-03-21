@@ -3,6 +3,8 @@
 #include "../NXT-FTL/brain.cpp"
 #include "../NXT-FTL/movement_history.h"
 #include "../NXT-FTL/movement_history.cpp"
+#include "../NXT-FTL/hermite.h"
+#include "../NXT-FTL/hermite.cpp"
 
 using namespace nxtftl;
 
@@ -139,4 +141,14 @@ TEST(MovementHistoryTest, NewPosition) {
 	EXPECT_FLOAT_EQ(position.direction_in_rad, 0.f);
 
 	std::cerr << "***********" << position.x << " " << position.y << " " << position.direction_in_rad << std::endl;
+}
+
+TEST(HermiteTest, HermiteTest) {
+    movement_history::position P1 = { 1.f, 1.f, 0.f };
+    movement_history::position P2 = { 5.f, 1.f, 0.f };
+
+    hermite hermite{};
+    hermite.get_points_between(10, P1, P2);
+
+    EXPECT_FLOAT_EQ(0.f, 0.f);
 }

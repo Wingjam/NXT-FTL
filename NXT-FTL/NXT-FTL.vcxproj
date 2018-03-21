@@ -142,6 +142,7 @@
     <ClInclude Include="color_sensor_dto.h" />
     <ClInclude Include="distance_sensor_dto.h" />
     <ClInclude Include="follower.h" />
+    <ClInclude Include="hermite.h" />
     <ClInclude Include="movement_history.h" />
     <ClInclude Include="sensor_dto.h" />
     <ClInclude Include="touch_sensor_dto.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="brain.cpp" />
     <ClCompile Include="communication.cpp" />
     <ClCompile Include="follower.cpp" />
+    <ClCompile Include="hermite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="movement_history.cpp" />
   </ItemGroup>
