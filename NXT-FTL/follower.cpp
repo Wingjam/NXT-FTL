@@ -62,7 +62,7 @@ void follower::Run()
 			movement_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
 		});
 
-		bool succeeded = true;// std::future_status::ready == updates.wait_until(max_wait_time);
+		bool succeeded = std::future_status::ready == updates.wait_until(max_wait_time);
 		auto end = std::chrono::system_clock::now();
 		std::cout << "Remaning time until timeout:" <<
 			std::chrono::duration_cast<std::chrono::microseconds>(max_wait_time - end).count() <<
