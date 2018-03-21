@@ -35,5 +35,6 @@ public:
 	~movement_history() = default;
 	void log_rotation(long int left_motor_tacho_count, long int right_motor_tacho_count);
 	position get_current_position();
+	std::vector<position> get_positions();
 };
 
