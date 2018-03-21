@@ -3,6 +3,7 @@
 #include <chrono>
 #include <vector>
 #include <cmath>
+#include "position.h"
 
 class movement_history
 {
@@ -13,12 +14,6 @@ class movement_history
 	const float WHEEL_WIDTH = 2.2f;
 	
 public:
-	struct position {
-		float x;
-		float y;
-		float direction_in_rad;
-	};
-
 private:
 	struct snapshot {
 		std::chrono::milliseconds ms;

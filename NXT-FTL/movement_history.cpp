@@ -15,7 +15,7 @@ movement_history::movement_history(long int initial_left_motor_tacho_count, long
 	positions.push_back({ 0, 0, 0 });
 }
 
-movement_history::position movement_history::calculate_new_position(position initial_position, snapshot initial_snapshot, snapshot destination_snapshot)
+position movement_history::calculate_new_position(position initial_position, snapshot initial_snapshot, snapshot destination_snapshot)
 {
 	float left_tacho_count_from_last_snapshot = destination_snapshot.left_motor_tacho_count - initial_snapshot.left_motor_tacho_count;
 	float right_tacho_count_from_last_snapshot = destination_snapshot.right_motor_tacho_count - initial_snapshot.right_motor_tacho_count;
@@ -55,12 +55,12 @@ void movement_history::log_rotation(long int left_motor_tacho_count, long int ri
 	positions.push_back(new_position);
 }
 
-movement_history::position movement_history::get_current_position()
+position movement_history::get_current_position()
 {
 	return positions[positions.size() - 1];
 }
 
-std::vector<movement_history::position> movement_history::get_positions()
+std::vector<position> movement_history::get_positions()
 {
 	return positions;
 }

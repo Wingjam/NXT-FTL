@@ -118,7 +118,7 @@ void follower::Run()
 	
 	ofstream myfile;
 	myfile.open("output.txt");
-	std::vector<movement_history::position> positions = movement_history.get_positions();
+	std::vector<position> positions = movement_history.get_positions();
 	for (int i = 0; i < positions.size(); ++i)
 	{
 		myfile << "(" << positions[i].x << "," << positions[i].y << ")";

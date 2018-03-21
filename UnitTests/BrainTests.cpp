@@ -131,11 +131,11 @@ TEST_F(BrainTestFixture, BrainGoRight) {
 TEST(MovementHistoryTest, Rotation) {
 	movement_history mov_history{ 0, 0 };
 	mov_history.log_rotation(10, 20);
-	movement_history::position position_1 = mov_history.get_current_position();
+	position position_1 = mov_history.get_current_position();
 	EXPECT_NE(position_1.direction_in_rad, 0.f);
 
 	mov_history.log_rotation(30, 30);
-	movement_history::position position = mov_history.get_current_position();
+	position position = mov_history.get_current_position();
 	EXPECT_FLOAT_EQ(position.direction_in_rad, 0.f);
 
 	std::cerr << "***********" << position.x << " " << position.y << " " << position.direction_in_rad << std::endl;
@@ -144,5 +144,5 @@ TEST(MovementHistoryTest, Rotation) {
 TEST(MovementHistoryTest, NewPosition) {
 	movement_history mov_history{ 0, 0 };
 	mov_history.log_rotation(1700, 2000);
-	movement_history::position position_1 = mov_history.get_current_position();
+	position position_1 = mov_history.get_current_position();
 }
