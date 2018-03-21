@@ -40,7 +40,7 @@ int main()
     while (true)
     {
 		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::milliseconds(3000);
-		std::future<void> update_touch = std::async(std::launch::async, [&]
+		std::future<void> updates = std::async(std::launch::async, [&]
 		{
 			// Read
 			communication.updateSensorValue(touchSensor);
