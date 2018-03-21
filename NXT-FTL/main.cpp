@@ -39,31 +39,16 @@ int main()
     while (true)
     {
 		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::milliseconds(30);
-		std::future<void> update_touch = std::async(std::launch::async, [&]
+		std::future<void> updates = std::async(std::launch::async, [&]
 		{
 			// Read
 			communication.updateSensorValue(touchSensor);
-		});
-		std::future<void> update_left = std::async(std::launch::async, [&]
-		{
-			// Read
 			communication.updateSensorValue(leftColorSensor);
-		});
-		std::future<void> update_right = std::async(std::launch::async, [&]
-		{
-			// Read
 			communication.updateSensorValue(rightColorSensor);
-		});
-		std::future<void> update_distance = std::async(std::launch::async, [&]
-		{
-			// Read
 			communication.updateSensorValue(distanceSensor);
 		});
 		tuple<int, bool> direction;
-		bool succeeded = std::future_status::ready == update_touch.wait_until(max_wait_time);
-		succeeded &= std::future_status::ready == update_left.wait_until(max_wait_time);
-		succeeded &= std::future_status::ready == update_right.wait_until(max_wait_time);
-		succeeded &= std::future_status::ready == update_distance.wait_until(max_wait_time);
+		bool succeeded = std::future_status::ready == updates.wait_until(max_wait_time);
 		if (succeeded)
 		{
 			// Process
@@ -90,10 +75,7 @@ int main()
 			if (!succeeded)
 			{
 				// Now that the robot is stop, we can wait for the robot to give us an answer.
-				update_touch.wait();
-				update_left.wait();
-				update_right.wait();
-				update_distance.wait();
+				updates.wait();
 			}
             continue;
         }
