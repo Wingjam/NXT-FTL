@@ -8,6 +8,7 @@ using namespace nxtftl;
 
 int main()
 {
+	const int max_process_time = 300;
     // Init
 	movement_history movement_history{};
     communication communication{};
@@ -48,7 +49,7 @@ int main()
 		communication.updateSensorValue(distanceSensor);
 
 		tuple<int, bool, bool> direction;
-		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::microseconds(300);
+		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::microseconds(max_process_time);
 		std::future<void> updates = std::async(std::launch::async, [&]
 		{
 			// Process
