@@ -34,11 +34,11 @@ position movement_history::calculate_new_position(position initial_position, sna
 	
 	float final_axle_angle_rad = initial_axle_angle_rad - O_angle_of_turn_in_rad;
 
-	position new_position;
-	new_position.direction_in_rad = initial_position.direction_in_rad + O_angle_of_turn_in_rad;
-	new_position.x = center_of_rotation_x - sin(final_axle_angle_rad) * distance_from_center_of_rotation_to_center_of_robot;
-	new_position.y = center_of_rotation_y + cos(final_axle_angle_rad) * distance_from_center_of_rotation_to_center_of_robot;
-
+	position new_position(
+	    center_of_rotation_x - sin(final_axle_angle_rad) * distance_from_center_of_rotation_to_center_of_robot,
+	    center_of_rotation_y + cos(final_axle_angle_rad) * distance_from_center_of_rotation_to_center_of_robot,
+        initial_position.direction_in_rad + O_angle_of_turn_in_rad
+    );
 	return new_position;
 }
 

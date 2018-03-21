@@ -1,4 +1,6 @@
 #include "pch.h"
+#include "../NXT-FTL/position.h"
+#include "../NXT-FTL/position.cpp"
 #include "../NXT-FTL/brain.h"
 #include "../NXT-FTL/brain.cpp"
 #include "../NXT-FTL/movement_history.h"

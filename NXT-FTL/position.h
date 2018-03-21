@@ -6,4 +6,5 @@ public:
     float x;
     float y;
     float direction_in_rad;
+    position(float, float, float);
 };
