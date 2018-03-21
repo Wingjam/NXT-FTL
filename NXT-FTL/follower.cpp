@@ -98,6 +98,7 @@ void follower::Run()
 			continue;
 		}
 
+        // TODO Scale power using direction
 		int turn_factor = get<0>(direction);
 		if (0 > turn_factor)
 		{
