@@ -63,9 +63,6 @@ int main()
 		long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
 		movement_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
 
-        // Process
-        tuple<int, bool> direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
-
         // Send
         bool can_move = get<1>(direction);
         if (!can_move)
