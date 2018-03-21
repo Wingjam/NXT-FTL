@@ -73,6 +73,7 @@ bool communication::disconnect()
 	{
 		stopAllMotors();
 		connection->disconnect();
+		cout << "NXT disconnected successfully." << endl;
 	}
 	catch (Nxt_exception& e) {
 		printError(e);
