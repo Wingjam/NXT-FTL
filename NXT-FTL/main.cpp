@@ -52,7 +52,7 @@ int main()
 		});
 		tuple<int, bool, bool> direction;
 		bool succeeded = std::future_status::ready == updates.wait_until(max_wait_time);
-		std::cout << std::chrono::duration_cast<std::chrono::microseconds>(max_wait_time - std::chrono::system_clock::now()).count();
+		std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(max_wait_time - std::chrono::system_clock::now()).count();
 		if (succeeded)
 		{
 			// Process
