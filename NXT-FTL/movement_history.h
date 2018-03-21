@@ -4,6 +4,9 @@
 #include <vector>
 #include <cmath>
 
+#include <iostream>
+#include <fstream>
+
 class movement_history
 {
 	const float WHEEL_DIAMETER = 4.4f;
@@ -36,5 +39,6 @@ public:
 	void log_rotation(long int left_motor_tacho_count, long int right_motor_tacho_count);
 	position get_current_position();
 	std::vector<position> get_positions();
+	void print();
 };
 

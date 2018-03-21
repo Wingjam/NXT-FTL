@@ -137,12 +137,41 @@ TEST(MovementHistoryTest, Rotation) {
 	mov_history.log_rotation(30, 30);
 	movement_history::position position = mov_history.get_current_position();
 	EXPECT_FLOAT_EQ(position.direction_in_rad, 0.f);
-
-	std::cerr << "***********" << position.x << " " << position.y << " " << position.direction_in_rad << std::endl;
 }
 
 TEST(MovementHistoryTest, NewPosition) {
 	movement_history mov_history{ 0, 0 };
-	mov_history.log_rotation(1700, 2000);
-	movement_history::position position_1 = mov_history.get_current_position();
+	mov_history.log_rotation(10, 10);
+	mov_history.log_rotation(20, 20);
+	mov_history.log_rotation(30, 30);
+	mov_history.log_rotation(40, 40);
+	mov_history.log_rotation(50, 50);
+	mov_history.log_rotation(60, 60);
+	mov_history.log_rotation(70, 70);
+	mov_history.log_rotation(80, 80);
+
+	movement_history::position position = mov_history.get_current_position();
+	EXPECT_FLOAT_EQ(position.direction_in_rad, 0.f);
+	EXPECT_FLOAT_EQ(position.y, 0.f);
+	EXPECT_GT(position.x, 0.f);
+}
+
+TEST(MovementHistoryTest, FromFile) {
+	std::ifstream myfile("C:\\Users\\Felix\\Desktop\\tests_mov_robot\\inputs.txt");
+	movement_history mov_history{ 0, 0 };
+	float left_tacho, right_tacho;
+	while (myfile >> left_tacho >> right_tacho)
+	{
+		mov_history.log_rotation(left_tacho, right_tacho);
+	}
+	myfile.close();
+
+	std::vector<movement_history::position> positions = mov_history.get_positions();
+	std::ofstream outputFile;
+	outputFile.open("output.txt");
+	for (int i = 0; i < positions.size(); ++i)
+	{
+		outputFile << "(" << positions[i].x << "," << positions[i].y << ")" << std::endl;
+	}
+	myfile.close();
 }
