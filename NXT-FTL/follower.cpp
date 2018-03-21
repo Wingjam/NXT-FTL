@@ -1,6 +1,8 @@
 #include "follower.h"
 
-#include <future>;
+#include <future>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 using namespace nxtftl;
@@ -110,6 +112,15 @@ void follower::Run()
 			communication.startMotor(rightMotor, 20, 120);
 		}
 	}
+	
+	ofstream myfile;
+	myfile.open("output.txt");
+	std::vector<movement_history::position> positions = movement_history.get_positions();
+	for each (movement_history::position position in positions)
+	{
+		myfile << "(" << position.x << "," << position.y << ")";
+	}
+	myfile.close();
 
 	communication.disconnect();
 }
