@@ -21,7 +21,6 @@ int main()
     auto rightColorSensor = color_sensor_dto{};
     auto distanceSensor = distance_sensor_dto{};
 
-    
     communication.initializeSensor(leftColorSensor, communication::IN_1);
     communication.initializeSensor(rightColorSensor, communication::IN_2);
     communication.initializeSensor(touchSensor, communication::IN_3);
@@ -33,11 +32,15 @@ int main()
 		communication.updateSensorValue(touchSensor);
 	}
 	cout << "Starting line follow..." << endl;
+	while (touchSensor.is_pressed)
+	{
+		communication.updateSensorValue(touchSensor);
+	}
 
     while (true)
     {
-		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::milliseconds(30);
-		std::future<void> updates = std::async(std::launch::async, [&]
+		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::milliseconds(3000);
+		std::future<void> update_touch = std::async(std::launch::async, [&]
 		{
 			// Read
 			communication.updateSensorValue(touchSensor);
@@ -54,12 +57,19 @@ int main()
 		}
 		else
 		{
-			direction = tuple<int, bool>{ 0, false };
+			direction = tuple<int, bool, bool>{ 0, true, true };
 		}
 
         // Send
-        bool can_move = get<1>(direction);
-        if (!can_move)
+		bool needsToStop = get<2>(direction);
+		if (needsToStop) 
+		{
+			// Exit the loop (disconnect will handle stopping the motors)
+			break;
+		}
+		
+        bool needsToBrake = get<1>(direction);
+        if (needsToBrake)
         {
             communication.stopMotor(leftMotor);
             communication.stopMotor(rightMotor);
