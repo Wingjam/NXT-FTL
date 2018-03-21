@@ -60,10 +60,10 @@ int main()
 		});
 
 		bool succeeded = std::future_status::ready == updates.wait_until(max_wait_time);
-
+		auto end = std::chrono::system_clock::now();
 		std::cout << "Remaning time until timeout:" <<
-			std::chrono::duration_cast<std::chrono::microseconds>(max_wait_time - std::chrono::system_clock::now()).count() <<
-			"µs." << endl;
+			std::chrono::duration_cast<std::chrono::microseconds>(max_wait_time - end).count() <<
+			"us." << endl;
 		if (!succeeded)
 		{
 			direction = tuple<int, bool, bool>{ 0, true, false };
