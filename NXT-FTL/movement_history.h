@@ -5,6 +5,9 @@
 #include <cmath>
 #include "position.h"
 
+#include <iostream>
+#include <fstream>
+
 class movement_history
 {
 	const float WHEEL_DIAMETER = 4.4f;
