@@ -18,6 +18,12 @@ void follower::Run()
 	// Init
 
 	communication.connect(communication::BLUETOOF);
+	bool connected = communication.connect(communication::BLUETOOF);
+	if (!connected)
+	{
+		cout << "Error while initiating connection to NXT. Closing..." << endl;
+		return;
+	}
 
 	auto leftMotor = communication.initializeMotor(communication::OUT_A);
 	auto rightMotor = communication.initializeMotor(communication::OUT_C);
