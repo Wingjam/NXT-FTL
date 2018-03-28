@@ -140,6 +140,7 @@
     <ClInclude Include="brain.h" />
     <ClInclude Include="color2.h" />
     <ClInclude Include="color_sensor_dto.h" />
+    <ClInclude Include="data_writer.h" />
     <ClInclude Include="distance_sensor_dto.h" />
     <ClInclude Include="follower.h" />
     <ClInclude Include="hermite.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="touch_sensor_dto.h" />
     <ClInclude Include="communication.h" />
     <ClInclude Include="motor_dto.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\NxtLibrary\adc_8591.cpp" />
@@ -166,11 +168,13 @@
     <ClCompile Include="..\NxtLibrary\tilt.cpp" />
     <ClCompile Include="brain.cpp" />
     <ClCompile Include="communication.cpp" />
+    <ClCompile Include="data_writer.cpp" />
     <ClCompile Include="follower.cpp" />
     <ClCompile Include="hermite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="movement_history.cpp" />
     <ClCompile Include="position.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

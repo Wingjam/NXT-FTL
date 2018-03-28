@@ -38,7 +38,7 @@ bool communication::connect(ConnectionType type)
 					connected = true;
 					cout << "NXT connected on comport " << comport << endl;
 				}
-				catch (Nxt_exception& e) {
+				catch (Nxt_exception) {
 					cout << "Could not connect to NXT on comport " << comport << endl;
 					connection->disconnect();
 					++comport;
@@ -59,7 +59,7 @@ bool communication::connectWithBluetooth(unsigned int comport)
 		connection->connect(comport);
 		return true;
 	}
-	catch (Nxt_exception& e) {
+	catch (Nxt_exception) {
 		cout << "Could not connect to NXT on comport " << comport << endl;
 		connection->disconnect();
 		return false;
