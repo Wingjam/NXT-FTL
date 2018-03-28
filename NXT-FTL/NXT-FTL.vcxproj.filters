@@ -114,6 +114,9 @@
     <ClInclude Include="follower.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="position.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
     <ClInclude Include="hermite.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -174,6 +177,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="hermite.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="position.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

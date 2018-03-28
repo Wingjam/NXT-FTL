@@ -1,4 +1,6 @@
 #include "pch.h"
+#include "../NXT-FTL/position.h"
+#include "../NXT-FTL/position.cpp"
 #include "../NXT-FTL/brain.h"
 #include "../NXT-FTL/brain.cpp"
 #include "../NXT-FTL/movement_history.h"
@@ -130,22 +132,28 @@ TEST_F(BrainTestFixture, BrainGoRight) {
 	EXPECT_LT(0, std::get<0>(directionResult));
 }
 
-TEST(MovementHistoryTest, NewPosition) {
-	movement_history mov_history{};
+TEST(MovementHistoryTest, Rotation) {
+	movement_history mov_history{ 0, 0 };
 	mov_history.log_rotation(10, 20);
-	movement_history::position position_1 = mov_history.get_current_position();
+	position position_1 = mov_history.get_current_position();
 	EXPECT_NE(position_1.direction_in_rad, 0.f);
 
 	mov_history.log_rotation(30, 30);
-	movement_history::position position = mov_history.get_current_position();
+	position position = mov_history.get_current_position();
 	EXPECT_FLOAT_EQ(position.direction_in_rad, 0.f);
 
 	std::cerr << "***********" << position.x << " " << position.y << " " << position.direction_in_rad << std::endl;
 }
 
+TEST(MovementHistoryTest, NewPosition) {
+	movement_history mov_history{ 0, 0 };
+	mov_history.log_rotation(1700, 2000);
+	position position_1 = mov_history.get_current_position();
+}
+
 TEST(HermiteTest, HermiteTest) {
-    movement_history::position P1 = { 1.f, 1.f, 0.f };
-    movement_history::position P2 = { 5.f, 1.f, 0.f };
+    position P1 = { 1.f, 1.f, 0.f };
+    position P2 = { 5.f, 1.f, 0.f };
 
     hermite hermite{};
     hermite.get_points_between(10, P1, P2);

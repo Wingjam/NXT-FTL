@@ -1,6 +1,6 @@
 ﻿#include "hermite.h"
 
-movement_history::position calculate_hermite(float t, movement_history::position P1, movement_history::position P2, movement_history::position R1, movement_history::position R2)
+position calculate_hermite(float t, position P1, position P2, position R1, position R2)
 {
     // Bezier
     // Based on https://stackoverflow.com/a/7962115/5154345
@@ -15,13 +15,13 @@ movement_history::position calculate_hermite(float t, movement_history::position
     float Px = f1 * P1.x + f2 * P2.x + f3 * R1.x + f4 * R2.x;
     float Py = f1 * P1.y + f2 * P2.y + f3 * R1.y + f4 * R2.y;
 
-    return { Px , Py };
+    return position(Px , Py);
 }
 
-void hermite::get_points_between(int nb_points, movement_history::position P1, movement_history::position P2)
+void hermite::get_points_between(int nb_points, position P1, position P2)
 {
-    movement_history::position R1 = {cos(P1.direction_in_rad), sin(P1.direction_in_rad)};
-    movement_history::position R2 = {cos(P2.direction_in_rad), sin(P2.direction_in_rad)};
+    position R1 = position(cos(P1.direction_in_rad), sin(P1.direction_in_rad));
+    position R2 = position(cos(P2.direction_in_rad), sin(P2.direction_in_rad));
     float inc = 1.f / nb_points;
     
     for(float t = 0; t < 1; t += inc)

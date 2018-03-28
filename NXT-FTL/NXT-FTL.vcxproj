@@ -144,6 +144,7 @@
     <ClInclude Include="follower.h" />
     <ClInclude Include="hermite.h" />
     <ClInclude Include="movement_history.h" />
+    <ClInclude Include="position.h" />
     <ClInclude Include="sensor_dto.h" />
     <ClInclude Include="touch_sensor_dto.h" />
     <ClInclude Include="communication.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="hermite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="movement_history.cpp" />
+    <ClCompile Include="position.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

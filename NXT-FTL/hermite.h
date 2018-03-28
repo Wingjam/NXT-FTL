@@ -5,7 +5,7 @@
 class hermite
 {
 public:
-    void get_points_between(int, movement_history::position, movement_history::position);
+    void get_points_between(int, position, position);
 private:
-    std::vector<movement_history::position> positions;
+    std::vector<position> positions;
 };
