@@ -16,7 +16,6 @@ void follower::Run()
 	const int max_process_time = 300;
 	// Init
 
-	communication.connect(communication::BLUETOOF);
 	bool connected = communication.connect(communication::BLUETOOF);
 	if (!connected)
 	{
@@ -107,18 +106,18 @@ void follower::Run()
 		int turn_factor = get<0>(direction);
 		if (0 > turn_factor)
 		{
-			communication.startMotor(leftMotor, 10, 80);
-			communication.startMotor(rightMotor, 20, 120);
+			communication.startMotor(leftMotor, -2); // +
+			communication.startMotor(rightMotor, 10); // -
 		}
 		else if (0 < turn_factor)
 		{
-			communication.startMotor(leftMotor, 20, 120);
-			communication.startMotor(rightMotor, 10, 80);
+			communication.startMotor(leftMotor, 10); // +
+			communication.startMotor(rightMotor, -2); // -
 		}
 		else // turn_factor == 0
 		{
-			communication.startMotor(leftMotor, 20, 120);
-			communication.startMotor(rightMotor, 20, 120);
+			communication.startMotor(leftMotor, 5);
+			communication.startMotor(rightMotor, 5);
 		}
 	}
 
