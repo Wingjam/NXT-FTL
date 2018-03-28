@@ -78,3 +78,11 @@ std::vector<position> movement_history::get_positions()
 {
 	return positions;
 }
+
+void movement_history::write_positions_to_stream(std::ostream& stream)
+{
+	for (int i = 0; i < positions.size(); ++i)
+	{
+		stream << positions[i];
+	}
+}
