@@ -2,7 +2,6 @@
 
 #include <future>
 #include <iostream>
-#include <fstream>
 
 using namespace std;
 using namespace nxtftl;
@@ -124,4 +123,9 @@ void follower::Run()
 	}
 
 	communication.disconnect();
+
+	std::ofstream myfile;
+	myfile.open("output.txt");
+	movement_history.write_positions_to_stream(myfile);
+	myfile.close();
 }
