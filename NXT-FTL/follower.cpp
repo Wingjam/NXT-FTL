@@ -13,9 +13,9 @@ follower::follower(int stopDistance) : communication{}, brain{ stopDistance }
 
 void follower::Run()
 {
-	const int max_process_time = 300;
+	std::chrono::microseconds time_to_take_a_decision = 100ms;
+	std::chrono::microseconds safety_time_net = 15ms;
 	// Init
-
 	bool connected = communication.connect(communication::BLUETOOF);
 	if (!connected)
 	{
@@ -25,6 +25,12 @@ void follower::Run()
 
 	auto leftMotor = communication.initializeMotor(communication::OUT_A);
 	auto rightMotor = communication.initializeMotor(communication::OUT_C);
+
+	long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
+	long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
+	movement_history movement_history{ left_motor_tacho_count, right_motor_tacho_count };
+
+	hermite hermite{};
 
 	auto touchSensor = touch_sensor_dto{};
 	auto leftColorSensor = color_sensor_dto{};
@@ -47,60 +53,76 @@ void follower::Run()
 		communication.updateSensorValue(touchSensor);
 	}
 
-	long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
-	long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
-	movement_history movement_history{ left_motor_tacho_count, right_motor_tacho_count };
-
+	std::chrono::system_clock::time_point due_time_for_decision = std::chrono::system_clock::now() + time_to_take_a_decision;
 	while (true)
 	{
-		// Read
+		// Read critical distance sensor
+		communication.updateSensorValue(distanceSensor);
+
+		// Check if it is critical that we stop the robot to prevent any damages
+		if (brain.check_for_critical_stop(distanceSensor))
+		{
+			communication.stopMotor(leftMotor);
+			communication.stopMotor(rightMotor);
+
+			// Do not execute any other actions for as long as the robot is obstructed
+			continue;
+		}
+
+		// Read non-critical sensors.
+		// TODO Check the time left before each updates of the sensors
 		communication.updateSensorValue(touchSensor);
 		communication.updateSensorValue(leftColorSensor);
 		communication.updateSensorValue(rightColorSensor);
-		communication.updateSensorValue(distanceSensor);
 		long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
 		long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
 
-		tuple<int, bool, bool> direction;
-		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::microseconds(max_process_time);
+		tuple<int, bool> direction;
 		std::future<void> updates = std::async(std::launch::async, [&]
 		{
 			// Process
-			direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
+			direction = brain.compute_direction(touchSensor, leftColorSensor, rightColorSensor);
 			movement_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
 		});
 
-		bool succeeded = std::future_status::ready == updates.wait_until(max_wait_time);
+		bool succeeded = std::future_status::ready == updates.wait_until(due_time_for_decision - safety_time_net);
 		//auto end = std::chrono::system_clock::now();
 		//std::cout << "Remaning time until timeout:" <<
 		//	std::chrono::duration_cast<std::chrono::microseconds>(max_wait_time - end).count() <<
 		//	"us." << endl;
-		if (!succeeded)
+		if (!succeeded) // It took too much time to take a decision and calculates our points
 		{
-			direction = tuple<int, bool, bool>{ 0, true, false };
+			communication.stopMotor(leftMotor);
+			communication.stopMotor(rightMotor);
+
+			// We need to finish the computations before progressing. We can't stop them forcibly because they are not stateless.
+			updates.wait();
+
+			// We consider the result of the updates to no longer be relevant, so we will begin the acquisition and decision processes again.
+			due_time_for_decision = std::chrono::system_clock::now() + time_to_take_a_decision;
+			continue;
 		}
 
-		// Send
-		bool needsToStop = get<2>(direction);
+		// Check if we need to stop the current execution
+		bool needsToStop = get<1>(direction);
 		if (needsToStop)
 		{
 			// Exit the loop (disconnect will handle stopping the motors)
 			break;
 		}
 
-		bool needsToBrake = get<1>(direction);
-		if (needsToBrake)
-		{
-			communication.stopMotor(leftMotor);
-			communication.stopMotor(rightMotor);
-			if (!succeeded)
-			{
-				// Now that the robot is stop, we can wait for the robot to give us an answer.
-				updates.wait();
-			}
-			continue;
-		}
+		// We need to wait for the time interval before sending the decision to the robot.
+		// TODO Do some computation before sleeping
+		auto need_to_stop = [due_time_for_decision, safety_time_net] () { 
+			return std::chrono::system_clock::now() >= due_time_for_decision - safety_time_net;
+		};
+		
+		//hermite.get_points_between_subdivided()
 
+
+		std::this_thread::sleep_until(due_time_for_decision);
+
+		// Here we were successful in taking a decision and time has come to send it.
         // TODO Scale power using direction
 		int turn_factor = get<0>(direction);
 		if (0 > turn_factor)
@@ -118,6 +140,9 @@ void follower::Run()
 			communication.startMotor(leftMotor, 5);
 			communication.startMotor(rightMotor, 5);
 		}
+
+		// We update the due time for the next decision
+		due_time_for_decision += time_to_take_a_decision;
 	}
 
 	communication.disconnect();

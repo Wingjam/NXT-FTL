@@ -98,26 +98,23 @@ protected:
 
 TEST_F(BrainTestFixture, BrainStopOnDistance) {
 	distance.distance = 5;
-
-	auto directionResult = brain.compute_direction(touch, distance, left, right);
-
-	EXPECT_TRUE(std::get<1>(directionResult));
-	EXPECT_EQ(0, std::get<0>(directionResult));
+	auto need_to_stop = brain.check_for_critical_stop(distance);
+	EXPECT_TRUE(need_to_stop);
 }
 
 TEST_F(BrainTestFixture, BrainStopOnTouch) {
 	touch.is_pressed = true;
 
-	auto directionResult = brain.compute_direction(touch, distance, left, right);
+	auto directionResult = brain.compute_direction(touch, left, right);
 
-	EXPECT_TRUE(std::get<2>(directionResult));
+	EXPECT_TRUE(std::get<1>(directionResult));
 	EXPECT_EQ(0, std::get<0>(directionResult));
 }
 
 TEST_F(BrainTestFixture, BrainGoLeft) {
 	right.intensity *= 2;
 
-	auto directionResult = brain.compute_direction(touch, distance, left, right);
+	auto directionResult = brain.compute_direction(touch, left, right);
 
 	EXPECT_FALSE(std::get<1>(directionResult));
 	EXPECT_GT(0, std::get<0>(directionResult));
@@ -126,7 +123,7 @@ TEST_F(BrainTestFixture, BrainGoLeft) {
 TEST_F(BrainTestFixture, BrainGoRight) {
 	left.intensity *= 2;
 
-	auto directionResult = brain.compute_direction(touch, distance, left, right);
+	auto directionResult = brain.compute_direction(touch, left, right);
 
 	EXPECT_FALSE(std::get<1>(directionResult));
 	EXPECT_LT(0, std::get<0>(directionResult));

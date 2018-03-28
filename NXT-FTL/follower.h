@@ -3,6 +3,7 @@
 #include "brain.h"
 #include "communication.h"
 #include "movement_history.h"
+#include "hermite.h"
 
 namespace nxtftl
 {
