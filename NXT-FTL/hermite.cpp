@@ -2,8 +2,17 @@
 
 position calculate_hermite(float t, position P1, position P2, position R1, position R2)
 {
-    // Bezier
-    // Based on https://stackoverflow.com/a/7962115/5154345
+    // Hermitian curves
+    //                      [ 2 -2  1  1] [P1]
+    // Q(t) = [t^3 t^2 t 1] [-3  3 -2 -1] [P2]
+    //                      [ 0  0  1  0] [R1]
+    //                      [ 1  0  0  0] [R2]
+    //
+    //        [2 * t^3 - 3 * t^2 + 1] [P1]
+    // Q(t) = [-2 *t^3 + 3 * t^2    ] [P2]
+    //        [t^3 - 2 * t^2 + 1    ] [R1]
+    //        [t^3 - t^2            ] [R2]
+
     float t2 = pow(t, 2);
     float t3 = pow(t, 3);
 
