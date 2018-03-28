@@ -159,7 +159,7 @@ TEST(MovementHistoryTest, NewPosition) {
 }
 
 TEST(MovementHistoryTest, FromFile) {
-	std::ifstream myfile("C:\\Users\\Felix\\Desktop\\tests_mov_robot\\inputs.txt");
+	/*std::ifstream myfile("C:\\Users\\Felix\\Desktop\\tests_mov_robot\\inputs.txt");
 	int left_tacho, right_tacho;
 	myfile >> left_tacho >> right_tacho;
 	movement_history mov_history{ left_tacho, right_tacho };
@@ -177,5 +177,5 @@ TEST(MovementHistoryTest, FromFile) {
 	{
 		outputFile << positions[i].x << "," << positions[i].y << std::endl;
 	}
-	myfile.close();
+	myfile.close();*/
 }
