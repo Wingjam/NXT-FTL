@@ -116,6 +116,4 @@ void follower::Run()
 	}
 
 	communication.disconnect();
-
-	movement_history.print();
 }

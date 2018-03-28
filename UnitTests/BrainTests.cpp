@@ -158,8 +158,10 @@ TEST(MovementHistoryTest, NewPosition) {
 
 TEST(MovementHistoryTest, FromFile) {
 	std::ifstream myfile("C:\\Users\\Felix\\Desktop\\tests_mov_robot\\inputs.txt");
-	movement_history mov_history{ 0, 0 };
-	float left_tacho, right_tacho;
+	int left_tacho, right_tacho;
+	myfile >> left_tacho >> right_tacho;
+	movement_history mov_history{ left_tacho, right_tacho };
+
 	while (myfile >> left_tacho >> right_tacho)
 	{
 		mov_history.log_rotation(left_tacho, right_tacho);
@@ -168,10 +170,10 @@ TEST(MovementHistoryTest, FromFile) {
 
 	std::vector<movement_history::position> positions = mov_history.get_positions();
 	std::ofstream outputFile;
-	outputFile.open("output.txt");
+	outputFile.open("C:\\Users\\Felix\\Desktop\\tests_mov_robot\\output.txt");
 	for (int i = 0; i < positions.size(); ++i)
 	{
-		outputFile << "(" << positions[i].x << "," << positions[i].y << ")" << std::endl;
+		outputFile << positions[i].x << "," << positions[i].y << std::endl;
 	}
 	myfile.close();
 }
