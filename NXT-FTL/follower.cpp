@@ -122,15 +122,6 @@ void follower::Run()
 			communication.startMotor(rightMotor, 20, 120);
 		}
 	}
-	
-	ofstream myfile;
-	myfile.open("output.txt");
-	std::vector<position> positions = movement_history.get_positions();
-	for (int i = 0; i < positions.size(); ++i)
-	{
-		myfile << "(" << positions[i].x << "," << positions[i].y << ")";
-	}
-	myfile.close();
 
 	communication.disconnect();
 }
