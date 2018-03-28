@@ -1,6 +1,4 @@
 #include "follower.h"
-#include <iostream>
-#include <fstream>
 
 using namespace nxtftl;
 
