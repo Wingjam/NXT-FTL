@@ -83,6 +83,6 @@ void movement_history::write_positions_to_stream(std::ostream& stream)
 {
 	for (int i = 0; i < positions.size(); ++i)
 	{
-		stream << positions[i];
+		stream << positions[i] << std::endl;
 	}
 }

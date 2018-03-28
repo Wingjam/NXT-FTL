@@ -58,6 +58,8 @@ void follower::Run()
 		communication.updateSensorValue(leftColorSensor);
 		communication.updateSensorValue(rightColorSensor);
 		communication.updateSensorValue(distanceSensor);
+		long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
+		long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
 
 		tuple<int, bool, bool> direction;
 		std::chrono::system_clock::time_point max_wait_time = std::chrono::system_clock::now() + std::chrono::microseconds(max_process_time);
@@ -65,9 +67,6 @@ void follower::Run()
 		{
 			// Process
 			direction = brain.compute_direction(touchSensor, distanceSensor, leftColorSensor, rightColorSensor);
-
-			long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
-			long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
 			movement_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
 		});
 
@@ -107,11 +106,11 @@ void follower::Run()
 		if (0 > turn_factor)
 		{
 			communication.startMotor(leftMotor, -2); // +
-			communication.startMotor(rightMotor, 10); // -
+			communication.startMotor(rightMotor, 8); // -
 		}
 		else if (0 < turn_factor)
 		{
-			communication.startMotor(leftMotor, 10); // +
+			communication.startMotor(leftMotor, 8); // +
 			communication.startMotor(rightMotor, -2); // -
 		}
 		else // turn_factor == 0
