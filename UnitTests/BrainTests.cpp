@@ -151,12 +151,22 @@ TEST(MovementHistoryTest, NewPosition) {
 	position position_1 = mov_history.get_current_position();
 }
 
-TEST(HermiteTest, HermiteTest) {
-    position P1 = { 1.f, 1.f, 0.f };
-    position P2 = { 5.f, 1.f, 0.f };
+TEST(HermiteTest, HermiteSimpleTest) {
+    position P1 = { 0.f, 1.f };
+    position P2 = { 6.f, 1.f };
+    std::vector<position> src = { P1, P2 };
+    std::vector<position> dest;
+
+    class myPred {
+    public:
+        bool operator()() const {
+            return true;
+        }
+    };
 
     hermite hermite{};
-    hermite.get_points_between(10, P1, P2);
+    auto res = hermite.get_points_between_subdivided(src.begin(), src.end(), back_inserter(dest), myPred{}, 4);
 
-    EXPECT_FLOAT_EQ(0.f, 0.f);
+    EXPECT_EQ(P1, dest[0]);
+    EXPECT_EQ(position(3.f, 1.f), dest[2]);
 }

@@ -5,7 +5,10 @@
 class hermite
 {
 public:
-    void get_points_between(int, position, position);
+    template <class ItSrc, class ItDest, class Pred>
+    std::pair<ItSrc, ItDest> get_points_between_subdivided(ItSrc start, ItSrc end, ItDest dest, Pred pred, int nb_points);
+
 private:
-    std::vector<position> positions;
+    template <class ItDest>
+    ItDest get_points_between(ItDest dest, int nb_points, position P1, position P2);
 };

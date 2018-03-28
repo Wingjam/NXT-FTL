@@ -18,15 +18,29 @@ position calculate_hermite(float t, position P1, position P2, position R1, posit
     return position(Px , Py);
 }
 
-void hermite::get_points_between(int nb_points, position P1, position P2)
+template <class ItSrc, class ItDest, class Pred>
+std::pair<ItSrc, ItDest> hermite::get_points_between_subdivided(ItSrc start, ItSrc end, ItDest dest, Pred pred, int nb_points)
+{
+    for (int i = 0; start != (end-1) && pred(); ++start, ++i)
+    {
+        get_points_between(dest, nb_points, *start, *(start + 1));
+    }
+
+    return { start, dest };
+}
+
+template <class ItDest>
+ItDest hermite::get_points_between(ItDest dest, int nb_points, position P1, position P2)
 {
     position R1 = position(cos(P1.direction_in_rad), sin(P1.direction_in_rad));
     position R2 = position(cos(P2.direction_in_rad), sin(P2.direction_in_rad));
     float inc = 1.f / nb_points;
-    
-    for(float t = 0; t < 1; t += inc)
+
+    for (float t = 0.f; t < 1.f; t += inc, ++dest)
     {
         auto res = calculate_hermite(t, P1, P2, R1, R2);
-        positions.push_back(res);
+        *dest = res;
     }
+
+    return dest;
 }
