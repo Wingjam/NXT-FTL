@@ -143,6 +143,7 @@
     <ClInclude Include="data_writer.h" />
     <ClInclude Include="distance_sensor_dto.h" />
     <ClInclude Include="follower.h" />
+    <ClInclude Include="hermite.h" />
     <ClInclude Include="movement_history.h" />
     <ClInclude Include="position.h" />
     <ClInclude Include="sensor_dto.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="communication.cpp" />
     <ClCompile Include="data_writer.cpp" />
     <ClCompile Include="follower.cpp" />
+    <ClCompile Include="hermite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="movement_history.cpp" />
     <ClCompile Include="position.cpp" />

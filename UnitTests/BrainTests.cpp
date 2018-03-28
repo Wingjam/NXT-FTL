@@ -5,6 +5,8 @@
 #include "../NXT-FTL/brain.cpp"
 #include "../NXT-FTL/movement_history.h"
 #include "../NXT-FTL/movement_history.cpp"
+#include "../NXT-FTL/hermite.h"
+#include "../NXT-FTL/hermite.cpp"
 
 using namespace nxtftl;
 
@@ -178,4 +180,24 @@ TEST(MovementHistoryTest, FromFile) {
 		outputFile << positions[i].x << "," << positions[i].y << std::endl;
 	}
 	myfile.close();*/
+}
+
+TEST(HermiteTest, HermiteSimpleTest) {
+    position P1 = { 0.f, 1.f };
+    position P2 = { 6.f, 1.f };
+    std::vector<position> src = { P1, P2 };
+    std::vector<position> dest;
+
+    class myPred {
+    public:
+        bool operator()() const {
+            return true;
+        }
+    };
+
+    hermite hermite{};
+    auto res = hermite.get_points_between_subdivided(src.begin(), src.end(), back_inserter(dest), myPred{}, 4);
+
+    EXPECT_EQ(P1, dest[0]);
+    EXPECT_EQ(position(3.f, 1.f), dest[2]);
 }
