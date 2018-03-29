@@ -7,8 +7,9 @@ using namespace std;
 using namespace nxtftl;
 
 
-follower::follower(int stopDistance) : communication{}, brain{ stopDistance }
+follower::follower(int stopDistance, buffer_manager<position>* buffers) : communication{}, brain{ stopDistance }
 {
+	this->buffers = buffers;
 }
 
 void follower::Run()
@@ -113,10 +114,10 @@ void follower::Run()
 
 		// We need to wait for the time interval before sending the decision to the robot.
 		// TODO Do some computation before sleeping
-		auto need_to_stop = [due_time_for_decision, safety_time_net] () { 
-			return std::chrono::system_clock::now() >= due_time_for_decision - safety_time_net;
+		auto can_continue_computing = [due_time_for_decision, safety_time_net] () { 
+			return std::chrono::system_clock::now() <= due_time_for_decision - safety_time_net;
 		};
-		
+
 		//hermite.get_points_between_subdivided()
 
 
