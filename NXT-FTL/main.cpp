@@ -1,7 +1,5 @@
 #include "follower.h"
 #include "buffer_manager.h"
-#include <iostream>
-#include <fstream>
 
 using namespace nxtftl;
 

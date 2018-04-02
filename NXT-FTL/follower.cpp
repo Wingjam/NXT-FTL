@@ -1,5 +1,4 @@
 #include "follower.h"
-
 #include <future>
 #include <iostream>
 
