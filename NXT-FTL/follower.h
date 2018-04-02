@@ -10,12 +10,13 @@ namespace nxtftl
 {
 	class follower
 	{
-	private:
+        const int SIZE_OF_INTERNAL_BUFFER = 10;
 		communication communication;
 		brain brain;
-		buffer_manager<position>* buffers;
+        vector<position> internal_buffer{};
+        buffer_manager<position>* export_buffers;
 	public:
-		follower(int stopDistance, buffer_manager<position>* buffers);
+		follower(int stopDistance, buffer_manager<position>* export_buffers);
 		void Run();
 	};
 }

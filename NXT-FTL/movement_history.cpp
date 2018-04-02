@@ -1,17 +1,10 @@
 #include "movement_history.h"
 
-movement_history::movement_history(long int initial_left_motor_tacho_count, long int initial_right_motor_tacho_count)
+movement_history::movement_history(std::function<void(position)> buffer_write_fct, long int initial_left_motor_tacho_count, long int initial_right_motor_tacho_count)
 {
-	snapshots = std::vector<snapshot>();
-	positions = std::vector<position>();
-
-	using namespace std::chrono;
-	milliseconds now = duration_cast<milliseconds>(
-		system_clock::now().time_since_epoch()
-	);
-
-	snapshots.push_back({ now, initial_left_motor_tacho_count, initial_right_motor_tacho_count });
-	positions.push_back({ 0, 0, 0 });
+    this->buffer_write_fct = buffer_write_fct;
+    last_snapshot = snapshot{ initial_right_motor_tacho_count };
+    last_position = position{ 0, 0, 0 };
 }
 
 bool AreSame(float a, float b)
@@ -49,30 +42,16 @@ position movement_history::calculate_new_position(position initial_position, sna
 
 void movement_history::log_rotation(long int left_motor_tacho_count, long int right_motor_tacho_count)
 {
-	using namespace std::chrono;
-	milliseconds now = duration_cast<milliseconds>(
-		system_clock::now().time_since_epoch()
-	);
+    snapshot current_snapshot = snapshot{ left_motor_tacho_count, right_motor_tacho_count };
 
-	snapshots.push_back({ now, left_motor_tacho_count, right_motor_tacho_count });
-	position new_position = calculate_new_position(positions[positions.size() - 1], snapshots[snapshots.size() - 2], snapshots[snapshots.size() - 1]);
-	positions.push_back(new_position);
+	position new_position = calculate_new_position(last_position, last_snapshot, current_snapshot);
+    buffer_write_fct(new_position);
+
+    last_snapshot = current_snapshot;
+    last_position = new_position;
 }
 
 position movement_history::get_current_position()
 {
-	return positions[positions.size() - 1];
-}
-
-std::vector<position> movement_history::get_positions()
-{
-	return positions;
-}
-
-void movement_history::write_positions_to_stream(std::ostream& stream)
-{
-	for (int i = 0; i < positions.size(); ++i)
-	{
-		stream << positions[i] << std::endl;
-	}
+    return last_position;
 }

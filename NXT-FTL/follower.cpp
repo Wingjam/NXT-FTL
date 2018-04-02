@@ -6,9 +6,10 @@ using namespace std;
 using namespace nxtftl;
 
 
-follower::follower(int stopDistance, buffer_manager<position>* buffers) : communication{}, brain{ stopDistance }
+follower::follower(int stopDistance, buffer_manager<position>* export_buffers) : communication{}, brain{ stopDistance }
 {
-	this->buffers = buffers;
+	this->export_buffers = export_buffers;
+    internal_buffer.reserve(SIZE_OF_INTERNAL_BUFFER);
 }
 
 void follower::Run()
@@ -26,9 +27,14 @@ void follower::Run()
 	auto leftMotor = communication.initializeMotor(communication::OUT_A);
 	auto rightMotor = communication.initializeMotor(communication::OUT_C);
 
+    auto buffer_write_fct = [&export_buffers = export_buffers, &internal_buffer = internal_buffer](position pos) {
+        export_buffers->push_back(pos);
+        internal_buffer.push_back(pos);
+    };
+
 	long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
 	long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
-	movement_history movement_history{ left_motor_tacho_count, right_motor_tacho_count };
+	movement_history movement_history{ buffer_write_fct, left_motor_tacho_count, right_motor_tacho_count };
 
 	hermite hermite{};
 
@@ -146,9 +152,4 @@ void follower::Run()
 	}
 
 	communication.disconnect();
-
-	std::ofstream myfile;
-	myfile.open("output.txt");
-	movement_history.write_positions_to_stream(myfile);
-	myfile.close();
 }

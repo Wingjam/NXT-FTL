@@ -42,33 +42,46 @@ buffer_manager<data>::buffer_manager(int number_of_buffers, int buffer_capacity)
 
 template<class data>
 vector<data>* buffer_manager<data>::get_current_read_buffer() {
-    bool is_adding_completed = adding_completed.load();
-    if ((!is_adding_completed && is_read_buffer_empty())
-        ||
-        (is_adding_completed && current_read_buffer_index.load() == utils::increment_value(current_write_buffer_index.load(), number_of_buffers - 1))) {
-        return nullptr; // No read buffer available
+    // TODO refactor those conditions
+    stage current_stage = current_adding_stage.load();
+    if (current_stage == CompletlyRead) {
+        return nullptr;
     }
-    return &(buffers[current_read_buffer_index.load()]);
+    else if (current_stage == Adding && is_read_buffer_empty()) {
+        return nullptr;
+    }
+    else // !is_read_buffer_empty() || current_stage == AddingCompleted
+    {
+        return &(buffers[current_read_buffer_index.load()]);
+    }
 }
 
 template<class data>
 void buffer_manager<data>::signal_current_buffer_completly_read()
 {
     vector<data>* current_read_buffer = get_current_read_buffer();
+
     if (current_read_buffer != nullptr) {
         // reset old data vector
         current_read_buffer->clear();
         current_read_buffer->reserve(buffer_capacity);
 
-        int next_current_read_buffer_index = utils::increment_value(current_read_buffer_index.load(), number_of_buffers - 1);
-        current_read_buffer_index.store(next_current_read_buffer_index);
+        if (current_read_buffer_index.load() == current_write_buffer_index.load())
+        {
+            current_adding_stage.store(stage::CompletlyRead);
+        }
+        else
+        {
+            int next_current_read_buffer_index = utils::increment_value(current_read_buffer_index.load(), number_of_buffers - 1);
+            current_read_buffer_index.store(next_current_read_buffer_index);
+        }
     }
 }
 
 template<class data>
 bool buffer_manager<data>::push_back(data data_to_push)
 {
-    if (adding_completed.load()) {
+    if (current_adding_stage.load() != stage::Adding) {
         return false;
     }
 
@@ -94,7 +107,13 @@ bool buffer_manager<data>::push_back(data data_to_push)
 template<class data>
 void buffer_manager<data>::complete_adding()
 {
-    adding_completed.store(true);
+    current_adding_stage.store(stage::AddingFinished);
+}
+
+template<class data>
+bool buffer_manager<data>::is_completly_read()
+{
+    return current_adding_stage.load() == stage::CompletlyRead;
 }
 
 

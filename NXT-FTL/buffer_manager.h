@@ -14,7 +14,8 @@ class buffer_manager
 
     vector<vector<data>> buffers;
 
-    atomic<bool> adding_completed{ false };
+    enum stage { Adding, AddingFinished, CompletlyRead };
+    atomic<stage> current_adding_stage{ Adding };
     atomic<int> current_write_buffer_index = 0;
     atomic<int> current_read_buffer_index = 0;
 
@@ -30,4 +31,5 @@ public:
     void signal_current_buffer_completly_read();
     bool push_back(data data_to_push);
     void complete_adding();
+    bool is_completly_read();
 };
