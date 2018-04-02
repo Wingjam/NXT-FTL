@@ -14,7 +14,7 @@ follower::follower(int stopDistance, buffer_manager<position>* export_buffers) :
 
 void follower::Run()
 {
-	std::chrono::microseconds time_to_take_a_decision = 100ms;
+	std::chrono::microseconds time_to_take_a_decision = 1000ms;
 	std::chrono::microseconds safety_time_net = 15ms;
 	// Init
 	bool connected = communication.connect(communication::BLUETOOF);
@@ -89,6 +89,7 @@ void follower::Run()
 			// Process
 			direction = brain.compute_direction(touchSensor, leftColorSensor, rightColorSensor);
 			movement_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
+            std::cout << "update finished" << std::endl;
 		});
 
 		bool succeeded = std::future_status::ready == updates.wait_until(due_time_for_decision - safety_time_net);

@@ -5,6 +5,7 @@
 #include "communication.h"
 #include "movement_history.h"
 #include "hermite.h"
+#include <vector>
 
 namespace nxtftl
 {
@@ -13,7 +14,7 @@ namespace nxtftl
         const int SIZE_OF_INTERNAL_BUFFER = 10;
 		communication communication;
 		brain brain;
-        vector<position> internal_buffer{};
+        std::vector<position> internal_buffer{};
         buffer_manager<position>* export_buffers;
 	public:
 		follower(int stopDistance, buffer_manager<position>* export_buffers);
