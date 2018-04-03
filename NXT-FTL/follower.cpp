@@ -1,5 +1,4 @@
 #include "follower.h"
-
 #include <future>
 #include <iostream>
 
@@ -7,13 +6,15 @@ using namespace std;
 using namespace nxtftl;
 
 
-follower::follower(int stopDistance) : communication{}, brain{ stopDistance }
+follower::follower(int stopDistance, buffer_manager<position>* export_buffers) : communication{}, brain{ stopDistance }
 {
+	this->export_buffers = export_buffers;
+    internal_buffer.reserve(SIZE_OF_INTERNAL_BUFFER);
 }
 
 void follower::Run()
 {
-	std::chrono::microseconds time_to_take_a_decision = 100ms;
+	std::chrono::microseconds time_to_take_a_decision = 1000ms;
 	std::chrono::microseconds safety_time_net = 15ms;
 	// Init
 	bool connected = communication.connect(communication::BLUETOOF);
@@ -26,9 +27,14 @@ void follower::Run()
 	auto leftMotor = communication.initializeMotor(communication::OUT_A);
 	auto rightMotor = communication.initializeMotor(communication::OUT_C);
 
+    auto buffer_write_fct = [&export_buffers = export_buffers, &internal_buffer = internal_buffer](position pos) {
+        export_buffers->push_back(pos);
+        internal_buffer.push_back(pos);
+    };
+
 	long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
 	long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
-	movement_history movement_history{ left_motor_tacho_count, right_motor_tacho_count };
+	movement_history movement_history{ buffer_write_fct, left_motor_tacho_count, right_motor_tacho_count };
 
 	hermite hermite{};
 
@@ -90,7 +96,7 @@ void follower::Run()
 		//std::cout << "Remaning time until timeout:" <<
 		//	std::chrono::duration_cast<std::chrono::microseconds>(max_wait_time - end).count() <<
 		//	"us." << endl;
-		if (!succeeded) // It took too much time to take a decision and calculates our points
+		if (false && !succeeded) // It took too much time to take a decision and calculates our points
 		{
 			communication.stopMotor(leftMotor);
 			communication.stopMotor(rightMotor);
@@ -113,14 +119,14 @@ void follower::Run()
 
 		// We need to wait for the time interval before sending the decision to the robot.
 		// TODO Do some computation before sleeping
-		auto need_to_stop = [due_time_for_decision, safety_time_net] () { 
-			return std::chrono::system_clock::now() >= due_time_for_decision - safety_time_net;
+		auto can_continue_computing = [due_time_for_decision, safety_time_net] () { 
+			return std::chrono::system_clock::now() <= due_time_for_decision - safety_time_net;
 		};
-		
+
 		//hermite.get_points_between_subdivided()
 
 
-		std::this_thread::sleep_until(due_time_for_decision);
+		//std::this_thread::sleep_until(due_time_for_decision);
 
 		// Here we were successful in taking a decision and time has come to send it.
         // TODO Scale power using direction
@@ -146,9 +152,4 @@ void follower::Run()
 	}
 
 	communication.disconnect();
-
-	std::ofstream myfile;
-	myfile.open("output.txt");
-	movement_history.write_positions_to_stream(myfile);
-	myfile.close();
 }

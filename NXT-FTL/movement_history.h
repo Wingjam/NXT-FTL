@@ -4,9 +4,9 @@
 #include <vector>
 #include <cmath>
 #include "position.h"
-
 #include <iostream>
 #include <fstream>
+#include <functional>
 
 class movement_history
 {
@@ -19,21 +19,19 @@ class movement_history
 public:
 private:
 	struct snapshot {
-		std::chrono::milliseconds ms;
 		long int left_motor_tacho_count;
 		long int right_motor_tacho_count;
 	};
 
-	std::vector<snapshot> snapshots;
-	std::vector<position> positions;
+    std::function<void(position)> buffer_write_fct;
+	snapshot last_snapshot;
+	position last_position;
 	position movement_history::calculate_new_position(position initial_position, snapshot initial_snapshot, snapshot destination_snapshot);
 
 public:
-	movement_history(long int initial_left_motor_tacho_count, long int initial_right_motor_tacho_count);
+	movement_history(std::function<void(position)> buffer_write_fct, long int initial_left_motor_tacho_count, long int initial_right_motor_tacho_count);
 	~movement_history() = default;
 	void log_rotation(long int left_motor_tacho_count, long int right_motor_tacho_count);
 	position get_current_position();
-	std::vector<position> get_positions();
-	void write_positions_to_stream(std::ostream& stream);
 };
 

@@ -1,6 +1,6 @@
 ﻿#include "hermite.h"
 
-position calculate_hermite(float t, position P1, position P2, position R1, position R2)
+position get_point_from_hermitian_curve(float t, position P1, position P2, position R1, position R2)
 {
     // Hermitian curves
     //                      [ 2 -2  1  1] [P1]
@@ -47,7 +47,7 @@ ItDest hermite::get_points_between(ItDest dest, int nb_points, position P1, posi
 
     for (float t = 0.f; t < 1.f; t += inc, ++dest)
     {
-        auto res = calculate_hermite(t, P1, P2, R1, R2);
+        auto res = get_point_from_hermitian_curve(t, P1, P2, R1, R2);
         *dest = res;
     }
 
