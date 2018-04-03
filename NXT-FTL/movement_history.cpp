@@ -3,8 +3,10 @@
 movement_history::movement_history(std::function<void(position)> buffer_write_fct, long int initial_left_motor_tacho_count, long int initial_right_motor_tacho_count)
 {
     this->buffer_write_fct = buffer_write_fct;
-    last_snapshot = snapshot{ initial_right_motor_tacho_count };
+    last_snapshot = snapshot{ initial_left_motor_tacho_count, initial_right_motor_tacho_count };
     last_position = position{ 0, 0, 0 };
+
+    buffer_write_fct(last_position);
 }
 
 bool AreSame(float a, float b)

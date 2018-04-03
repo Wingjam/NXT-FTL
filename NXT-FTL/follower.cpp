@@ -89,7 +89,6 @@ void follower::Run()
 			// Process
 			direction = brain.compute_direction(touchSensor, leftColorSensor, rightColorSensor);
 			movement_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
-            std::cout << "update finished" << std::endl;
 		});
 
 		bool succeeded = std::future_status::ready == updates.wait_until(due_time_for_decision - safety_time_net);
@@ -97,7 +96,7 @@ void follower::Run()
 		//std::cout << "Remaning time until timeout:" <<
 		//	std::chrono::duration_cast<std::chrono::microseconds>(max_wait_time - end).count() <<
 		//	"us." << endl;
-		if (!succeeded) // It took too much time to take a decision and calculates our points
+		if (false && !succeeded) // It took too much time to take a decision and calculates our points
 		{
 			communication.stopMotor(leftMotor);
 			communication.stopMotor(rightMotor);
@@ -127,7 +126,7 @@ void follower::Run()
 		//hermite.get_points_between_subdivided()
 
 
-		std::this_thread::sleep_until(due_time_for_decision);
+		//std::this_thread::sleep_until(due_time_for_decision);
 
 		// Here we were successful in taking a decision and time has come to send it.
         // TODO Scale power using direction

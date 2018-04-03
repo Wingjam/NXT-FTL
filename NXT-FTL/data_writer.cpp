@@ -23,6 +23,8 @@ void data_writer::run()
         std::for_each(std::begin(*current_read_buffer), std::end(*current_read_buffer), [&myfile](position pos) {
             myfile << pos << std::endl;
         });
+
+        buffers->signal_current_buffer_completly_read();
 	}
 	myfile.close();
 }
