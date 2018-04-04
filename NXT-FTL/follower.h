@@ -14,6 +14,10 @@ namespace nxtftl
 	class follower
 	{
         const unsigned int SIZE_OF_INTERNAL_BUFFER = 10;
+        const int EPSILON = 42;
+        const int MOTOR_HIGH = 8;
+        const int MOTOR_MEDIUM = 5;
+        const int MOTOR_LOW = -2;
 		communication communication;
 		brain brain;
         std::vector<position> internal_buffer{};
