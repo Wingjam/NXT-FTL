@@ -49,6 +49,8 @@ bool communication::connect(ConnectionType type)
 			connected = false;
 			throw "Not implemented yet.";
 	}
+
+	return connected;
 }
 
 bool communication::connectWithBluetooth(unsigned int comport) 
