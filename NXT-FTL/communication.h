@@ -160,7 +160,7 @@ namespace nxtftl
 		/// Returns the tacho count, which is essentially the motor angle in degree
 		/// </summary>
 		/// <param name="motorDto">Motor to monitor</param>
-		long int get_tacho_count(motor_dto motorDto);
+        void update_tacho_count(motor_dto& motorDto);
 	private:
 
 		/// <summary>

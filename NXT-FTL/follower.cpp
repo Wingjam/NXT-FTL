@@ -1,5 +1,6 @@
 #include "follower.h"
 #include <thread>
+#include <future>
 #include <iostream>
 #include "wrap_around_iterator.h"
 
@@ -10,14 +11,12 @@ using namespace nxtftl;
 follower::follower(buffer_manager<position>* export_buffers,
     int stopDistance,
     unsigned int size_of_internal_buffer,
-    std::chrono::microseconds time_to_take_a_decision,
-    std::chrono::microseconds safety_time_net) 
+    unsigned int number_of_points_between_positions)
     :
     communication{},
     brain{ stopDistance },
     size_of_internal_buffer{ size_of_internal_buffer },
-    time_to_take_a_decision{ time_to_take_a_decision },
-    safety_time_net{ safety_time_net },
+    number_of_points_between_positions{ number_of_points_between_positions },
     export_buffers{ export_buffers },
     export_to_buffers_functor{ export_buffers },
     internal_buffer{ vector<position>{ size_of_internal_buffer } },
@@ -38,11 +37,6 @@ bool follower::Init()
 
     leftMotor = communication.initializeMotor(communication::OUT_A);
     rightMotor = communication.initializeMotor(communication::OUT_C);
-
-    long initial_left_tacho_count = communication.get_tacho_count(leftMotor);
-    long initial_right_tacho_count = communication.get_tacho_count(rightMotor);
-
-    move_history.initialize(buffer_write_fct, initial_left_tacho_count, initial_right_tacho_count);
     
     communication.initializeSensor(leftColorSensor, communication::IN_1);
     communication.initializeSensor(rightColorSensor, communication::IN_2);
@@ -51,6 +45,8 @@ bool follower::Init()
 
     // We need to update all sensors at least once before beginning execution, because the first update is always long.
     update_all_sensor();
+
+    move_history.initialize(buffer_write_fct, leftMotor.tacho_count, rightMotor.tacho_count);
 
     return true;
 }
@@ -61,117 +57,122 @@ void follower::update_all_sensor()
     communication.updateSensorValue(distanceSensor);
     communication.updateSensorValue(leftColorSensor);
     communication.updateSensorValue(rightColorSensor);
-    communication.get_tacho_count(leftMotor);
-    communication.get_tacho_count(rightMotor);
+    communication.update_tacho_count(leftMotor);
+    communication.update_tacho_count(rightMotor);
 }
 
-bool follower::is_distance_dangerous()
+bool follower::evaluate_distance()
 {
     auto beginning = std::chrono::high_resolution_clock::now();
+
     // Read critical distance sensor
     communication.updateSensorValue(distanceSensor);
-    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-    std::cout << "distance sensor : " << time.count() << std::endl;
 
     // Check if it is critical that we stop the robot to prevent any damages
     if (brain.check_for_critical_stop(distanceSensor))
     {
         communication.stopMotor(leftMotor);
         communication.stopMotor(rightMotor);
+        auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
+        std::cout << "distance sensor : " << time.count() << std::endl;
 
-        // Do not execute any other actions for as long as the robot is obstructed
+        // The distance was dangerous and the robot was stopped
         return true;
     }
 
+    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
+    std::cout << "distance sensor : " << time.count() << std::endl;
+
+    // The distance was safe, nothing done
     return false;
 }
 
 void follower::execute()
 {
-    std::chrono::system_clock::time_point due_time_for_decision = std::chrono::system_clock::now() + time_to_take_a_decision;
+    bool check_distance = true;
+    
     while (true)
     {
         auto realbeginning = std::chrono::high_resolution_clock::now();
 
-        auto beginning = std::chrono::high_resolution_clock::now();
-        communication.updateSensorValue(touchSensor);
-        auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-        std::cout << "touch sensor : " << time.count() << std::endl;
-
-        if (is_distance_dangerous())
+        if (check_distance)
         {
-            // Distance was dangerous, we won't continue our computations and we restart the time to take a decision
-            due_time_for_decision = std::chrono::system_clock::now() + time_to_take_a_decision;
-            continue;
+            // We want to recheck the distance next iteration if the distance was dangerous
+            check_distance = evaluate_distance();
         }
-
-        // Read non-critical sensors.
-        // TODO Check the time left before each updates of the sensors
-
-        beginning = std::chrono::high_resolution_clock::now();
-        communication.updateSensorValue(leftColorSensor);
-        time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-        std::cout << "lcolor sensor : " << time.count() << std::endl;
-        beginning = std::chrono::high_resolution_clock::now();
-        communication.updateSensorValue(rightColorSensor);
-        time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-        std::cout << "rcolor sensor : " << time.count() << std::endl;
-        beginning = std::chrono::high_resolution_clock::now();
-        long int left_motor_tacho_count = communication.get_tacho_count(leftMotor);
-        time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-        std::cout << "ltacho sensor : " << time.count() << std::endl;
-        beginning = std::chrono::high_resolution_clock::now();
-        long int right_motor_tacho_count = communication.get_tacho_count(rightMotor);
-        time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-        std::cout << "rtacho sensor : " << time.count() << std::endl;
-
-        time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - realbeginning);
-        std::cout << "total : " << time.count() << std::endl;
-
-        // Process : According to our benchmark, this is constantly 0 ms
-        tuple<int, bool>direction = brain.compute_direction(touchSensor, leftColorSensor, rightColorSensor);
-        move_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
-
-        // Check if we need to stop the current execution
-        bool needsToStop = get<1>(direction);
-        if (needsToStop)
+        else
         {
-            // Exit the loop (disconnect will handle stopping the motors)
-            break;
+            // We didn't check the distance, next time we should do it
+            check_distance = true;
+
+            std::future<void> update_sensors = std::async(std::launch::async, [this] {  
+                // Read non-critical sensors.
+                auto beginning = std::chrono::high_resolution_clock::now();
+                this->communication.updateSensorValue(this->touchSensor);
+                auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
+                std::cout << "touch sensor : " << time.count() << std::endl;
+                beginning = std::chrono::high_resolution_clock::now();
+                this->communication.updateSensorValue(this->leftColorSensor);
+                time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
+                std::cout << "lcolor sensor : " << time.count() << std::endl;
+                beginning = std::chrono::high_resolution_clock::now();
+                this->communication.updateSensorValue(this->rightColorSensor);
+                time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
+                std::cout << "rcolor sensor : " << time.count() << std::endl;
+                beginning = std::chrono::high_resolution_clock::now();
+                this->communication.update_tacho_count(this->leftMotor);
+                time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
+                std::cout << "ltacho sensor : " << time.count() << std::endl;
+                beginning = std::chrono::high_resolution_clock::now();
+                this->communication.update_tacho_count(this->rightMotor);
+                time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
+                std::cout << "rtacho sensor : " << time.count() << std::endl;
+
+            });
+
+            auto beginning = std::chrono::high_resolution_clock::now();
+
+            // We can do some computation while the updates of the sensors are not finished
+            auto can_continue_computing = [&update_sensors]() {
+                bool pred = update_sensors.wait_for(std::chrono::seconds(0)) != std::future_status::ready;
+                std::cout << "hermite pred : " << pred << std::endl;
+                return update_sensors.wait_for(std::chrono::seconds(0)) != std::future_status::ready;
+            };
+
+            // Do some computation for the rest of the available time
+            hermite_progress_iterator = hermite.get_points_between_subdivided(
+                hermite_progress_iterator,
+                internal_iterator,
+                export_to_buffers_functor,
+                can_continue_computing,
+                number_of_points_between_positions
+            );
+
+            auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
+            std::cout << "hermite : " << time.count() << std::endl;
+
+            // Wait for the updates to finish, in case they were not (we couldn't do more computing)
+            update_sensors.wait();
+
+            // Process : According to our benchmark, this is constantly 0 ms
+            move_history.log_rotation(leftMotor.tacho_count, rightMotor.tacho_count);
+            tuple<int, bool>direction = brain.compute_direction(touchSensor, leftColorSensor, rightColorSensor);
+            bool needsToStop = get<1>(direction);
+            int turn_factor = get<0>(direction);
+
+            // Check if we need to stop the current execution
+            if (needsToStop)
+            {
+                // Exit the loop (disconnect will handle stopping the motors)
+                break;
+            }
+
+            // We need to take a decision for the robot's next move and send it
+            send_decision_to_robot(turn_factor);
+
+            time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - realbeginning);
+            std::cout << "total : " << time.count() << std::endl;
         }
-
-        // We need to wait for the time interval before sending the decision to the robot.
-        auto can_continue_computing = [due_time_for_decision, &safety_time_net = safety_time_net]() {
-            bool pred = std::chrono::system_clock::now() <= due_time_for_decision - safety_time_net;
-            std::cout << "hermite pred : " << pred << std::endl;
-            return pred;
-        };
-
-        beginning = std::chrono::high_resolution_clock::now();
-
-        // TODO Do some computation before sleeping
-        hermite_progress_iterator = hermite.get_points_between_subdivided(
-            hermite_progress_iterator,
-            internal_iterator,
-            export_to_buffers_functor,
-            can_continue_computing,
-            10000
-        );
-
-        time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-        std::cout << "hermite sensor : " << time.count() << std::endl;
-
-        // Consume the safety time net
-        std::this_thread::sleep_until(due_time_for_decision);
-
-        // Here we were successful in taking a decision and time has come to send it.
-        int turn_factor = get<0>(direction);
-        send_decision_to_robot(turn_factor);
-
-        // We update the due time for the next decision
-        // TODO fix
-        //due_time_for_decision += time_to_take_a_decision;
-        due_time_for_decision = std::chrono::system_clock::now() + time_to_take_a_decision;
     }
 }
 

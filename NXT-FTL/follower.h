@@ -26,8 +26,7 @@ namespace nxtftl
 
         /* Parameters */
         unsigned int size_of_internal_buffer;
-        std::chrono::microseconds time_to_take_a_decision;
-        std::chrono::microseconds safety_time_net;
+        unsigned int number_of_points_between_positions;
 
 		communication communication;
 		brain brain;
@@ -57,8 +56,7 @@ namespace nxtftl
 		follower(buffer_manager<position>* export_buffers,
             int stopDistance,
             unsigned int size_of_internal_buffer,
-            std::chrono::microseconds time_to_take_a_decision,
-            std::chrono::microseconds safety_time_net);
+            unsigned int number_of_points_between_positions);
         bool Init();
 		void Run();
 
@@ -66,6 +64,6 @@ namespace nxtftl
         void send_decision_to_robot(int turn_factor);
         void execute();
         void update_all_sensor();
-        bool is_distance_dangerous();
+        bool evaluate_distance();
 	};
 }

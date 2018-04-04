@@ -7,6 +7,7 @@ namespace nxtftl
 	public:
 		motor_dto() = default;
 		unsigned int port;
+        long int tacho_count;
 	};
 }
 
