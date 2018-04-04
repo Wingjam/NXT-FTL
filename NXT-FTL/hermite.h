@@ -1,14 +1,25 @@
 ﻿#pragma once
-#include "movement_history.h"
-#include <tuple>
+#include "position.h"
+#include <functional>
+#include "wrap_around_iterator.h"
 
-class hermite
+namespace nxtftl
 {
-public:
-    template <class ItSrc, class ItDest, class Pred>
-    std::pair<ItSrc, ItDest> get_points_between_subdivided(ItSrc start, ItSrc end, ItDest dest, Pred pred, int nb_points);
+    class hermite
+    {
+    public:
+        template <class Pred>
+        wrap_around_iterator get_points_between_subdivided(wrap_around_iterator start, wrap_around_iterator end, std::function<void(position)> buffer_write_fct, Pred pred, int nb_points)
+        {
+            for (; pred() && start != end && start.test_if_one_ahead(end); ++start)
+            {
+                get_points_between(buffer_write_fct, nb_points, *start, start.get_next_value());
+            }
 
-private:
-    template <class ItDest>
-    ItDest get_points_between(ItDest dest, int nb_points, position P1, position P2);
-};
+            return start;
+        }
+
+    private:
+        void get_points_between(std::function<void(position)> buffer_write_fct, int nb_points, position P1, position P2);
+    };
+}

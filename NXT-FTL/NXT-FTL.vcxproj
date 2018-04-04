@@ -153,6 +153,7 @@
     <ClInclude Include="communication.h" />
     <ClInclude Include="motor_dto.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="wrap_around_iterator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\NxtLibrary\adc_8591.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="movement_history.cpp" />
     <ClCompile Include="position.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="wrap_around_iterator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

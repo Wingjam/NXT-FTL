@@ -4,14 +4,16 @@
 #include "buffer_manager.h"
 #include "communication.h"
 #include "movement_history.h"
-#include "hermite.h"
 #include <vector>
 
 namespace nxtftl
 {
+    class wrap_around_iterator;
+    class hermite;
+
 	class follower
 	{
-        const int SIZE_OF_INTERNAL_BUFFER = 10;
+        const unsigned int SIZE_OF_INTERNAL_BUFFER = 10;
 		communication communication;
 		brain brain;
         std::vector<position> internal_buffer{};
