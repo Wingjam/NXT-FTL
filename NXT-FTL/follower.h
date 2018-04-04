@@ -18,12 +18,16 @@ namespace nxtftl
 	class follower
 	{
         buffer_manager<position>* export_buffers;
+
         const int EPSILON = 42;
         const int MOTOR_HIGH = 8;
         const int MOTOR_MEDIUM = 5;
         const int MOTOR_LOW = -2;
-        std::chrono::microseconds safety_time_net;
 
+        /* Parameters */
+        unsigned int size_of_internal_buffer;
+        std::chrono::microseconds time_to_take_a_decision;
+        std::chrono::microseconds safety_time_net;
 
 		communication communication;
 		brain brain;

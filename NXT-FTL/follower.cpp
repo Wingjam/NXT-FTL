@@ -183,20 +183,20 @@ void follower::send_decision_to_robot(int turn_factor)
     // TODO Scale power using direction (The last possibility is log of the returned value)
     // http://www.cplusplus.com/reference/cmath/log10/
     // last hope: have an epsilon to go straight instead of 0 value
-		if (0 > turn_factor)
+    if (turn_factor  < -EPSILON)
     {
-			communication.startMotor(leftMotor, -2); // +
-			communication.startMotor(rightMotor, 8); // -
+        communication.startMotor(leftMotor, MOTOR_LOW); // -
+        communication.startMotor(rightMotor, MOTOR_HIGH); // +
     }
-		else if (0 < turn_factor)
+    else if (turn_factor > EPSILON)
     {
-			communication.startMotor(leftMotor, 8); // +
-			communication.startMotor(rightMotor, -2); // -
+        communication.startMotor(leftMotor, MOTOR_HIGH); // +
+        communication.startMotor(rightMotor, MOTOR_LOW); // -
     }
-		else // turn_factor == 0
+    else // turn_factor is between [-EPSILON, EPSILON]
     {
-			communication.startMotor(leftMotor, 5);
-			communication.startMotor(rightMotor, 5);
+        communication.startMotor(leftMotor, MOTOR_MEDIUM); // =
+        communication.startMotor(rightMotor, MOTOR_MEDIUM); // =
     }
 }
 
