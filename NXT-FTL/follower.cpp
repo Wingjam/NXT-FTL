@@ -161,7 +161,13 @@ void follower::Run()
 
         auto export_buffers_write_fct = [&export_buffers = export_buffers](position pos) { export_buffers->push_back(pos); };
         
-        hermite.get_points_between_subdivided(hermite_progress_iterator, internal_iterator, export_buffers_write_fct, can_continue_computing, 5);
+        internal_iterator = hermite.get_points_between_subdivided(
+            hermite_progress_iterator, 
+            internal_iterator, 
+            export_buffers_write_fct, 
+            can_continue_computing, 
+            5
+        );
 
 		std::this_thread::sleep_until(due_time_for_decision);
 

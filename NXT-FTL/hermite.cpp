@@ -29,8 +29,7 @@ position get_point_from_hermitian_curve(float t, position P1, position P2, posit
     return position(Px , Py);
 }
 
-template <class ItSrc, class Pred>
-ItSrc hermite::get_points_between_subdivided(ItSrc start, ItSrc end, std::function<void(position)> buffer_write_fct, Pred pred, int nb_points)
+wrap_around_iterator hermite::get_points_between_subdivided(wrap_around_iterator start, wrap_around_iterator end, std::function<void(position)> buffer_write_fct, std::function<bool(void)> pred, int nb_points)
 {
     for (; start != end && (start + 1) != end && pred(); ++start)
     {
