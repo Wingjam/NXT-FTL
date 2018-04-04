@@ -8,16 +8,16 @@ using namespace nxtftl;
 
 int main()
 {
-	buffer_manager<position> buffers{ 10, 100 };
+    buffer_manager<position> buffers{ 10, 100 };
     follower follow{ &buffers, 10, 100, 10000 };
     data_writer writer{ &buffers };
 
     std::thread data_writer_thread([&writer]() {
         writer.run();
     });
-	
+    
     follow.Init();
-	follow.Run();
+    follow.Run();
 
     buffers.complete_adding();
 

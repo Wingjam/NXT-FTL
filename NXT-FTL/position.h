@@ -13,5 +13,5 @@ public:
     position(float x, float y, float direction_in_rad = 0.f);
 
     bool operator==(position) const;
-	friend std::ostream& operator<<(std::ostream& os, const position& dt);
+    friend std::ostream& operator<<(std::ostream& os, const position& dt);
 };

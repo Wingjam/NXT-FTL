@@ -13,8 +13,8 @@ bool position::operator==(position other) const {
 }
 std::ostream & operator<<(std::ostream & os, const position & dt)
 {
-	// x, y
-	os << dt.x << "," << dt.y;
-	return os;
+    // x, y
+    os << dt.x << "," << dt.y;
+    return os;
 }
 

@@ -201,19 +201,19 @@ void follower::send_decision_to_robot(int turn_factor)
 
 void follower::Run()
 {
-	cout << "Press touch sensor to begin..." << endl;
-	while (!touchSensor.is_pressed)
-	{
-		communication.updateSensorValue(touchSensor);
-	}
-	cout << "Starting line follow..." << endl;
-	while (touchSensor.is_pressed)
-	{
-		communication.updateSensorValue(touchSensor);
-	}
+    cout << "Press touch sensor to begin..." << endl;
+    while (!touchSensor.is_pressed)
+    {
+        communication.updateSensorValue(touchSensor);
+    }
+    cout << "Starting line follow..." << endl;
+    while (touchSensor.is_pressed)
+    {
+        communication.updateSensorValue(touchSensor);
+    }
 
     // Execute until the robot is asked to stop
     execute();
 
-	communication.disconnect();
+    communication.disconnect();
 }

@@ -10,10 +10,10 @@ data_writer::data_writer(buffer_manager<position>* buffers)
 
 void data_writer::run()
 {
-	std::ofstream myfile;
-	myfile.open("output.txt");
-	while (!buffers->is_completly_read())
-	{
+    std::ofstream myfile;
+    myfile.open("output.txt");
+    while (!buffers->is_completly_read())
+    {
         std::vector<position>* current_read_buffer = buffers->get_current_read_buffer();
 
         if (current_read_buffer == nullptr) {
@@ -25,6 +25,6 @@ void data_writer::run()
         });
 
         buffers->signal_current_buffer_completly_read();
-	}
-	myfile.close();
+    }
+    myfile.close();
 }

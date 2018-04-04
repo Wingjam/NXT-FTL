@@ -15,8 +15,8 @@ namespace nxtftl
     class wrap_around_iterator;
     class hermite;
 
-	class follower
-	{
+    class follower
+    {
         buffer_manager<position>* export_buffers;
 
         const int EPSILON = 42;
@@ -28,8 +28,8 @@ namespace nxtftl
         unsigned int size_of_internal_buffer;
         unsigned int number_of_points_between_positions;
 
-		communication communication;
-		brain brain;
+        communication communication;
+        brain brain;
 
         std::vector<position> internal_buffer;
         wrap_around_iterator internal_iterator;
@@ -52,18 +52,18 @@ namespace nxtftl
         color_sensor_dto rightColorSensor{};
         distance_sensor_dto distanceSensor{};
 
-	public:
-		follower(buffer_manager<position>* export_buffers,
+    public:
+        follower(buffer_manager<position>* export_buffers,
             int stopDistance,
             unsigned int size_of_internal_buffer,
             unsigned int number_of_points_between_positions);
         bool Init();
-		void Run();
+        void Run();
 
     private:
         void send_decision_to_robot(int turn_factor);
         void execute();
         void update_all_sensor();
         bool evaluate_distance();
-	};
+    };
 }
