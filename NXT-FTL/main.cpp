@@ -9,7 +9,7 @@ using namespace nxtftl;
 int main()
 {
 	buffer_manager<position> buffers{ 10, 100 };
-    follower follow{ &buffers, 10, 100, 400ms, 15ms };
+    follower follow{ &buffers, 10, 100, 600ms, 15ms };
     data_writer writer{ &buffers };
 
     std::thread data_writer_thread([&writer]() {

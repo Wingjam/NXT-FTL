@@ -10,9 +10,9 @@ namespace nxtftl
     {
     public:
         buffer_manager<position>* buffers;
-        wrap_around_iterator internal_iterator;
+        wrap_around_iterator* internal_iterator;
         export_to_multiple_buffers() = default;
-        export_to_multiple_buffers(buffer_manager<position>* buffers, wrap_around_iterator internal_iterator)
+        export_to_multiple_buffers(buffer_manager<position>* buffers, wrap_around_iterator* internal_iterator)
             : buffers{ buffers }, internal_iterator{ internal_iterator }
         { }
 
@@ -20,8 +20,8 @@ namespace nxtftl
         {
             buffers->push_back(pos);
 
-            *internal_iterator = pos;
-            ++internal_iterator;
+            *(*internal_iterator) = pos;
+            ++(*internal_iterator);
         }
     };
 }

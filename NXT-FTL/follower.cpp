@@ -23,7 +23,7 @@ follower::follower(buffer_manager<position>* export_buffers,
     internal_buffer{ vector<position>{ size_of_internal_buffer } },
     internal_iterator{ internal_buffer.begin(), internal_buffer.end() },
     hermite_progress_iterator{ internal_buffer.begin(), internal_buffer.end() },
-    buffer_write_fct{ export_buffers, internal_iterator }
+    buffer_write_fct{ export_buffers, &internal_iterator }
 { }
 
 bool follower::Init()
@@ -165,10 +165,8 @@ void follower::execute()
         std::this_thread::sleep_until(due_time_for_decision);
 
         // Here we were successful in taking a decision and time has come to send it.
-        // TODO Scale power using direction (The last possibility is log of the returned value)
-        // http://www.cplusplus.com/reference/cmath/log10/
-        // last hope: have an epsilon to go straight instead of 0 value
         int turn_factor = get<0>(direction);
+        send_decision_to_robot(turn_factor);
 
         // We update the due time for the next decision
         // TODO fix
