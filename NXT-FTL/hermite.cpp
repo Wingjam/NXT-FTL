@@ -37,7 +37,7 @@ void hermite::get_points_between(std::function<void(position)> buffer_write_fct,
 
     for (float t = 0.f; t < 1.f; t += inc)
     {
-        auto res = get_point_from_hermitian_curve(t, P1, P2, R1, R2);
+        position res = get_point_from_hermitian_curve(t, P1, P2, R1, R2);
         buffer_write_fct(res);
     }
 }

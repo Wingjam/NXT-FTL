@@ -36,29 +36,34 @@ bool wrap_around_iterator::operator!=(wrap_around_iterator other) const
     return iterator != other.iterator;
 }
 
-bool wrap_around_iterator::test_if_one_ahead(std::vector<position>::iterator end_iterator)
+bool wrap_around_iterator::test_if_one_ahead(wrap_around_iterator end_wrap_around)
 {
     bool something_ahead;
     iterator++;
 
-    if (iterator == end) {
-        something_ahead = begin == end_iterator;
+    if (iterator == end)
+    {
+        something_ahead = begin != end_wrap_around.iterator;
     }
     else
     {
-        something_ahead = iterator == end_iterator;
+        something_ahead = iterator != end_wrap_around.iterator;
     }
 
     iterator--;
     return something_ahead;
 }
 
-wrap_around_iterator& wrap_around_iterator::operator+(std::vector<position>::difference_type add) const
+position& wrap_around_iterator::get_next_value()
 {
-    std::vector<position>::iterator new_iterator{ iterator };
-    //new_iterator += add;
-    while (new_iterator >= end) {
-        new_iterator = begin + (new_iterator - end);
+    ++iterator;
+    if (iterator == end)
+    {
+        --iterator;
+        return *begin;
     }
-    return wrap_around_iterator{ begin, end, new_iterator };
+    else
+    {
+        return *(iterator--);
+    }
 }

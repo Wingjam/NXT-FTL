@@ -17,8 +17,8 @@ namespace nxtftl
         wrap_around_iterator& operator++();
         position& operator*() const;
         bool operator!=(wrap_around_iterator other) const;
-        wrap_around_iterator& operator+(std::vector<position>::difference_type add) const;
-        bool test_if_one_ahead(std::vector<position>::iterator end_iterator);
+        bool test_if_one_ahead(wrap_around_iterator end_wrap_around);
+        position& get_next_value();
     };
 }
 

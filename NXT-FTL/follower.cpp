@@ -32,6 +32,7 @@ void follower::Run()
 
     wrap_around_iterator internal_iterator { internal_buffer.begin(), internal_buffer.end() };
     wrap_around_iterator hermite_progress_iterator{ internal_buffer.begin(), internal_buffer.end() };
+    auto export_buffers_write_fct = [&export_buffers = export_buffers](position pos) { export_buffers->push_back(pos); };
 
     auto buffer_write_fct = [&export_buffers = export_buffers, &internal_iterator](position pos) {
         export_buffers->push_back(pos);
@@ -116,34 +117,9 @@ void follower::Run()
         time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - realbeginning);
         std::cout << "total : " << time.count() << std::endl;
 
-
-        beginning = std::chrono::high_resolution_clock::now();
-
 		// Process : According to our benchmark, this is constantly 0 ms
         tuple<int, bool>direction = brain.compute_direction(touchSensor, leftColorSensor, rightColorSensor);
 		movement_history.log_rotation(left_motor_tacho_count, right_motor_tacho_count);
-		
-
-        time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-        std::cout << "compute : " << time.count() << std::endl;
-
-        bool succeeded = true;// std::future_status::ready == updates.wait_until(due_time_for_decision - safety_time_net);
-		//auto end = std::chrono::system_clock::now();
-		//std::cout << "Remaning time until timeout:" <<
-		//	std::chrono::duration_cast<std::chrono::microseconds>(max_wait_time - end).count() <<
-		//	"us." << endl;
-		if (!succeeded) // It took too much time to take a decision and calculate our points
-		{
-			communication.stopMotor(leftMotor);
-			communication.stopMotor(rightMotor);
-
-			// We need to finish the computations before progressing. We can't stop them forcibly because they are not stateless.
-			//updates.wait();
-
-			// We consider the result of the updates to no longer be relevant, so we will begin the acquisition and decision processes again.
-			due_time_for_decision = std::chrono::system_clock::now() + time_to_take_a_decision;
-			continue;
-		}
 
 		// Check if we need to stop the current execution
 		bool needsToStop = get<1>(direction);
@@ -154,21 +130,27 @@ void follower::Run()
 		}
 
 		// We need to wait for the time interval before sending the decision to the robot.
-		// TODO Do some computation before sleeping
 		auto can_continue_computing = [due_time_for_decision, safety_time_net] () { 
-			return std::chrono::system_clock::now() <= due_time_for_decision - safety_time_net;
+            bool pred = std::chrono::system_clock::now() <= due_time_for_decision - safety_time_net;
+            std::cout << "hermite pred : " << pred << std::endl;
+			return pred;
 		};
 
-        auto export_buffers_write_fct = [&export_buffers = export_buffers](position pos) { export_buffers->push_back(pos); };
-        
-        internal_iterator = hermite.get_points_between_subdivided(
+        beginning = std::chrono::high_resolution_clock::now();
+
+        // TODO Do some computation before sleeping
+        hermite_progress_iterator = hermite.get_points_between_subdivided(
             hermite_progress_iterator, 
             internal_iterator, 
             export_buffers_write_fct, 
             can_continue_computing, 
-            5
+            10000
         );
 
+        time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
+        std::cout << "hermite sensor : " << time.count() << std::endl;
+
+        // Consume the safety time net
 		std::this_thread::sleep_until(due_time_for_decision);
 
 		// Here we were successful in taking a decision and time has come to send it.
@@ -191,7 +173,9 @@ void follower::Run()
 		}
 
 		// We update the due time for the next decision
-		due_time_for_decision += time_to_take_a_decision;
+		// TODO fix
+        //due_time_for_decision += time_to_take_a_decision;
+        due_time_for_decision = std::chrono::system_clock::now() + time_to_take_a_decision;
 	}
 
 	communication.disconnect();

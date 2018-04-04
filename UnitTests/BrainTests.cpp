@@ -326,4 +326,5 @@ TEST(HermiteTest, HermiteSimpleTest) {
 
     EXPECT_EQ(P1, dest[0]);
     EXPECT_EQ(position(3.f, 1.f), dest[2]);
+    EXPECT_EQ(dest.size(), 4);
 }
