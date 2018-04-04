@@ -160,18 +160,18 @@ void follower::Run()
 		int turn_factor = get<0>(direction);
 		if (turn_factor  < -EPSILON)
 		{
-			communication.startMotor(leftMotor, MOTOR_LOW); // +
-			communication.startMotor(rightMotor, MOTOR_HIGH); // -
+			communication.startMotor(leftMotor, MOTOR_LOW); // -
+			communication.startMotor(rightMotor, MOTOR_HIGH); // +
 		}
 		else if (turn_factor > EPSILON)
 		{
 			communication.startMotor(leftMotor, MOTOR_HIGH); // +
 			communication.startMotor(rightMotor, MOTOR_LOW); // -
 		}
-		else // turn_factor == 0
+		else // turn_factor is between [-EPSILON, EPSILON]
 		{
-			communication.startMotor(leftMotor, MOTOR_MEDIUM);
-			communication.startMotor(rightMotor, MOTOR_MEDIUM);
+            communication.startMotor(leftMotor, MOTOR_MEDIUM); // =
+			communication.startMotor(rightMotor, MOTOR_MEDIUM); // =
 		}
 
 		// We update the due time for the next decision
