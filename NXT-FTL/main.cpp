@@ -21,4 +21,6 @@ int main()
     buffer.complete_adding();
 
     data_writer_thread.join();
+
+    std::getchar();
 }

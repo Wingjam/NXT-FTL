@@ -1,14 +1,16 @@
 ﻿#pragma once
-#include "movement_history.h"
-#include <tuple>
+#include "position.h"
+#include <functional>
 
-class hermite
+namespace nxtftl
 {
-public:
-    template <class ItSrc, class ItDest, class Pred>
-    std::pair<ItSrc, ItDest> get_points_between_subdivided(ItSrc start, ItSrc end, ItDest dest, Pred pred, int nb_points);
+    class hermite
+    {
+    public:
+        template <class ItSrc, class Pred>
+        ItSrc get_points_between_subdivided(ItSrc start, ItSrc end, std::function<void(position)> buffer_write_fct, Pred pred, int nb_points);
 
-private:
-    template <class ItDest>
-    ItDest get_points_between(ItDest dest, int nb_points, position P1, position P2);
-};
+    private:
+        void get_points_between(std::function<void(position)> buffer_write_fct, int nb_points, position P1, position P2);
+    };
+}
