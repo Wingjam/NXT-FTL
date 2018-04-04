@@ -12,6 +12,8 @@
 #include "../NXT-FTL/buffer_manager.cpp"
 #include "../NXT-FTL/utils.h"
 #include "../NXT-FTL/utils.cpp"
+#include "../NXT-FTL/wrap_around_iterator.h"
+#include "../NXT-FTL/wrap_around_iterator.cpp"
 
 using namespace nxtftl;
 
@@ -302,8 +304,15 @@ TEST(BufferManager, FastParallelAccess) {
 TEST(HermiteTest, HermiteSimpleTest) {
     position P1 = { 0.f, 1.f };
     position P2 = { 6.f, 1.f };
-    std::vector<position> src = { P1, P2 };
+    std::vector<position> src = { P1, P2, position{} };
     std::vector<position> dest;
+
+    auto inserter = [&dest](position pos) {dest.push_back(pos); };
+
+    wrap_around_iterator read{ src.begin(), src.end() };
+    wrap_around_iterator write{ src.begin(), src.end() };
+    ++write;
+    ++write;
 
     class myPred {
     public:
@@ -313,7 +322,7 @@ TEST(HermiteTest, HermiteSimpleTest) {
     };
 
     hermite hermite{};
-    auto res = hermite.get_points_between_subdivided(src.begin(), src.end(), back_inserter(dest), myPred{}, 4);
+    auto res = hermite.get_points_between_subdivided(read, write, inserter, myPred{}, 4);
 
     EXPECT_EQ(P1, dest[0]);
     EXPECT_EQ(position(3.f, 1.f), dest[2]);
