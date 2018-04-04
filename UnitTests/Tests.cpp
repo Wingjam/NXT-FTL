@@ -330,7 +330,7 @@ TEST(HermiteTest, HermiteSimpleTest) {
 }
 
 
-TEST(UtilsTest, increment_value) {    
+TEST(UtilsTest, increment_value) {
     EXPECT_EQ(1, utils::increment_value(0, 10));
     EXPECT_EQ(0, utils::increment_value(10, 10));
     EXPECT_EQ(10, utils::increment_value(9, 10));
