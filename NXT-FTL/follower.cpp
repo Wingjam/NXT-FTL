@@ -129,7 +129,9 @@ void follower::Run()
 		//std::this_thread::sleep_until(due_time_for_decision);
 
 		// Here we were successful in taking a decision and time has come to send it.
-        // TODO Scale power using direction
+        // TODO Scale power using direction (The last possibility is log of the returned value)
+        // http://www.cplusplus.com/reference/cmath/log10/
+        // last hope: have an epsilon to go straight instead of 0 value
 		int turn_factor = get<0>(direction);
 		if (0 > turn_factor)
 		{
