@@ -29,7 +29,7 @@ position get_point_from_hermitian_curve(float t, position P1, position P2, posit
     return position(Px , Py);
 }
 
-void hermite::get_points_between(std::function<void(position)> buffer_write_fct, int nb_points, position P1, position P2)
+void hermite::get_points_between(std::function<void(position)> buffer_write_fct, int nb_points, position P1, position P2) const
 {
     position R1 = position(cos(P1.direction_in_rad), sin(P1.direction_in_rad));
     position R2 = position(cos(P2.direction_in_rad), sin(P2.direction_in_rad));

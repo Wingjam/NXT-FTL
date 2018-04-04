@@ -2,12 +2,7 @@
 
 int utils::increment_value(int initial_value, int max_value)
 {
-	++initial_value;
-	if (initial_value > max_value)
-	{
-		initial_value -= (max_value + 1);
-	}
-	return initial_value;
+    return (initial_value + 1) % (max_value + 1);
 }
 
 int utils::distance_behind(const int my_index, const int other_index, const int max_index)

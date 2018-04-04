@@ -20,6 +20,6 @@ namespace nxtftl
         }
 
     private:
-        void get_points_between(std::function<void(position)> buffer_write_fct, int nb_points, position P1, position P2);
+        void get_points_between(std::function<void(position)> buffer_write_fct, int nb_points, position P1, position P2) const;
     };
 }

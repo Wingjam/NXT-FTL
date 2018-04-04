@@ -328,3 +328,16 @@ TEST(HermiteTest, HermiteSimpleTest) {
     EXPECT_EQ(position(3.f, 1.f), dest[2]);
     EXPECT_EQ(dest.size(), 4);
 }
+
+
+TEST(UtilsTest, increment_value) {    
+    EXPECT_EQ(1, utils::increment_value(0, 10));
+    EXPECT_EQ(0, utils::increment_value(10, 10));
+    EXPECT_EQ(10, utils::increment_value(9, 10));
+}
+
+TEST(UtilsTest, distance_behind) {
+    EXPECT_EQ(10, utils::distance_behind(0, 10, 20));
+    EXPECT_EQ(5, utils::distance_behind(5, 10, 20));
+    EXPECT_EQ(16, utils::distance_behind(10, 5, 20));
+}
