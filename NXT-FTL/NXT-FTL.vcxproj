@@ -144,6 +144,8 @@
     <ClInclude Include="color_sensor_dto.h" />
     <ClInclude Include="data_writer.h" />
     <ClInclude Include="distance_sensor_dto.h" />
+    <ClInclude Include="export_to_buffers.h" />
+    <ClInclude Include="export_to_multiple_buffers.h" />
     <ClInclude Include="follower.h" />
     <ClInclude Include="hermite.h" />
     <ClInclude Include="movement_history.h" />
@@ -173,6 +175,8 @@
     <ClCompile Include="buffer_manager.cpp" />
     <ClCompile Include="communication.cpp" />
     <ClCompile Include="data_writer.cpp" />
+    <ClCompile Include="export_to_buffers.cpp" />
+    <ClCompile Include="export_to_multiple_buffers.cpp" />
     <ClCompile Include="follower.cpp" />
     <ClCompile Include="hermite.cpp" />
     <ClCompile Include="main.cpp" />

@@ -1,6 +1,13 @@
 #include "movement_history.h"
 
-movement_history::movement_history(std::function<void(position)> buffer_write_fct, long int initial_left_motor_tacho_count, long int initial_right_motor_tacho_count)
+using namespace nxtftl;
+
+movement_history::movement_history(export_to_multiple_buffers buffer_write_fct, long int initial_left_motor_tacho_count, long int initial_right_motor_tacho_count)
+{
+    initialize(buffer_write_fct, initial_left_motor_tacho_count, initial_right_motor_tacho_count);
+}
+
+void movement_history::initialize(export_to_multiple_buffers buffer_write_fct, long int initial_left_motor_tacho_count, long int initial_right_motor_tacho_count)
 {
     this->buffer_write_fct = buffer_write_fct;
     last_snapshot = snapshot{ initial_left_motor_tacho_count, initial_right_motor_tacho_count };
