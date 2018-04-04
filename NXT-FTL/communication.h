@@ -4,6 +4,7 @@
 #include <array>
 #include <memory>
 #include <map>
+#include <chrono>
 #include "motor_dto.h"
 #include "sensor_dto.h"
 #include "color_sensor_dto.h"
@@ -11,6 +12,7 @@
 #include "distance_sensor_dto.h"
 #include "../NxtLibrary/nxt.h"
 #include "color2.h"
+#include <vector>
 
 
 namespace nxtftl
@@ -23,14 +25,22 @@ namespace nxtftl
 		map<int, Sonar*> distanceSensors;
 		map<int, color2*> colorSensors;
 		map<int, Motor*> motors;
+        vector<std::chrono::milliseconds> touchVector;
+        vector<std::chrono::milliseconds> distanceVector;
+        vector<std::chrono::milliseconds> tachoVector;
+        vector<std::chrono::milliseconds> colorVector;
+        vector<std::chrono::milliseconds> motorVector;
+        std::chrono::steady_clock::time_point start;
 
-		/// <summary>
+        /// <summary>
 		/// Prints an NXT Exception error
 		/// </summary>
 		/// <param name="e">Nxt_exception error</param>
 		void printError(Nxt_exception& e);
+        void start_timer();
+        std::chrono::milliseconds end_timer();
 	public:
-		communication();
+		communication() = default;
 		~communication();
 
 		enum SensorPort {

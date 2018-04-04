@@ -1,5 +1,6 @@
 #include "communication.h"
 #include <algorithm>
+#include <fstream>
 
 using namespace nxtftl;
 
@@ -8,17 +9,49 @@ using namespace nxtftl;
 /// </summary>
 /// <param name=""></param>
 /// <returns></returns>
-communication::communication()
-{
-}
-
-/// <summary>
-/// 
-/// </summary>
-/// <param name=""></param>
-/// <returns></returns>
 communication::~communication()
 {
+    std::ofstream touchFile;
+    std::ofstream distanceFile;
+    std::ofstream tachoFile;
+    std::ofstream colorFile;
+    std::ofstream motorFile;
+    touchFile.open("touchFile.txt");
+    distanceFile.open("distanceFile.txt");
+    tachoFile.open("tachoFile.txt");
+    colorFile.open("colorFile.txt");
+    motorFile.open("motorFile.txt");
+
+    for (auto& time : touchVector)
+    {
+        touchFile << time.count() << endl;
+    }
+
+    for (auto& time : distanceVector)
+    {
+        distanceFile << time.count() << endl;
+    }
+
+    for (auto& time : tachoVector)
+    {
+        tachoFile << time.count() << endl;
+    }
+
+    for (auto& time : colorVector)
+    {
+        colorFile << time.count() << endl;
+    }
+
+    for (auto& time : motorVector)
+    {
+        motorFile << time.count() << endl;
+    }
+
+    touchFile.close();
+    distanceFile.close();
+    tachoFile.close();
+    colorFile.close();
+    motorFile.close();
 }
 
 bool communication::connect(ConnectionType type)
@@ -159,21 +192,27 @@ Motor_port communication::mapMotorPort(MotorPort port)
 
 void communication::updateSensorValue(touch_sensor_dto& touchSensorDto)
 {
+    start_timer();
 	Touch* touchSensor = touchSensors[touchSensorDto.port];
 	touchSensorDto.is_pressed = touchSensor->read();
+    touchVector.push_back(end_timer());
 }
 
 void communication::updateSensorValue(color_sensor_dto& colorSensorDto)
 {
+    start_timer();
 	color2* colorSensor = colorSensors[colorSensorDto.port];
 	colorSensorDto.intensity = colorSensor->getValue();
+    colorVector.push_back(end_timer());
 }
 
 void communication::updateSensorValue(distance_sensor_dto& distanceSensorDto)
 {
+    start_timer();
 	Sonar* distanceSensor = distanceSensors[distanceSensorDto.port];
 	int value = distanceSensor->read();
 	distanceSensorDto.distance = value;
+    distanceVector.push_back(end_timer());
 }
 
 void communication::stopAllMotors() {
@@ -192,8 +231,10 @@ bool communication::isMotorRunning(motor_dto motorDto)
 
 void communication::startMotor(motor_dto motorDto, char speed, unsigned int degrees /* = 0 */, bool reply /* = false */)
 {
+    start_timer();
 	Motor* motor = motors[motorDto.port];
 	motor->on(speed, degrees, reply);
+    motorVector.push_back(end_timer());
 }
 
 void communication::coastMotor(motor_dto motorDto, bool reply /* = false */)
@@ -210,7 +251,19 @@ void communication::stopMotor(motor_dto motorDto, bool reply /* = false */)
 
 void communication::update_tacho_count(motor_dto& motorDto)
 {
+    start_timer();
 	Motor* motor = motors[motorDto.port];
 	motor->get_output_state();
 	motorDto.tacho_count = motor->tacho_count;
+    tachoVector.push_back(end_timer());
+}
+
+void communication::start_timer()
+{
+    start = std::chrono::high_resolution_clock::now();
+}
+
+std::chrono::milliseconds communication::end_timer()
+{
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start);
 }
