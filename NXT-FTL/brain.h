@@ -22,6 +22,6 @@ namespace nxtftl
 		/// <param name="left_color_sensor">The left sensor of the robot used to see the line.</param>
 		/// <param name="right_color_sensor">The right sensor of the robot used to see the line.</param>
 		/// <returns>The direction to go (Negative for left and positive for right), needsToStop (permanent)</returns>
-		std::tuple<int, bool> compute_direction(const touch_sensor_dto touch_sensor, color_sensor_dto left_color_sensor, color_sensor_dto right_color_sensor) const;
+		std::tuple<float, bool> compute_direction(const touch_sensor_dto touch_sensor, color_sensor_dto left_color_sensor, color_sensor_dto right_color_sensor) const;
 	};
 }

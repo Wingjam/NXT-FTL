@@ -13,7 +13,7 @@ bool brain::check_for_critical_stop(const distance_sensor_dto distance_sensor)
 	return distance_sensor.distance <= stopDistance;
 }
 
-std::tuple<int, bool> brain::compute_direction(const touch_sensor_dto touch_sensor, color_sensor_dto left_color_sensor, color_sensor_dto right_color_sensor) const
+std::tuple<float, bool> brain::compute_direction(const touch_sensor_dto touch_sensor, color_sensor_dto left_color_sensor, color_sensor_dto right_color_sensor) const
 {
 	bool needsToStop = false;
 	// The touch sensor stop the robot
@@ -21,7 +21,8 @@ std::tuple<int, bool> brain::compute_direction(const touch_sensor_dto touch_sens
 	needsToStop |= touch_sensor.is_pressed;
 
 	// Calculate the direction of the robot
-	int direction{ left_color_sensor.value() - right_color_sensor.value() };
+    const float sensorTotal = left_color_sensor.value() + right_color_sensor.value();
+	float direction{ left_color_sensor.value()/sensorTotal - right_color_sensor.value()/sensorTotal };
 
-	return std::tuple<int, bool>{direction, needsToStop};
+	return std::tuple<float, bool>{direction, needsToStop};
 }

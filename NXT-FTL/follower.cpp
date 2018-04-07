@@ -156,9 +156,9 @@ void follower::execute()
 
             // Process : According to our benchmark, this is constantly 0 ms
             move_history.log_rotation(leftMotor.tacho_count, rightMotor.tacho_count);
-            tuple<int, bool>direction = brain.compute_direction(touchSensor, leftColorSensor, rightColorSensor);
+            tuple<float, bool>direction = brain.compute_direction(touchSensor, leftColorSensor, rightColorSensor);
             bool needsToStop = get<1>(direction);
-            int turn_factor = get<0>(direction);
+            float turn_factor = get<0>(direction);
 
             // Check if we need to stop the current execution
             if (needsToStop)
@@ -176,27 +176,13 @@ void follower::execute()
     }
 }
 
-void follower::send_decision_to_robot(int turn_factor)
+void follower::send_decision_to_robot(float turn_factor)
 {
     // Here we were successful in taking a decision and time has come to send it.
-    // TODO Scale power using direction (The last possibility is log of the returned value)
-    // http://www.cplusplus.com/reference/cmath/log10/
-    // last hope: have an epsilon to go straight instead of 0 value
-    if (turn_factor  < -EPSILON)
-    {
-        communication.startMotor(leftMotor, MOTOR_LOW); // -
-        communication.startMotor(rightMotor, MOTOR_HIGH); // +
-    }
-    else if (turn_factor > EPSILON)
-    {
-        communication.startMotor(leftMotor, MOTOR_HIGH); // +
-        communication.startMotor(rightMotor, MOTOR_LOW); // -
-    }
-    else // turn_factor is between [-EPSILON, EPSILON]
-    {
-        communication.startMotor(leftMotor, MOTOR_MEDIUM); // =
-        communication.startMotor(rightMotor, MOTOR_MEDIUM); // =
-    }
+
+    turn_factor *= TURN_MULTIPLICATOR;
+    communication.startMotor(leftMotor, MOTOR_MEDIUM + MOTOR_HIGH * turn_factor); // =
+    communication.startMotor(rightMotor, MOTOR_MEDIUM + MOTOR_HIGH * -turn_factor); // =
 }
 
 void follower::Run()

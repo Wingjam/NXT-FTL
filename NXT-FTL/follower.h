@@ -23,6 +23,7 @@ namespace nxtftl
         const int MOTOR_HIGH = 8;
         const int MOTOR_MEDIUM = 5;
         const int MOTOR_LOW = -2;
+        const float TURN_MULTIPLICATOR = 4.0f;
 
         /* Parameters */
         unsigned int size_of_internal_buffer;
@@ -61,7 +62,7 @@ namespace nxtftl
         void Run();
 
     private:
-        void send_decision_to_robot(int turn_factor);
+        void send_decision_to_robot(float turn_factor);
         void execute();
         void update_all_sensor();
         bool evaluate_distance();
