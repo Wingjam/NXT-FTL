@@ -19,11 +19,10 @@ namespace nxtftl
     {
         buffer_manager<position>* export_buffers;
 
-        const int EPSILON = 42;
-        const int MOTOR_HIGH = 8;
-        const int MOTOR_MEDIUM = 5;
-        const int MOTOR_LOW = -2;
-        const float TURN_MULTIPLICATOR = 4.0f;
+        const int MOTOR_HIGH = 9;
+        const int MOTOR_MEDIUM = 6;
+        const int MOTOR_LOW = -2; // Currently not use
+        const float TURN_MULTIPLICATOR = 3.5f;
 
         /* Parameters */
         unsigned int size_of_internal_buffer;
