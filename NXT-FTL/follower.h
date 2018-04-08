@@ -22,7 +22,7 @@ namespace nxtftl
         const int MOTOR_HIGH = 9;
         const int MOTOR_MEDIUM = 6;
         const int MOTOR_LOW = -2; // Currently not use
-        const float TURN_MULTIPLICATOR = 3.5f;
+        const float TURN_MULTIPLICATOR = 4.0f;
 
         /* Parameters */
         unsigned int size_of_internal_buffer;
