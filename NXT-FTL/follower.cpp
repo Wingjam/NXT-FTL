@@ -24,7 +24,7 @@ follower::follower(buffer_manager<position>* export_buffers,
     internal_iterator_reader{ internal_buffer.begin(), internal_buffer.end() },
     buffer_write_fct{ export_buffers, &internal_iterator_writer }
 { 
-    hermite_progress = std::make_pair(&internal_iterator_reader, 0);
+    hermite_progress = std::make_pair(internal_iterator_reader, 0);
 }
 
 bool follower::Init()

@@ -35,7 +35,7 @@ namespace nxtftl
         std::vector<position> internal_buffer;
         wrap_around_iterator internal_iterator_writer;
         wrap_around_iterator internal_iterator_reader;
-        std::pair<wrap_around_iterator*, int> hermite_progress;
+        std::pair<wrap_around_iterator, int> hermite_progress;
         export_to_multiple_buffers buffer_write_fct;
         export_to_buffers export_to_buffers_functor;
 

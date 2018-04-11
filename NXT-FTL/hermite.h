@@ -10,13 +10,13 @@ namespace nxtftl
     {
     public:
         template <class Pred>
-        std::pair<wrap_around_iterator*, int> get_points_between_subdivided(std::pair<wrap_around_iterator*, int> resume_infos, wrap_around_iterator end, std::function<void(position)> buffer_write_fct, Pred pred, int nb_points)
+        std::pair<wrap_around_iterator, int> get_points_between_subdivided(std::pair<wrap_around_iterator, int> resume_infos, wrap_around_iterator end, std::function<void(position)> buffer_write_fct, Pred pred, int nb_points)
         {
-            wrap_around_iterator* start = std::get<0>(resume_infos);
+            wrap_around_iterator start = std::get<0>(resume_infos);
             int index = std::get<1>(resume_infos);
-            for (; pred() && *start != end && start->test_if_one_ahead(end); ++(*start))
+            for (; pred() && start != end && start.test_if_one_ahead(end); ++start)
             {
-                index = get_points_between(buffer_write_fct, nb_points, *(*start), start->get_next_value(), index, pred);
+                index = get_points_between(buffer_write_fct, nb_points, *start, start.get_next_value(), index, pred);
 
                 if (index != nb_points) {
                     break;
