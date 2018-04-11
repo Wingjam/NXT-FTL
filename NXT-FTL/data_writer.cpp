@@ -3,15 +3,16 @@
 #include <fstream>
 #include <algorithm>
 
-data_writer::data_writer(buffer_manager<position>* buffers)
+data_writer::data_writer(buffer_manager<position>* buffers, string filename)
 {
     this->buffers = buffers;
+    this->filename = filename;
 }
 
 void data_writer::run()
 {
     std::ofstream myfile;
-    myfile.open("output.txt");
+    myfile.open(filename);
     while (!buffers->is_completly_read())
     {
         std::vector<position>* current_read_buffer = buffers->get_current_read_buffer();
