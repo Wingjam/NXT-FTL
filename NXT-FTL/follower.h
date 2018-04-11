@@ -17,32 +17,31 @@ namespace nxtftl
 
     class follower
     {
-        buffer_manager<position>* export_buffers;
-
+        /* Constants */
         const int MOTOR_HIGH = 9;
         const int MOTOR_MEDIUM = 6;
-        const int MOTOR_LOW = -2; // Currently not use
         const float TURN_MULTIPLICATOR = 4.0f;
 
         /* Parameters */
         unsigned int size_of_internal_buffer;
         unsigned int number_of_points_between_positions;
 
+        /* Decision making logic and communication with other threads */
+        buffer_manager<position>* export_buffers;
         communication communication;
         brain brain;
 
+        /* Internal data structures and data structures accessors */
         std::vector<position> internal_buffer;
-        wrap_around_iterator internal_iterator;
-
-        /* MovementHistory */
+        wrap_around_iterator internal_iterator_writer;
+        wrap_around_iterator internal_iterator_reader;
+        std::pair<wrap_around_iterator*, int> hermite_progress;
         export_to_multiple_buffers buffer_write_fct;
-        movement_history move_history{};
-
-        /* Hermite */
-        wrap_around_iterator hermite_progress_iterator;
         export_to_buffers export_to_buffers_functor;
-        hermite hermite{};
 
+        /* Position reporting logic */
+        movement_history move_history{};
+        hermite hermite{};
 
         /* DTOs*/
         motor_dto leftMotor{};

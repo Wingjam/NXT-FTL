@@ -20,10 +20,12 @@ follower::follower(buffer_manager<position>* export_buffers,
     export_buffers{ export_buffers },
     export_to_buffers_functor{ export_buffers },
     internal_buffer{ vector<position>{ size_of_internal_buffer } },
-    internal_iterator{ internal_buffer.begin(), internal_buffer.end() },
-    hermite_progress_iterator{ internal_buffer.begin(), internal_buffer.end() },
-    buffer_write_fct{ export_buffers, &internal_iterator }
-{ }
+    internal_iterator_writer{ internal_buffer.begin(), internal_buffer.end() },
+    internal_iterator_reader{ internal_buffer.begin(), internal_buffer.end() },
+    buffer_write_fct{ export_buffers, &internal_iterator_writer }
+{ 
+    hermite_progress = std::make_pair(&internal_iterator_reader, 0);
+}
 
 bool follower::Init()
 {
@@ -63,8 +65,6 @@ void follower::update_all_sensor()
 
 bool follower::evaluate_distance()
 {
-    auto beginning = std::chrono::high_resolution_clock::now();
-
     // Read critical distance sensor
     communication.updateSensorValue(distanceSensor);
 
@@ -73,15 +73,10 @@ bool follower::evaluate_distance()
     {
         communication.stopMotor(leftMotor);
         communication.stopMotor(rightMotor);
-        auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-        std::cout << "distance sensor : " << time.count() << std::endl;
 
         // The distance was dangerous and the robot was stopped
         return true;
     }
-
-    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-    std::cout << "distance sensor : " << time.count() << std::endl;
 
     // The distance was safe, nothing done
     return false;
@@ -93,8 +88,6 @@ void follower::execute()
     
     while (true)
     {
-        auto realbeginning = std::chrono::high_resolution_clock::now();
-
         if (check_distance)
         {
             // We want to recheck the distance next iteration if the distance was dangerous
@@ -107,49 +100,26 @@ void follower::execute()
 
             std::future<void> update_sensors = std::async(std::launch::async, [this] {  
                 // Read non-critical sensors.
-                auto beginning = std::chrono::high_resolution_clock::now();
                 this->communication.updateSensorValue(this->touchSensor);
-                auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-                std::cout << "touch sensor : " << time.count() << std::endl;
-                beginning = std::chrono::high_resolution_clock::now();
                 this->communication.updateSensorValue(this->leftColorSensor);
-                time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-                std::cout << "lcolor sensor : " << time.count() << std::endl;
-                beginning = std::chrono::high_resolution_clock::now();
                 this->communication.updateSensorValue(this->rightColorSensor);
-                time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-                std::cout << "rcolor sensor : " << time.count() << std::endl;
-                beginning = std::chrono::high_resolution_clock::now();
                 this->communication.update_tacho_count(this->leftMotor);
-                time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-                std::cout << "ltacho sensor : " << time.count() << std::endl;
-                beginning = std::chrono::high_resolution_clock::now();
                 this->communication.update_tacho_count(this->rightMotor);
-                time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-                std::cout << "rtacho sensor : " << time.count() << std::endl;
-
             });
-
-            auto beginning = std::chrono::high_resolution_clock::now();
 
             // We can do some computation while the updates of the sensors are not finished
             auto can_continue_computing = [&update_sensors]() {
-                bool pred = update_sensors.wait_for(std::chrono::seconds(0)) != std::future_status::ready;
-                std::cout << "hermite pred : " << pred << std::endl;
                 return update_sensors.wait_for(std::chrono::seconds(0)) != std::future_status::ready;
             };
 
             // Do some computation for the rest of the available time
-            hermite_progress_iterator = hermite.get_points_between_subdivided(
-                hermite_progress_iterator,
-                internal_iterator,
+            hermite_progress = hermite.get_points_between_subdivided(
+                hermite_progress,
+                internal_iterator_writer,
                 export_to_buffers_functor,
                 can_continue_computing,
                 number_of_points_between_positions
             );
-
-            auto time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - beginning);
-            std::cout << "hermite : " << time.count() << std::endl;
 
             // Wait for the updates to finish, in case they were not (we couldn't do more computing)
             update_sensors.wait();
@@ -169,17 +139,13 @@ void follower::execute()
 
             // We need to take a decision for the robot's next move and send it
             send_decision_to_robot(turn_factor);
-
-            time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - realbeginning);
-            std::cout << "total : " << time.count() << std::endl;
         }
     }
 }
 
 void follower::send_decision_to_robot(float turn_factor)
 {
-    // Here we were successful in taking a decision and time has come to send it.
-
+    // Send the decision to the robot
     turn_factor *= TURN_MULTIPLICATOR;
     communication.startMotor(leftMotor, MOTOR_MEDIUM + MOTOR_HIGH * turn_factor); // =
     communication.startMotor(rightMotor, MOTOR_MEDIUM + MOTOR_HIGH * -turn_factor); // =

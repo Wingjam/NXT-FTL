@@ -137,8 +137,10 @@ TEST_F(BrainTestFixture, BrainGoRight) {
 }
 
 TEST(MovementHistoryTest, Rotation) {
-    vector<position> output{};
-    auto buffer_push_fct = [&output](position pos) { output.push_back(pos); };
+    vector<position> output{5};
+    buffer_manager<position> buffers{10, 100};
+    wrap_around_iterator iter{ output.begin(), output.end() };
+    export_to_multiple_buffers buffer_push_fct{ &buffers, &iter };
     movement_history mov_history{ buffer_push_fct, 0, 0 };
     mov_history.log_rotation(10, 20);
     position position_1 = mov_history.get_current_position();
@@ -150,8 +152,10 @@ TEST(MovementHistoryTest, Rotation) {
 }
 
 TEST(MovementHistoryTest, NewPosition) {
-    vector<position> output{};
-    auto buffer_push_fct = [&output](position pos) { output.push_back(pos); };
+    vector<position> output{ 5 };
+    buffer_manager<position> buffers{ 10, 100 };
+    wrap_around_iterator iter{ output.begin(), output.end() };
+    export_to_multiple_buffers buffer_push_fct{ &buffers, &iter };
     movement_history mov_history{ buffer_push_fct, 0, 0 };
     mov_history.log_rotation(10, 10);
     mov_history.log_rotation(20, 20);
@@ -166,28 +170,6 @@ TEST(MovementHistoryTest, NewPosition) {
     EXPECT_FLOAT_EQ(position.direction_in_rad, 0.f);
     EXPECT_FLOAT_EQ(position.y, 0.f);
     EXPECT_GT(position.x, 0.f);
-}
-
-TEST(MovementHistoryTest, FromFile) {
-    /*std::ifstream myfile("C:\\Users\\Felix\\Desktop\\tests_mov_robot\\inputs.txt");
-    int left_tacho, right_tacho;
-    myfile >> left_tacho >> right_tacho;
-    movement_history mov_history{ left_tacho, right_tacho };
-
-    while (myfile >> left_tacho >> right_tacho)
-    {
-        mov_history.log_rotation(left_tacho, right_tacho);
-    }
-    myfile.close();
-
-    std::vector<position> positions = mov_history.get_positions();
-    std::ofstream outputFile;
-    outputFile.open("C:\\Users\\Felix\\Desktop\\tests_mov_robot\\output.txt");
-    for (int i = 0; i < positions.size(); ++i)
-    {
-        outputFile << positions[i].x << "," << positions[i].y << std::endl;
-    }
-    myfile.close();*/
 }
 
 TEST(BufferManager, WriteOnFullTest) {
@@ -310,6 +292,7 @@ TEST(HermiteTest, HermiteSimpleTest) {
     auto inserter = [&dest](position pos) {dest.push_back(pos); };
 
     wrap_around_iterator read{ src.begin(), src.end() };
+    auto resume_info = std::make_pair(&read, 0);
     wrap_around_iterator write{ src.begin(), src.end() };
     ++write;
     ++write;
@@ -322,7 +305,7 @@ TEST(HermiteTest, HermiteSimpleTest) {
     };
 
     hermite hermite{};
-    auto res = hermite.get_points_between_subdivided(read, write, inserter, myPred{}, 4);
+    auto res = hermite.get_points_between_subdivided(resume_info, write, inserter, myPred{}, 4);
 
     EXPECT_EQ(P1, dest[0]);
     EXPECT_EQ(position(3.f, 1.f), dest[2]);
