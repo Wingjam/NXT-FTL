@@ -292,7 +292,7 @@ TEST(HermiteTest, HermiteSimpleTest) {
     auto inserter = [&dest](position pos) {dest.push_back(pos); };
 
     wrap_around_iterator read{ src.begin(), src.end() };
-    auto resume_info = std::make_pair(&read, 0);
+    auto resume_info = std::make_pair(read, 0);
     wrap_around_iterator write{ src.begin(), src.end() };
     ++write;
     ++write;
