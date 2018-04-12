@@ -19,16 +19,16 @@ namespace nxtftl
     {
     private:
         Connection* connection;
-        map<int, Touch*> touchSensors;
-        map<int, Sonar*> distanceSensors;
-        map<int, color2*> colorSensors;
+        map<int, Touch*> touch_sensors;
+        map<int, Sonar*> distance_sensors;
+        map<int, color2*> color_sensors;
         map<int, Motor*> motors;
 
         /// <summary>
         /// Prints an NXT Exception error
         /// </summary>
         /// <param name="e">Nxt_exception error</param>
-        void printError(Nxt_exception& e);
+        void print_error(Nxt_exception& e);
     public:
         communication();
         ~communication();
@@ -64,7 +64,7 @@ namespace nxtftl
         /// </summary>
         /// <param name="comport">Bluetooth comport for the NXT</param>
         /// <returns>Connection success result</returns>
-        bool connectWithBluetooth(unsigned int comport);
+        bool connect_with_bluetooth(unsigned int comport);
 
         /// <summary>
         /// Stops all motors and disconnects from the NXT cleanly
@@ -77,51 +77,51 @@ namespace nxtftl
         /// </summary>
         /// <param name="touchSensorDto">Reference to the touch sensor to initialize</param>
         /// <param name="port">Port of the sensor on the brick</param>
-        void initializeSensor(touch_sensor_dto& touchSensorDto, SensorPort port);
+        void initialize_sensor(touch_sensor_dto& touchSensorDto, SensorPort port);
 
         /// <summary>
         /// Initializes a color sensor
         /// </summary>
         /// <param name="colorSensorDto">Reference to the color sensor to initialize</param>
         /// <param name="port">Port of the sensor on the brick</param>
-        void initializeSensor(color_sensor_dto& colorSensorDto, SensorPort port);
+        void initialize_sensor(color_sensor_dto& colorSensorDto, SensorPort port);
 
         /// <summary>
         /// Initializes a distance sensor
         /// </summary>
         /// <param name="distanceSensorDto">Reference to the distance sensor to initialize</param>
         /// <param name="port">Port of the sensor on the brick</param>
-        void initializeSensor(distance_sensor_dto& distanceSensorDto, SensorPort port);
+        void initialize_sensor(distance_sensor_dto& distanceSensorDto, SensorPort port);
 
         /// <summary>
         /// Reads and updates the touch sensor value
         /// </summary>
         /// <param name="touchSensorDto">Sensor dto</param>
-        void updateSensorValue(touch_sensor_dto& touchSensorDto);
+        void update_sensor_value(touch_sensor_dto& touchSensorDto);
 
         /// <summary>
         /// Reads and updates the color sensor value
         /// </summary>
         /// <param name="colorSensorDto">Sensor dto</param>
-        void updateSensorValue(color_sensor_dto& colorSensorDto);
+        void update_sensor_value(color_sensor_dto& colorSensorDto);
 
         /// <summary>
         /// Reads and updates the distance sensor value
         /// </summary>
         /// <param name="distanceSensorDto">Sensor dto</param>
-        void updateSensorValue(distance_sensor_dto& distanceSensorDto);
+        void update_sensor_value(distance_sensor_dto& distanceSensorDto);
 
         /// <summary>
         /// Initializes a motor
         /// </summary>
         /// <param name="port">Port of the motor on the brick</param>
-        motor_dto initializeMotor(MotorPort port);
+        motor_dto initialize_motor(MotorPort port);
 
         /// <summary>
         /// Determines if a motor is currently running
         /// </summary>
         /// <param name="motorDto">Motor to verify</param>
-        bool isMotorRunning(motor_dto motorDto);
+        bool is_motor_running(motor_dto motorDto);
 
         /// <summary>
         /// Starts a motor (on)
@@ -130,26 +130,26 @@ namespace nxtftl
         /// <param name="speed">Speed of the motor (0-100)</param>
         /// <param name="degrees">Degrees of rotation (0-360)</param>
         /// <param name="reply">Force NXT to reply (false by default)</param>
-        void startMotor(motor_dto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
+        void start_motor(motor_dto motorDto, char speed, unsigned int degrees = 0, bool reply = false);
 
         /// <summary>
         /// Coasts a motor (off) (motor will not brake)
         /// </summary>
         /// <param name="motorDto">Motor to coast</param>
         /// <param name="reply">Force NXT to reply (false by default)</param>
-        void coastMotor(motor_dto motorDto, bool reply = false);
+        void coast_motor(motor_dto motorDto, bool reply = false);
 
         /// <summary>
         /// Stops a motor (brake)
         /// </summary>
         /// <param name="motorDto">Motor to stop</param>
         /// <param name="reply">Force NXT to reply (false by default)</param>
-        void stopMotor(motor_dto motorDto, bool reply = false);
+        void stop_motor(motor_dto motorDto, bool reply = false);
 
         /// <summary>
         /// Stops all initialized motors connected to the brick
         /// </summary>
-        void stopAllMotors();
+        void stop_all_motors();
 
         /// <summary>
         /// Resets all color sensors connected to the brick
@@ -167,12 +167,12 @@ namespace nxtftl
         /// Maps between the sensor dtos and the library objects
         /// </summary>
         /// <param name="port">Port of the sensor on the brick</param>
-        Sensor_port mapSensorPort(SensorPort port);
+        Sensor_port map_sensor_port(SensorPort port);
 
         /// <summary>
         /// Maps between the motor dtos and the library objects
         /// </summary>
         /// <param name="port">Port of the motor on the brick</param>
-        Motor_port mapMotorPort(MotorPort port);
+        Motor_port map_motor_port(MotorPort port);
     };
 }

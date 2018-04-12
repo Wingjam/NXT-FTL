@@ -44,16 +44,16 @@ namespace nxtftl
         hermite hermite{};
 
         /* DTOs*/
-        motor_dto leftMotor{};
-        motor_dto rightMotor{};
-        touch_sensor_dto touchSensor{};
-        color_sensor_dto leftColorSensor{};
-        color_sensor_dto rightColorSensor{};
-        distance_sensor_dto distanceSensor{};
+        motor_dto left_motor{};
+        motor_dto right_motor{};
+        touch_sensor_dto touch_sensor{};
+        color_sensor_dto left_color_sensor{};
+        color_sensor_dto right_color_sensor{};
+        distance_sensor_dto distance_sensor{};
 
     public:
         follower(buffer_manager<position>* export_buffers,
-            int stopDistance,
+            int stop_distance,
             unsigned int size_of_internal_buffer,
             unsigned int number_of_points_between_positions);
         bool Init();

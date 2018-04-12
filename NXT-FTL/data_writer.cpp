@@ -11,8 +11,8 @@ data_writer::data_writer(buffer_manager<position>* buffers, string filename)
 
 void data_writer::run()
 {
-    std::ofstream myfile;
-    myfile.open(filename);
+    std::ofstream my_file;
+    my_file.open(filename);
     while (!buffers->is_completly_read())
     {
         std::vector<position>* current_read_buffer = buffers->get_current_read_buffer();
@@ -21,11 +21,11 @@ void data_writer::run()
             continue;
         }
 
-        std::for_each(std::begin(*current_read_buffer), std::end(*current_read_buffer), [&myfile](position pos) {
-            myfile << pos << std::endl;
+        std::for_each(std::begin(*current_read_buffer), std::end(*current_read_buffer), [&my_file](position pos) {
+            my_file << pos << std::endl;
         });
 
         buffers->signal_current_buffer_completly_read();
     }
-    myfile.close();
+    my_file.close();
 }

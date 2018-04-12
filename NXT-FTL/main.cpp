@@ -8,11 +8,11 @@ using namespace nxtftl;
 
 int main()
 {
-    int stopDistance = 10;
+    int stop_distance = 10;
     unsigned int internal_buffer_size = 100;
     unsigned int number_of_points_in_curve = 10000;
     buffer_manager<position> buffers{ 500, 1000 };
-    follower follow{ &buffers, stopDistance, internal_buffer_size, number_of_points_in_curve };
+    follower follow{ &buffers, stop_distance, internal_buffer_size, number_of_points_in_curve };
     data_writer writer{ &buffers, "output.txt" };
 
     std::thread data_writer_thread([&writer]() {

@@ -53,7 +53,7 @@ bool communication::connect(ConnectionType type)
 	return connected;
 }
 
-bool communication::connectWithBluetooth(unsigned int comport) 
+bool communication::connect_with_bluetooth(unsigned int comport) 
 {
 	try
 	{
@@ -73,18 +73,18 @@ bool communication::disconnect()
 	bool success = false;
 	try
 	{
-		stopAllMotors();
+		stop_all_motors();
 		connection->disconnect();
 		cout << "NXT disconnected successfully." << endl;
 	}
 	catch (Nxt_exception& e) {
-		printError(e);
+		print_error(e);
 		connection->disconnect();
 	}
 	return success;
 }
 
-void communication::printError(Nxt_exception& e)
+void communication::print_error(Nxt_exception& e)
 {
 	cout << e.what() << endl;
 	cout << "error code: " << e.error_code() << endl;
@@ -92,127 +92,124 @@ void communication::printError(Nxt_exception& e)
 	cout << e.who() << endl;
 }
 
-void communication::initializeSensor(touch_sensor_dto & touchSensorDto, SensorPort port)
+void communication::initialize_sensor(touch_sensor_dto & touch_sensor_dto, SensorPort port)
 {
-	Touch* touchSensor = new Touch(mapSensorPort(port), connection);
-	touchSensorDto.port = port;
-	touchSensors.emplace(port, touchSensor);
+	Touch* touch_sensor = new Touch(map_sensor_port(port), connection);
+	touch_sensor_dto.port = port;
+	touch_sensors.emplace(port, touch_sensor);
 }
 
-void communication::initializeSensor(color_sensor_dto& colorSensorDto, SensorPort port)
+void communication::initialize_sensor(color_sensor_dto& color_ensor_dto, SensorPort port)
 {
-	color2* colorSensor = new color2(mapSensorPort(port), connection);
-	colorSensorDto.port = port;
-	colorSensors.emplace(port, colorSensor);
+	color2* color_sensor = new color2(map_sensor_port(port), connection);
+	color_ensor_dto.port = port;
+	color_sensors.emplace(port, color_sensor);
 }
 
-void communication::initializeSensor(distance_sensor_dto& distanceSensorDto, SensorPort port)
+void communication::initialize_sensor(distance_sensor_dto& distance_sensor_dto, SensorPort port)
 {
-	Sonar* distanceSensor = new Sonar(mapSensorPort(port), connection);
-	distanceSensorDto.port = port;
-	distanceSensors.emplace(port, distanceSensor);
+	Sonar* distance_sensor = new Sonar(map_sensor_port(port), connection);
+	distance_sensor_dto.port = port;
+	distance_sensors.emplace(port, distance_sensor);
 }
 
-motor_dto communication::initializeMotor(MotorPort port)
+motor_dto communication::initialize_motor(MotorPort port)
 {
-	Motor* motor = new Motor(mapMotorPort(port), connection);
+	Motor* motor = new Motor(map_motor_port(port), connection);
 	motors.emplace(port, motor);
 	return motor_dto{ static_cast<unsigned int>(port) };
 }
 
-Sensor_port communication::mapSensorPort(SensorPort port) 
+Sensor_port communication::map_sensor_port(SensorPort port) 
 {
-	Sensor_port mappedPort;
+	Sensor_port mapped_port;
 	switch (port)
 	{
 		case SensorPort::IN_1:
-			mappedPort = Sensor_port::IN_1;
+			mapped_port = Sensor_port::IN_1;
 			break;
 		case SensorPort::IN_2:
-			mappedPort = Sensor_port::IN_2;
+			mapped_port = Sensor_port::IN_2;
 			break;
 		case SensorPort::IN_3:
-			mappedPort = Sensor_port::IN_3;
+			mapped_port = Sensor_port::IN_3;
 			break;
 		case SensorPort::IN_4:
-			mappedPort = Sensor_port::IN_4;
+			mapped_port = Sensor_port::IN_4;
 			break;
 	}
-	return mappedPort;
+	return mapped_port;
 }
 
-Motor_port communication::mapMotorPort(MotorPort port)
+Motor_port communication::map_motor_port(MotorPort port)
 {
-	Motor_port mappedPort;
+	Motor_port mapped_port;
 	switch (port)
 	{
 		case MotorPort::OUT_A:
-			mappedPort = Motor_port::OUT_A;
+			mapped_port = Motor_port::OUT_A;
 			break;
 		case MotorPort::OUT_B:
-			mappedPort = Motor_port::OUT_B;
+			mapped_port = Motor_port::OUT_B;
 			break;
 		case MotorPort::OUT_C:
-			mappedPort = Motor_port::OUT_C;
+			mapped_port = Motor_port::OUT_C;
 			break;
 	}
-	return mappedPort;
+	return mapped_port;
 }
 
-void communication::updateSensorValue(touch_sensor_dto& touchSensorDto)
+void communication::update_sensor_value(touch_sensor_dto& touch_sensor_dto)
 {
-	Touch* touchSensor = touchSensors[touchSensorDto.port];
-	touchSensorDto.is_pressed = touchSensor->read();
+	Touch* touch_sensor = touch_sensors[touch_sensor_dto.port];
+	touch_sensor_dto.is_pressed = touch_sensor->read();
 }
 
-void communication::updateSensorValue(color_sensor_dto& colorSensorDto)
+void communication::update_sensor_value(color_sensor_dto& color_sensor_dto)
 {
-	color2* colorSensor = colorSensors[colorSensorDto.port];
-	colorSensorDto.intensity = colorSensor->getValue();
+	color2* color_sensor = color_sensors[color_sensor_dto.port];
+	color_sensor_dto.intensity = color_sensor->getValue();
 }
 
-void communication::updateSensorValue(distance_sensor_dto& distanceSensorDto)
+void communication::update_sensor_value(distance_sensor_dto& distance_sensor_dto)
 {
-	Sonar* distanceSensor = distanceSensors[distanceSensorDto.port];
-	int value = distanceSensor->read();
-	distanceSensorDto.distance = value;
+	Sonar* distance_sensor = distance_sensors[distance_sensor_dto.port];
+	int value = distance_sensor->read();
+	distance_sensor_dto.distance = value;
 }
 
-void communication::stopAllMotors() {
+void communication::stop_all_motors() {
 	for_each(motors.begin(), motors.end(), [](pair<int, Motor*> pair) { pair.second->stop(); });
 }
 
-void communication::resetSensors() {
-	//for_each(colorSensors.begin(), colorSensors.end(), [](pair<int, Sensor*> pair) { pair.second->reset(); });
-}
 
-bool communication::isMotorRunning(motor_dto motorDto)
+bool communication::is_motor_running(motor_dto motor_dto)
 {
-	Motor* motor = motors[motorDto.port];
+	Motor* motor = motors[motor_dto.port];
 	return motor->is_running();
 }
 
-void communication::startMotor(motor_dto motorDto, char speed, unsigned int degrees /* = 0 */, bool reply /* = false */)
+void communication::start_motor(motor_dto motor_dto, char speed, unsigned int degrees /* = 0 */, bool reply /* = false */)
 {
-	Motor* motor = motors[motorDto.port];
+	Motor* motor = motors[motor_dto.port];
 	motor->on(speed, degrees, reply);
 }
 
-void communication::coastMotor(motor_dto motorDto, bool reply /* = false */)
+void communication::coast_motor(motor_dto motor_dto, bool reply /* = false */)
 {
-	Motor* motor = motors[motorDto.port];
+	Motor* motor = motors[motor_dto.port];
 	motor->off(reply);
 }
 
-void communication::stopMotor(motor_dto motorDto, bool reply /* = false */)
+void communication::stop_motor(motor_dto motor_dto, bool reply /* = false */)
 {
-	Motor* motor = motors[motorDto.port];
+	Motor* motor = motors[motor_dto.port];
 	motor->stop(reply);
 }
 
-void communication::update_tacho_count(motor_dto& motorDto)
+void communication::update_tacho_count(motor_dto& motor_dto)
 {
-	Motor* motor = motors[motorDto.port];
+	Motor* motor = motors[motor_dto.port];
 	motor->get_output_state();
-	motorDto.tacho_count = motor->tacho_count;
+	motor_dto.tacho_count = motor->tacho_count;
 }

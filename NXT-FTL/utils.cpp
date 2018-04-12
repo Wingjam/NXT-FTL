@@ -20,3 +20,8 @@ int utils::distance_behind(const int my_index, const int other_index, const int 
     }
     return distance;
 }
+
+bool utils::are_same_float(float a, float b)
+{
+    return fabs(a - b) < std::numeric_limits<float>::epsilon();
+}

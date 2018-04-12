@@ -175,8 +175,6 @@
     <ClCompile Include="buffer_manager.cpp" />
     <ClCompile Include="communication.cpp" />
     <ClCompile Include="data_writer.cpp" />
-    <ClCompile Include="export_to_buffers.cpp" />
-    <ClCompile Include="export_to_multiple_buffers.cpp" />
     <ClCompile Include="follower.cpp" />
     <ClCompile Include="hermite.cpp" />
     <ClCompile Include="main.cpp" />

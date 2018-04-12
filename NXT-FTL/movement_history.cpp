@@ -16,11 +16,6 @@ void movement_history::initialize(export_to_multiple_buffers buffer_write_fct, l
     buffer_write_fct(last_position);
 }
 
-bool AreSame(float a, float b)
-{
-    return fabs(a - b) < 0.000001;
-}
-
 position movement_history::calculate_new_position(position initial_position, snapshot initial_snapshot, snapshot destination_snapshot)
 {
     float left_tacho_count_from_last_snapshot = destination_snapshot.left_motor_tacho_count - initial_snapshot.left_motor_tacho_count;
@@ -32,7 +27,7 @@ position movement_history::calculate_new_position(position initial_position, sna
 
     position new_position{};
 
-    if (AreSame(sl_distance_left_wheel, sr_distance_right_wheel))
+    if (utils::are_same_float(sl_distance_left_wheel, sr_distance_right_wheel))
     {
         new_position.direction_in_rad = initial_position.direction_in_rad;
         new_position.x = initial_position.x + cos(initial_position.direction_in_rad) * sl_distance_left_wheel;

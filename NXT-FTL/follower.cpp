@@ -9,12 +9,12 @@ using namespace nxtftl;
 
 
 follower::follower(buffer_manager<position>* export_buffers,
-    int stopDistance,
+    int stop_distance,
     unsigned int size_of_internal_buffer,
     unsigned int number_of_points_between_positions)
     :
     communication{},
-    brain{ stopDistance },
+    brain{ stop_distance },
     size_of_internal_buffer{ size_of_internal_buffer },
     number_of_points_between_positions{ number_of_points_between_positions },
     export_buffers{ export_buffers },
@@ -37,42 +37,42 @@ bool follower::Init()
         return false;
     }
 
-    leftMotor = communication.initializeMotor(communication::OUT_A);
-    rightMotor = communication.initializeMotor(communication::OUT_C);
+    left_motor = communication.initialize_motor(communication::OUT_A);
+    right_motor = communication.initialize_motor(communication::OUT_C);
     
-    communication.initializeSensor(leftColorSensor, communication::IN_1);
-    communication.initializeSensor(rightColorSensor, communication::IN_2);
-    communication.initializeSensor(touchSensor, communication::IN_3);
-    communication.initializeSensor(distanceSensor, communication::IN_4);
+    communication.initialize_sensor(left_color_sensor, communication::IN_1);
+    communication.initialize_sensor(right_color_sensor, communication::IN_2);
+    communication.initialize_sensor(touch_sensor, communication::IN_3);
+    communication.initialize_sensor(distance_sensor, communication::IN_4);
 
     // We need to update all sensors at least once before beginning execution, because the first update is always long.
     update_all_sensor();
 
-    move_history.initialize(buffer_write_fct, leftMotor.tacho_count, rightMotor.tacho_count);
+    move_history.initialize(buffer_write_fct, left_motor.tacho_count, right_motor.tacho_count);
 
     return true;
 }
 
 void follower::update_all_sensor()
 {
-    communication.updateSensorValue(touchSensor);
-    communication.updateSensorValue(distanceSensor);
-    communication.updateSensorValue(leftColorSensor);
-    communication.updateSensorValue(rightColorSensor);
-    communication.update_tacho_count(leftMotor);
-    communication.update_tacho_count(rightMotor);
+    communication.update_sensor_value(touch_sensor);
+    communication.update_sensor_value(distance_sensor);
+    communication.update_sensor_value(left_color_sensor);
+    communication.update_sensor_value(right_color_sensor);
+    communication.update_tacho_count(left_motor);
+    communication.update_tacho_count(right_motor);
 }
 
 bool follower::evaluate_distance()
 {
     // Read critical distance sensor
-    communication.updateSensorValue(distanceSensor);
+    communication.update_sensor_value(distance_sensor);
 
     // Check if it is critical that we stop the robot to prevent any damages
-    if (brain.check_for_critical_stop(distanceSensor))
+    if (brain.check_for_critical_stop(distance_sensor))
     {
-        communication.stopMotor(leftMotor);
-        communication.stopMotor(rightMotor);
+        communication.stop_motor(left_motor);
+        communication.stop_motor(right_motor);
 
         // The distance was dangerous and the robot was stopped
         return true;
@@ -109,11 +109,11 @@ void follower::execute()
 
             std::future<void> update_sensors = std::async(std::launch::async, [this] {  
                 // Read non-critical sensors.
-                this->communication.updateSensorValue(this->touchSensor);
-                this->communication.updateSensorValue(this->leftColorSensor);
-                this->communication.updateSensorValue(this->rightColorSensor);
-                this->communication.update_tacho_count(this->leftMotor);
-                this->communication.update_tacho_count(this->rightMotor);
+                this->communication.update_sensor_value(this->touch_sensor);
+                this->communication.update_sensor_value(this->left_color_sensor);
+                this->communication.update_sensor_value(this->right_color_sensor);
+                this->communication.update_tacho_count(this->left_motor);
+                this->communication.update_tacho_count(this->right_motor);
             });
 
             // We can do some computation while the updates of the sensors are not finished
@@ -134,13 +134,13 @@ void follower::execute()
             update_sensors.wait();
 
             // Process : According to our benchmark, this is constantly 0 ms
-            move_history.log_rotation(leftMotor.tacho_count, rightMotor.tacho_count);
-            tuple<float, bool>direction = brain.compute_direction(touchSensor, leftColorSensor, rightColorSensor);
-            bool needsToStop = get<1>(direction);
+            move_history.log_rotation(left_motor.tacho_count, right_motor.tacho_count);
+            tuple<float, bool>direction = brain.compute_direction(touch_sensor, left_color_sensor, right_color_sensor);
+            bool needs_to_stop = get<1>(direction);
             float turn_factor = get<0>(direction);
 
             // Check if we need to stop the current execution
-            if (needsToStop)
+            if (needs_to_stop)
             {
                 // Exit the loop (disconnect will handle stopping the motors)
                 break;
@@ -156,21 +156,21 @@ void follower::send_decision_to_robot(float turn_factor)
 {
     // Send the decision to the robot
     turn_factor *= TURN_MULTIPLICATOR;
-    communication.startMotor(leftMotor, MOTOR_MEDIUM + MOTOR_HIGH * turn_factor); // =
-    communication.startMotor(rightMotor, MOTOR_MEDIUM + MOTOR_HIGH * -turn_factor); // =
+    communication.start_motor(left_motor, MOTOR_MEDIUM + MOTOR_HIGH * turn_factor); // =
+    communication.start_motor(right_motor, MOTOR_MEDIUM + MOTOR_HIGH * -turn_factor); // =
 }
 
 void follower::Run()
 {
     cout << "Press touch sensor to begin..." << endl;
-    while (!touchSensor.is_pressed)
+    while (!touch_sensor.is_pressed)
     {
-        communication.updateSensorValue(touchSensor);
+        communication.update_sensor_value(touch_sensor);
     }
     cout << "Starting line follow..." << endl;
-    while (touchSensor.is_pressed)
+    while (touch_sensor.is_pressed)
     {
-        communication.updateSensorValue(touchSensor);
+        communication.update_sensor_value(touch_sensor);
     }
 
     // Execute until the robot is asked to stop
