@@ -156,8 +156,8 @@ void follower::send_decision_to_robot(float turn_factor)
 {
     // Send the decision to the robot
     turn_factor *= TURN_MULTIPLICATOR;
-    communication.start_motor(left_motor, MOTOR_MEDIUM + MOTOR_HIGH * turn_factor); // =
-    communication.start_motor(right_motor, MOTOR_MEDIUM + MOTOR_HIGH * -turn_factor); // =
+    communication.start_motor(left_motor, static_cast<char>(MOTOR_MEDIUM + MOTOR_HIGH * turn_factor)); // =
+    communication.start_motor(right_motor, static_cast<char>(MOTOR_MEDIUM + MOTOR_HIGH * -turn_factor)); // =
 }
 
 void follower::Run()

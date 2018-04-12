@@ -18,8 +18,8 @@ void movement_history::initialize(export_to_multiple_buffers buffer_write_fct, l
 
 position movement_history::calculate_new_position(position initial_position, snapshot initial_snapshot, snapshot destination_snapshot)
 {
-    float left_tacho_count_from_last_snapshot = destination_snapshot.left_motor_tacho_count - initial_snapshot.left_motor_tacho_count;
-    float right_tacho_count_from_last_snapshot = destination_snapshot.right_motor_tacho_count - initial_snapshot.right_motor_tacho_count;
+    float left_tacho_count_from_last_snapshot = static_cast<float>(destination_snapshot.left_motor_tacho_count - initial_snapshot.left_motor_tacho_count);
+    float right_tacho_count_from_last_snapshot = static_cast<float>(destination_snapshot.right_motor_tacho_count - initial_snapshot.right_motor_tacho_count);
 
     float full_rotation = 360;
     float sl_distance_left_wheel = left_tacho_count_from_last_snapshot / full_rotation * WHEEL_CIRCUMFERENCE;

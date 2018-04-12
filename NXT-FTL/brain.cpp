@@ -21,7 +21,7 @@ std::tuple<float, bool> brain::compute_direction(const touch_sensor_dto touch_se
     needs_to_stop |= touch_sensor.is_pressed;
 
     // Calculate the direction of the robot
-    const float sensor_total = left_color_sensor.value() + right_color_sensor.value();
+    const float sensor_total = static_cast<float>(left_color_sensor.value() + right_color_sensor.value());
     float direction{ left_color_sensor.value()/sensor_total - right_color_sensor.value()/sensor_total };
 
     return std::tuple<float, bool>{direction, needs_to_stop};
