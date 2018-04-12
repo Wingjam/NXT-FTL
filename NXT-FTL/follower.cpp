@@ -90,8 +90,17 @@ void follower::execute()
     {
         if (check_distance)
         {
-            // We want to recheck the distance next iteration if the distance was dangerous
-            check_distance = evaluate_distance();
+            try
+            {
+                // We want to recheck the distance next iteration if the distance was dangerous
+                check_distance = evaluate_distance();
+            }
+            catch (exception)
+            {
+                // Something went wrong while reading the sensor, we need to stop
+                std::cout << "Something went wrong with the distance sensor." << std::endl;
+                break;
+            }
         }
         else
         {
